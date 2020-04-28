@@ -85,7 +85,7 @@ ni.spell = {
 		end
 
 		if ni.stopcastingtracker.shouldstop(id) then
-			return true
+			return false
 		end
 
 		if tonumber(id) == nil then
