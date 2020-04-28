@@ -1,15 +1,12 @@
 ni.bootstrap = {
 	rotation = function(class, profile, queue, abilities)
 		rawset(ni[class].rotations, profile, ni.bootstrap.start(queue, abilities))
-		ni.bootstrap.pre(profile)
-	end,
-	pre = function(profile)
-		ni.debug.log(profile .. " Loaded")
+		ni.debug.log("Loaded " .. profile)
 	end,
 	start = function(queue, abilities)
 		return {
 			execute = function()
-				if type(queue) ~= "function" then
+				if type(queue) == "function" then
 					queue = queue()
 				end
 
