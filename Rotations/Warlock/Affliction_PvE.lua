@@ -11,6 +11,10 @@ if ni.utils.loadfile("Rotations\\Data\\brajevicm\\Warlock.lua") then
 		"Print Hello"
 	}
 
-	rawset(ni["WARLOCK"].rotations, "Affliction_PvE", ni.bootstrap.rotation(queue, abilities))
-	ni.debug.log("Affliction Loaded")
+	local callback = function()
+		return queue
+	end
+
+	ni.bootstrap.rotation("WARLOCK", "Affliction_PvE", queue, abilities)
+	ni.bootstrap.rotation("WARLOCK", "Affliction_PvE", callback, abilities)
 end
