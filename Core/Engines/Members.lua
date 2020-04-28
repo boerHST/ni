@@ -7,31 +7,16 @@ ni.metaTable1 = {}
 ni.cantheal = {30843, 41292, 55593, 45996}
 ni.badDebuffList = {}
 ni.metaTable1.__call = function(_, ...)
-	if ni.vars.build == 30300 then
-		local group = GetNumRaidMembers() > 0 and "raid" or "party"
-		local groupSize = group == "raid" and GetNumRaidMembers() or GetNumPartyMembers()
-		if group == "party" then
-			tinsert(ni.members, ni.memberSetup:new("player"))
-		end
-		for i = 1, groupSize do
-			local groupUnit = group .. i
-			local groupMember = ni.memberSetup:new(groupUnit)
-			if groupMember then
-				tinsert(ni.members, groupMember)
-			end
-		end
-	else
-		local group = IsInRaid() and "raid" or "party"
-		local groupSize = IsInRaid() and GetNumGroupMembers() or GetNumGroupMembers() - 1
-		if group == "party" then
-			tinsert(ni.members, ni.memberSetup:new("player"))
-		end
-		for i = 1, groupSize do
-			local groupUnit = group .. i
-			local groupMember = ni.memberSetup:new(groupUnit)
-			if groupMember then
-				tinsert(ni.members, groupMember)
-			end
+	local group = GetNumRaidMembers() > 0 and "raid" or "party"
+	local groupSize = group == "raid" and GetNumRaidMembers() or GetNumPartyMembers()
+	if group == "party" then
+		tinsert(ni.members, ni.memberSetup:new("player"))
+	end
+	for i = 1, groupSize do
+		local groupUnit = group .. i
+		local groupMember = ni.memberSetup:new(groupUnit)
+		if groupMember then
+			tinsert(ni.members, groupMember)
 		end
 	end
 end
