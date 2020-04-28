@@ -36,7 +36,7 @@ ni.frames.global_OnUpdate = function(self, elapsed)
 		return true
 	end
 
-	if select(11, ni.player.debuff(9454)) == 9454 then
+	if select(11, ni.player.hasdebuff(9454)) == 9454 then
 		return true
 	end
 

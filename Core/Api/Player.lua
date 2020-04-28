@@ -26,26 +26,26 @@ local GetGlyphSocketInfo,
 local _, class = UnitClass("player")
 
 ni.player = {
-	debufftype = function(string)
-		return ni.unit.debufftype("player", string)
+	hasdebufftype = function(string)
+		return ni.unit.hasdebufftype("player", string)
 	end,
-	bufftype = function(string)
-		return ni.unit.bufftype("player", string)
+	hasbufftype = function(string)
+		return ni.unit.hasbufftype("player", string)
 	end,
-	debuff = function(spell, caster, exact) --id or name
-		return ni.unit.debuff("player", spell, caster, exact)
+	hasdebuff = function(spell, caster, exact) --id or name
+		return ni.unit.hasdebuff("player", spell, caster, exact)
 	end,
-	debuffs = function(spells, caster) --passed as string of ids or names separated by |
-		return ni.unit.debuffs("player", spells, caster)
+	hasdebuffs = function(spells, caster) --passed as string of ids or names separated by |
+		return ni.unit.hasdebuffs("player", spells, caster)
 	end,
-	buff = function(spell, caster, exact) --id or name
-		return ni.unit.buff("player", spell, caster, exact)
+	hasbuff = function(spell, caster, exact) --id or name
+		return ni.unit.hasbuff("player", spell, caster, exact)
 	end,
-	buffs = function(spells, caster) --passed as string of ids or names separated by |
-		return ni.unit.buffs("player", spells, caster)
+	hasbuffs = function(spells, caster) --passed as string of ids or names separated by |
+		return ni.unit.hasbuffs("player", spells, caster)
 	end,
-	aura = function(spellid)
-		return ni.unit.aura("player", spellid)
+	hasaura = function(spellid)
+		return ni.unit.hasaura("player", spellid)
 	end,
 	isfacing = function(target)
 		return ni.unit.isfacing("player", target)
@@ -60,7 +60,7 @@ ni.player = {
 		return ni.unit.isbehind("player", target)
 	end,
 	unitstargeting = function(friendlies)
-		local freindlies = true and friendlies or false
+		friendlies = true and friendlies or false
 		return ni.unit.unitstargeting("player", friendlies)
 	end,
 	distance = function(target)
@@ -101,6 +101,9 @@ ni.player = {
 	end,
 	iscasting = function()
 		return ni.unit.iscasting("player")
+	end,
+	ischanneling = function()
+		return ni.unit.ischanneling("player")
 	end,
 	hasglyph = function(glyphid)
 		for i = 1, 6 do
@@ -194,5 +197,8 @@ ni.player = {
 	end,
 	hp = function()
 		return ni.unit.hp("player")
+	end,
+	power = function()
+		return ni.unit.power("player")
 	end
 }

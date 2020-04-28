@@ -109,7 +109,7 @@ function ni.objectsetup:create(objguid, objtype, objname)
 		return ni.unit.hp(o.guid)
 	end
 	function o:power(t)
-		return ni.power.currentpercent(o.guid, t)
+		return ni.unit.power(o.guid, t)
 	end
 	function o:unit()
 		return o.type == 3

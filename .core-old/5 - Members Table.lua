@@ -176,7 +176,7 @@ function ni.memberSetup:new(unit)
 		if select(2, UnitClass(o.unit)) == 'WARRIOR' and ni.unit.hasaura(o.guid, 71) then
 			result = true;
 		end
-		if select(2, UnitClass(o.unit)) == 'DRUID' and ni.unit.buff(o.unit, 9634) then
+		if select(2, UnitClass(o.unit)) == 'DRUID' and ni.unit.hasbuff(o.unit, 9634) then
 			result = true;
 		end
 		if ni.unit.hasaura(o.guid, 57340) then

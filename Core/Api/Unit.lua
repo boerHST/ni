@@ -14,7 +14,8 @@ local UnitGUID,
 	UnitBuff,
 	GetSpellInfo,
 	tContains,
-	UnitDebuff =
+	UnitDebuff,
+	UnitChannelInfo =
 	UnitGUID,
 	UnitCanAttack,
 	tinsert,
@@ -31,7 +32,8 @@ local UnitGUID,
 	UnitBuff,
 	GetSpellInfo,
 	tContains,
-	UnitDebuff
+	UnitDebuff,
+	UnitChannelInfo
 
 local creaturetypes = {
 	[0] = "Unknown",
@@ -52,7 +54,7 @@ local creaturetypes = {
 
 ni.unit = {
 	exists = function(t)
-		return ni.functions.objectexists(t);
+		return ni.functions.objectexists(t)
 	end,
 	los = function(...) --target, target/x1,y1,z1,x2,y2,z2
 		return ni.functions.los(...)
@@ -155,6 +157,9 @@ ni.unit = {
 	hp = function(t)
 		return 100 * UnitHealth(t) / UnitHealthMax(t)
 	end,
+	power = function(t, type)
+		return ni.power.current(t, type)
+	end,
 	info = function(t)
 		if t == nil then
 			return
@@ -255,10 +260,18 @@ ni.unit = {
 
 		return false
 	end,
-	aura = function(t, s)
+	ischanneling = function(t)
+		local name, _, _, _, _, _, _, id = UnitChannelInfo(t)
+		if name and id == t then
+			return true
+		end
+
+		return false
+	end,
+	hasaura = function(t, s)
 		return (t ~= nil and s ~= nil) and ni.functions.hasaura(t, s) or false
 	end,
-	bufftype = function(t, str)
+	hasbufftype = function(t, str)
 		if not ni.unit.exists(t) then
 			return false
 		end
@@ -283,7 +296,7 @@ ni.unit = {
 
 		return has
 	end,
-	buff = function(t, id, caster, exact)
+	hasbuff = function(t, id, caster, exact)
 		exact = exact and true or false
 
 		local spellName = ""
@@ -311,7 +324,7 @@ ni.unit = {
 			return UnitBuff(t, spellName)
 		end
 	end,
-	buffs = function(t, ids, caster, exact)
+	hasbuffs = function(t, ids, caster, exact)
 		local ands = ni.utils.findand(ids)
 		local results = false
 		if ands ~= nil or (ands == nil and string.len(ids) > 0) then
@@ -323,14 +336,14 @@ ni.unit = {
 						local id = tonumber(tmp[i])
 
 						if id ~= nil then
-							if not ni.player.buff(t, id, caster, exact) then
+							if not ni.unit.hasbuff(t, id, caster, exact) then
 								results = false
 								break
 							else
 								results = true
 							end
 						else
-							if not ni.player.buff(t, tmp[i], caster, exact) then
+							if not ni.unit.hasbuff(t, tmp[i], caster, exact) then
 								results = false
 								break
 							else
@@ -346,12 +359,12 @@ ni.unit = {
 						local id = tonumber(tmp[i])
 
 						if id ~= nil then
-							if ni.player.buff(t, id, caster, exact) then
+							if ni.unit.hasbuff(t, id, caster, exact) then
 								results = true
 								break
 							end
 						else
-							if ni.player.buff(t, tmp[i], caster, exact) then
+							if ni.unit.hasbuff(t, tmp[i], caster, exact) then
 								results = true
 								break
 							end
@@ -362,7 +375,7 @@ ni.unit = {
 		end
 		return results
 	end,
-	debufftype = function(t, str)
+	hasdebufftype = function(t, str)
 		if not ni.unit.exists(t) then
 			return false
 		end
@@ -389,7 +402,7 @@ ni.unit = {
 
 		return has
 	end,
-	debuff = function(t, spellID, caster, exact)
+	hasdebuff = function(t, spellID, caster, exact)
 		exact = exact and true or false
 		local spellName = ""
 
@@ -417,7 +430,7 @@ ni.unit = {
 			return UnitDebuff(t, spellName, nil, caster)
 		end
 	end,
-	debuffs = function(t, spellIDs, caster, exact)
+	hasdebuffs = function(t, spellIDs, caster, exact)
 		local ands = ni.utils.findand(spellIDs)
 		local results = false
 
@@ -431,14 +444,14 @@ ni.unit = {
 					if tmp[i] ~= nil then
 						local id = tonumber(tmp[i])
 						if id ~= nil then
-							if not ni.player.debuff(t, id, caster, exact) then
+							if not ni.unit.hasdebuff(t, id, caster, exact) then
 								results = false
 								break
 							else
 								results = true
 							end
 						else
-							if not ni.player.debuff(t, tmp[i], caster, exact) then
+							if not ni.unit.hasdebuff(t, tmp[i], caster, exact) then
 								results = false
 								break
 							else
@@ -452,12 +465,12 @@ ni.unit = {
 				for i = 0, #tmp do
 					local id = tonumber(tmp[i])
 					if id ~= nil then
-						if ni.player.debuff(t, id, caster, exact) then
+						if ni.unit.hasdebuff(t, id, caster, exact) then
 							results = true
 							break
 						end
 					else
-						if ni.player.debuff(t, tmp[i], caster, exact) then
+						if ni.unit.hasdebuff(t, tmp[i], caster, exact) then
 							results = true
 							break
 						end

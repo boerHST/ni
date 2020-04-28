@@ -1,9 +1,5 @@
-if ni.utils.loadfile("Rotations\\Data\\brajevicm_Data.lua") then
+if ni.utils.loadfile("Rotations\\Data\\brajevicm\\Warlock.lua") then
 	local hello = hello -- Loaded from file above
-
-	local priorities = {
-		"Print Hello"
-	}
 
 	local abilities = {
 		["Print Hello"] = function()
@@ -11,6 +7,10 @@ if ni.utils.loadfile("Rotations\\Data\\brajevicm_Data.lua") then
 		end
 	}
 
-	rawset(ni["WARLOCK"].rotations, "Affliction_PvE", ni.bootstrap.rotation(priorities, abilities))
+	local queue = {
+		"Print Hello"
+	}
+
+	rawset(ni["WARLOCK"].rotations, "Affliction_PvE", ni.bootstrap.rotation(queue, abilities))
 	ni.debug.log("Affliction Loaded")
 end

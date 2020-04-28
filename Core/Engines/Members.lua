@@ -68,7 +68,7 @@ local function Nova_GUID(unit)
 end
 local function CheckBadDebuff(tar)
 	for i = 1, #ni.badDebuffList do
-		if ni.unit.debuff(tar, ni.badDebuffList[i]) then
+		if ni.unit.hasdebuff(tar, ni.badDebuffList[i]) then
 			return false
 		end
 	end
@@ -172,22 +172,22 @@ function ni.memberSetup:new(unit)
 	end
 	function o:istank()
 		local result = false
-		if select(2, UnitClass(o.unit)) == "WARRIOR" and ni.unit.aura(o.guid, 71) then
+		if select(2, UnitClass(o.unit)) == "WARRIOR" and ni.unit.hasaura(o.guid, 71) then
 			result = true
 		end
-		if select(2, UnitClass(o.unit)) == "DRUID" and ni.unit.buff(o.unit, 9634) then
+		if select(2, UnitClass(o.unit)) == "DRUID" and ni.unit.hasbuff(o.unit, 9634) then
 			result = true
 		end
-		if ni.unit.aura(o.guid, 57340) then
+		if ni.unit.hasaura(o.guid, 57340) then
 			result = true
 		end
 		return result
 	end
 	function o:debuffType(str)
-		return ni.unit.debufftype(o.guid, str)
+		return ni.unit.hasdebufftype(o.guid, str)
 	end
 	function o:buffType(str)
-		return ni.unit.bufftype(o.guid, str)
+		return ni.unit.hasbufftype(o.guid, str)
 	end
 	function o:Dispel()
 		local dispelthem = false
@@ -247,7 +247,7 @@ function ni.memberSetup:new(unit)
 			percent = Percent - 2
 		end
 		for i = 1, #ni.cantheal do
-			if ni.unit.debuff(o.unit, ni.cantheal[i]) then
+			if ni.unit.hasdebuff(o.unit, ni.cantheal[i]) then
 				percent = 100
 				actual = UnitHealthMax(o.unit)
 			end

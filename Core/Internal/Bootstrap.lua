@@ -1,13 +1,10 @@
 ni.bootstrap = {
-	rotation = function(priorities, abilities)
+	rotation = function(queue, abilities)
 		return {
 			start = function()
-				local _priorities = priorities
-				local _abilities = abilities
-
-				for i = 1, #_priorities do
-					local priority = _priorities[i]
-					if _abilities[priority]() then
+				for i = 1, #queue do
+					local abilityinqueue = queue[i]
+					if abilities[abilityinqueue]() then
 						break
 					end
 				end
