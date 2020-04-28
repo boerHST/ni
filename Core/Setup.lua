@@ -30,7 +30,7 @@ local files = {
 if ni.functions.loadlua("Core\\Internal\\Utils.lua") then
 	if ni.utils.loadfiles(files) then
 		ni.frames.delay:SetScript("OnUpdate", ni.frames.delay_OnUpdate)
-		ni.frames.combatlog:SetScript("OnEvent", ni.frames.combatLog_OnEvent)
+		ni.frames.combatlog:SetScript("OnEvent", ni.frames.combatlog_OnEvent)
 		ni.frames.interrupt:SetScript("OnUpdate", ni.frames.interrupt_OnUpdate)
 		ni.frames.healing:SetScript("OnEvent", ni.frames.healing_OnUpdate)
 		ni.frames.objectmanager:SetScript("OnUpdate", ni.frames.objectManager_OnUpdate)
