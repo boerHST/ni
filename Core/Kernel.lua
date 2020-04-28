@@ -22,11 +22,12 @@ ni.objectmanager = {}
 ni.objects = {}
 ni.members = {}
 ni.tanks = {}
+ni.stopcastingtracker = {}
 ni[class] = {
     rotations = {},
     startrotation = function()
         if (ni.vars.profiles.active ~= nil and ni.vars.profiles.active ~= "None") then
-            ni[class].rotations[ni.vars.profiles.active].start()
+            ni[class].rotations[ni.vars.profiles.active].execute()
         end
     end
 }
