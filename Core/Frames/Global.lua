@@ -1,5 +1,4 @@
-local UnitClass,
-	CreateFrame,
+local CreateFrame,
 	GetZoneText,
 	UnitExists,
 	UnitGUID,
@@ -12,7 +11,6 @@ local UnitClass,
 	tremove,
 	tinsert,
 	unpack =
-	UnitClass,
 	CreateFrame,
 	GetZoneText,
 	UnitExists,
@@ -26,8 +24,6 @@ local UnitClass,
 	tremove,
 	tinsert,
 	unpack
-
-local _, class = UnitClass("player")
 
 local lastclick = 0
 ni.frames.global = CreateFrame("Frame")
@@ -129,8 +125,8 @@ ni.frames.global_OnUpdate = function(self, elapsed)
 				ni.frames.spellqueue.update()
 			end
 			if ni.vars.profiles.active ~= "none" and ni.vars.profiles.active ~= "None" then
-				if ni[class].startrotation ~= nil then
-					ni[class].startrotation()
+				if ni.rotation.profile[ni.vars.profiles.active] then
+					ni.rotation.start()
 				end
 			end
 		else

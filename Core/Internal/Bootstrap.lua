@@ -1,6 +1,6 @@
 ni.bootstrap = {
-	rotation = function(class, profile, queue, abilities)
-		rawset(ni[class].rotations, profile, ni.bootstrap.start(queue, abilities))
+	rotation = function(profile, queue, abilities)
+		rawset(ni.rotation.profile, profile, ni.bootstrap.start(queue, abilities))
 		ni.debug.log("Loaded " .. profile)
 	end,
 	start = function(queue, abilities)

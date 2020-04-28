@@ -19,67 +19,73 @@ local togglemod, cdtogglemod, customtogglemod = 0, 0, 0
 
 ni.rotation = {
 	started = false,
+	profile = {},
+	start = function()
+		if (ni.vars.profiles.active ~= nil and ni.vars.profiles.active ~= "None") then
+			ni.rotation.profile[ni.vars.profiles.active].execute()
+		end
+	end,
 	stop = function()
-		ni.vars.profiles.enabled = false;
-		ni.showstatus(ni.vars.profiles.active);
+		ni.vars.profiles.enabled = false
+		ni.showstatus(ni.vars.profiles.active)
 	end,
 	custommod = function()
-		local mod = ni.vars.hotkeys.custom;
+		local mod = ni.vars.hotkeys.custom
 		if mod == "Left Shift" then
 			if IsLeftShiftKeyDown() and not GetCurrentKeyBoardFocus() then
-				return true;
+				return true
 			end
 		elseif mod == "Left Control" then
 			if IsLeftControlKeyDown() and not GetCurrentKeyBoardFocus() then
-				return true;
+				return true
 			end
 		elseif mod == "Left Alt" then
 			if IsLeftAltKeyDown() and not GetCurrentKeyBoardFocus() then
-				return true;
+				return true
 			end
 		elseif mod == "Right Shift" then
 			if IsRightShiftKeyDown() and not GetCurrentKeyBoardFocus() then
-				return true;
+				return true
 			end
 		elseif mod == "Right Control" then
 			if IsRightControlKeyDown() and not GetCurrentKeyBoardFocus() then
-				return true;
+				return true
 			end
 		elseif mod == "Right Alt" then
 			if IsRightAltKeyDown() and not GetCurrentKeyBoardFocus() then
-				return true;
+				return true
 			end
 		end
-		return false;
+		return false
 	end,
 	cdmod = function()
-		local mod = ni.vars.hotkeys.cd;
+		local mod = ni.vars.hotkeys.cd
 		if mod == "Left Shift" then
 			if IsLeftShiftKeyDown() and not GetCurrentKeyBoardFocus() then
-				return true;
+				return true
 			end
 		elseif mod == "Left Control" then
 			if IsLeftControlKeyDown() and not GetCurrentKeyBoardFocus() then
-				return true;
+				return true
 			end
 		elseif mod == "Left Alt" then
 			if IsLeftAltKeyDown() and not GetCurrentKeyBoardFocus() then
-				return true;
+				return true
 			end
 		elseif mod == "Right Shift" then
 			if IsRightShiftKeyDown() and not GetCurrentKeyBoardFocus() then
-				return true;
+				return true
 			end
 		elseif mod == "Right Control" then
 			if IsRightControlKeyDown() and not GetCurrentKeyBoardFocus() then
-				return true;
+				return true
 			end
 		elseif mod == "Right Alt" then
 			if IsRightAltKeyDown() and not GetCurrentKeyBoardFocus() then
-				return true;
+				return true
 			end
 		end
-		return false;
+		return false
 	end,
 	cdtoggle = function()
 		if ni.vars.profiles.enabled then
@@ -96,33 +102,33 @@ ni.rotation = {
 		end
 	end,
 	aoemod = function()
-		local mod = ni.vars.hotkeys.aoe;
+		local mod = ni.vars.hotkeys.aoe
 		if mod == "Left Shift" then
 			if IsLeftShiftKeyDown() and not GetCurrentKeyBoardFocus() then
-				return true;
+				return true
 			end
 		elseif mod == "Left Control" then
 			if IsLeftControlKeyDown() and not GetCurrentKeyBoardFocus() then
-				return true;
+				return true
 			end
 		elseif mod == "Left Alt" then
 			if IsLeftAltKeyDown() and not GetCurrentKeyBoardFocus() then
-				return true;
+				return true
 			end
 		elseif mod == "Right Shift" then
 			if IsRightShiftKeyDown() and not GetCurrentKeyBoardFocus() then
-				return true;
+				return true
 			end
 		elseif mod == "Right Control" then
 			if IsRightControlKeyDown() and not GetCurrentKeyBoardFocus() then
-				return true;
+				return true
 			end
 		elseif mod == "Right Alt" then
 			if IsRightAltKeyDown() and not GetCurrentKeyBoardFocus() then
-				return true;
+				return true
 			end
 		end
-		return false;
+		return false
 	end,
 	aoetoggle = function()
 		if (ni.vars.profiles.enabled == false or ni.vars.combat.aoe == false) and ni.frames.notification:IsShown() then

@@ -1,11 +1,6 @@
-local UnitClass = UnitClass;
-
-local _, class = UnitClass("player");
-
 ni = {}
 ni.frames = {}
 ni.vars = {}
-ni.rotations = {}
 ni.utils = {}
 ni.rotation = {}
 ni.combat = {}
@@ -23,14 +18,6 @@ ni.objects = {}
 ni.members = {}
 ni.tanks = {}
 ni.stopcastingtracker = {}
-ni[class] = {
-    rotations = {},
-    startrotation = function()
-        if (ni.vars.profiles.active ~= nil and ni.vars.profiles.active ~= "None") then
-            ni[class].rotations[ni.vars.profiles.active].execute()
-        end
-    end
-}
 ni.functions = {
 	addlog = %%AddLog%%,
 	popup = %%PopUp%%,
