@@ -124,10 +124,12 @@ ni.unit = {
 		return GetUnitSpeed(t) ~= 0
 	end,
 	id = function(t)
-		if tonumber(t) then
-			return tonumber((t):sub(-12, -7), 16)
-		else
-			return tonumber((UnitGUID(t)):sub(-12, -7), 16)
+		if ni.unit.exists(t) then
+			if tonumber(t) then
+				return tonumber((t):sub(-12, -7), 16)
+			else
+				return tonumber((UnitGUID(t)):sub(-12, -7), 16)
+			end
 		end
 	end,
 	isdummy = function(t)

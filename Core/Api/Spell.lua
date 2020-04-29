@@ -212,10 +212,6 @@ ni.spell = {
 			return false
 		end
 
-		if (ni.tables.whitelistedlosunits[ni.unit.id(t)]) then
-			return true
-		end
-
 		return ni.functions.los("player", ...)
 	end,
 	valid = function(t, spellid, facing, los, friendly)
@@ -227,6 +223,15 @@ ni.spell = {
 			spellid = ni.spell.id(spellid)
 			if spellid == 0 then
 				return false
+			end
+		end
+
+		local unitid = ni.unit.id(t)
+
+		if unitid then
+			if (ni.tables.whitelistedlosunits[unitid]) then
+				ni.debug.log(tostring(ni.player.isfacing(t)) .. " " .. tostring(ni.spell.los(t)))
+				return true
 			end
 		end
 
