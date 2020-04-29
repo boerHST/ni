@@ -80,7 +80,7 @@ ni.unit = {
 		end
 		return nil
 	end,
-	creature = function(t)
+	creaturetype = function(t)
 		return ni.unit.exists(t) and ni.functions.creaturetype(t) or 0
 	end,
 	istotem = function(t)
