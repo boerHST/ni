@@ -5,6 +5,7 @@ ni.vars = {
 	interrupt = "all",
 	build = build,
 	debug = false,
+	customtarget = "player",
 	hotkeys = {
 		aoe = "{aoeToggle}",
 		cd = "{cdtoggle}",
