@@ -18,6 +18,7 @@ ni.objects = {}
 ni.members = {}
 ni.tanks = {}
 ni.stopcastingtracker = {}
+ni.data = {}
 ni.functions = {
 	addlog = %%AddLog%%,
 	popup = %%PopUp%%,
