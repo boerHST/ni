@@ -33,7 +33,7 @@ if ni.functions.loadlua("Core\\Internal\\Utils.lua") then
 		ni.frames.combatlog:SetScript("OnEvent", ni.frames.combatlog_OnEvent)
 		ni.frames.interrupt:SetScript("OnUpdate", ni.frames.interrupt_OnUpdate)
 		ni.frames.healing:SetScript("OnEvent", ni.frames.healing_OnUpdate)
-		ni.frames.objectmanager:SetScript("OnUpdate", ni.frames.objectManager_OnUpdate)
+		ni.frames.objectmanager:SetScript("OnUpdate", ni.frames.objectmanager_OnUpdate)
 		ni.frames.global:SetScript("OnUpdate", ni.frames.global_OnUpdate)
 		ni.frames.floatingtext:message("Loaded")
 	end
