@@ -20,6 +20,7 @@ local files = {
 	"Core\\Tables\\MismarkedBosses.lua",
 	"Core\\Tables\\BlacklistedAoEUnits.lua",
 	"Core\\Tables\\WhitelistedLoSUnits.lua",
+	"Core\\Tables\\StopCastingTracker.lua",
 	"Core\\Api\\Power.lua",
 	"Core\\Api\\Rune.lua",
 	"Core\\Api\\Unit.lua",

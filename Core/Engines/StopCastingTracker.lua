@@ -1,33 +1,29 @@
 ni.stopcastingtracker = {
 	stoptime = 0,
-	shouldstop = function(spell, t)
-		t = true and t or "target"
-		local mycasttime = ni.spell.casttime(spell)
-		local bosscast, bosscastend, mycastend
+	shouldstop = function(spell)
+		local spellcasttime = ni.spell.casttime(spell)
+		local bosscast, _, _, _, bosscastend = UnitCastingInfo("boss1")
+		local mycasttime, _, _, _, mycastend = UnitCastingInfo("player")
 
-		if UnitCastingInfo("boss1") then
-			bosscast, _, _, _, bosscastend = UnitCastingInfo("boss1")
-		else
+		if bosscast == nil then
 			return false
 		end
 
-		if UnitCastingInfo("player") then
-			mycastend = select(5, UnitCastingInfo("player"))
-		else
-			mycastend = mycasttime
+		if mycasttime ~= nil then
+			mycastend = spellcasttime
 		end
 
 		for i = 1, #ni.tables.stopcasting.continue do
 			local buff = ni.tables.stopcasting.continue[i]
 
-			if ni.unit.hasbuff(buff) and (select(6, ni.unit.hasbuff(buff)) * 1000) + 50 > bosscastend then
+			if ni.player.hasbuff(buff) and ni.player.buffremaining(buff) + 0.2 > bosscastend then
 				return false
 			end
 		end
 
 		if
-			not ni.player.iscasting() and not ni.player.ischanneling() and mycasttime and ni.stopcastingtracker.stoptime and
-				mycasttime > bosscastend
+			not ni.player.iscasting() and not ni.player.ischanneling() and spellcasttime and ni.stopcastingtracker.stoptime and
+				spellcasttime > bosscastend
 		 then
 			return true
 		end
@@ -39,7 +35,7 @@ ni.stopcastingtracker = {
 				ni.stopcastingtracker.stoptime = bosscastend
 
 				if mycastend ~= nil then
-					if bosscastend < mycasttime then
+					if bosscastend < spellcasttime then
 						return true
 					end
 				end
