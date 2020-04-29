@@ -171,5 +171,8 @@ ni.rotation = {
 				return true
 			end
 		end
+	end,
+	loadlua = function(file)
+		return ni.functions.loadlua("Rotations\\Data\\"..file);
 	end
 }
