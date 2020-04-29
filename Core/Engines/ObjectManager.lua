@@ -42,9 +42,9 @@ ni.objectmanager = {
 		end
 	end
 }
-ni.objectsetup = {}
-ni.objectsetup.cache = {}
-ni.objectsetup.cache.__index = {
+local objectsetup = {}
+objectsetup.cache = {}
+objectsetup.cache.__index = {
 	guid = 0,
 	name = "Unknown",
 	type = 0
@@ -55,28 +55,28 @@ setmetatable(
 		__index = function(t, k)
 			local guid = true and UnitGUID(k) or nil
 			if guid ~= nil then
-				if ni.objectsetup.cache[guid] ~= nil then
-					return ni.objectsetup.cache[guid]
+				if objectsetup.cache[guid] ~= nil then
+					return objectsetup.cache[guid]
 				end
 				local _, _, _, _, otype = ni.unit.info(guid)
 				local name = UnitName(guid)
-				local ob = ni.objectsetup:get(guid, otype, name)
+				local ob = ni.objects:get(guid, otype, name)
 				return ob
 			end
-			return ni.objectsetup:get(0, 0, "Unknown")
+			return ni.objects:get(0, 0, "Unknown")
 		end
 	}
 )
-function ni.objectsetup:get(objguid, objtype, objname)
-	if ni.objectsetup.cache[objguid] then
-		return ni.objectsetup.cache[objguid]
+function ni.objects:get(objguid, objtype, objname)
+	if objectsetup.cache[objguid] then
+		return objectsetup.cache[objguid]
 	else
-		return ni.objectsetup:create(objguid, objtype, objname)
+		return ni.objects:create(objguid, objtype, objname)
 	end
 end
-function ni.objectsetup:create(objguid, objtype, objname)
+function ni.objects:create(objguid, objtype, objname)
 	local o = {}
-	setmetatable(o, ni.objectsetup)
+	setmetatable(o, objectsetup)
 	if objguid then
 		o.guid = objguid
 		o.name = objname
@@ -174,14 +174,14 @@ function ni.objectsetup:create(objguid, objtype, objname)
 		o.type = o.type
 		o:calculatettd()
 	end
-	ni.objectsetup.cache[objguid] = o
+	objectsetup.cache[objguid] = o
 	return o
 end
-function ni.objectsetup:new(objguid, objtype, objname)
-	if ni.objectsetup.cache[objguid] then
+function ni.objects:new(objguid, objtype, objname)
+	if objectsetup.cache[objguid] then
 		return false
 	end
-	return ni.objectsetup:create(objguid, objtype, objname)
+	return ni.objects:create(objguid, objtype, objname)
 end
 function ni.objects:updateobjects()
 	for k, v in pairs(ni.objects) do
@@ -189,7 +189,7 @@ function ni.objects:updateobjects()
 			if v.lastupdate == nil or GetTime() >= (v.lastupdate + (math.random(1, 12) / 100)) then
 				v.lastupdate = GetTime()
 				if not v:exists() then
-					ni.objectsetup.cache[k] = nil
+					objectsetup.cache[k] = nil
 					ni.objects[k] = nil
 				else
 					v:updateobject()

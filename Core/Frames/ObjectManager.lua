@@ -9,7 +9,7 @@ ni.frames.objectmanager_OnUpdate = function(self, elapsed)
 			self.st = 0
 			local tmp = ni.objectmanager.get()
 			for i = 1, #tmp do
-				local ob = ni.objectsetup:new(tmp[i].guid, tmp[i].type, tmp[i].name)
+				local ob = ni.objects:new(tmp[i].guid, tmp[i].type, tmp[i].name)
 				if ob then
 					rawset(ni.objects, tmp[i].guid, ob)
 				end
