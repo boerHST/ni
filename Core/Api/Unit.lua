@@ -481,6 +481,22 @@ ni.unit = {
 
 		return results
 	end,
+	debuffremaining = function(target, spell, caster)
+		local expires = select(7, ni.unit.hasdebuff(target, spell, caster))
+		if expires ~= nil then
+			return GetTime() - expires
+		else
+			return 0
+		end
+	end,
+	buffremaining = function(target, spell, caster)
+		local expires = select(7, ni.unit.hasbuff(target, spell, caster))
+		if expires ~= nil then
+			return GetTime() - expires
+		else
+			return 0
+		end
+	end,
 	flags = function(t)
 		if t ~= nil then
 			return ni.functions.unitflags(t)

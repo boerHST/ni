@@ -1,7 +1,7 @@
 local GetRuneCooldown, GetRuneType, GetTime = GetRuneCooldown, GetRuneType, GetTime
 
 ni.rune = {
-	available = function()
+	count = function()
 		local s, d, i = GetRuneCooldown()
 
 		if i == true then

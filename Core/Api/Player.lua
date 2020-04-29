@@ -44,6 +44,12 @@ ni.player = {
 	hasbuffs = function(spells, caster) --passed as string of ids or names separated by |
 		return ni.unit.hasbuffs("player", spells, caster)
 	end,
+	buffremaining = function(spell)
+		return ni.unit.buffremaining("player", spell)
+	end,
+	debuffremaining = function(spell)
+		return ni.unit.debuffremaining("player", spell)
+	end,
 	hasaura = function(spellid)
 		return ni.unit.hasaura("player", spellid)
 	end,
