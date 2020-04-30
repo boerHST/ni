@@ -324,13 +324,13 @@ ni.spell = {
 				return false
 			end
 			if ni.vars.interrupt == "wl" then
-				if tContains(ni.vars.interrupts.whiteListed, castName) then
+				if tContains(ni.vars.interrupts.whitelisted, castName) then
 					return true
 				else
 					return false
 				end
 			else
-				if tContains(ni.vars.interrupts.blackListed, castName) then
+				if tContains(ni.vars.interrupts.blacklisted, castName) then
 					return false
 				end
 			end
