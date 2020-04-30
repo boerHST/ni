@@ -1,11 +1,11 @@
-local memberssetup = {}
-memberssetup.cache = {}
-memberssetup.__index = {
+ni.memberssetup = {}
+ni.memberssetup.cache = {}
+ni.memberssetup.__index = {
 	unit = "noob",
 	name = "noob",
 	class = "noob",
 	guid = 0,
-	guidsh = 0,
+	shortguid = 0,
 	role = "NOOB",
 	range = false,
 	dispel = false,
@@ -14,38 +14,38 @@ memberssetup.__index = {
 	target = "noobtarget",
 	istank = false
 }
-memberssetup.cache.__index = {
+ni.memberssetup.cache.__index = {
 	guid = 0,
 	name = "Unknown",
 	type = 0
 }
-ni.members.mt = {}
-ni.members.mt.__call = function(_, ...)
+local membersmt = {}
+setmetatable(ni.members, membersmt)
+membersmt.__call = function(_, ...)
 	local group = GetNumRaidMembers() > 0 and "raid" or "party"
 	local groupsize = group == "raid" and GetNumRaidMembers() or GetNumPartyMembers()
 	if group == "party" then
-		tinsert(ni.members, memberssetup:create("player"))
+		tinsert(ni.members, ni.memberssetup:create("player"))
 	end
 	for i = 1, groupsize do
 		local groupunit = group .. i
-		local groupmember = memberssetup:create(groupunit)
+		local groupmember = ni.memberssetup:create(groupunit)
 		if groupmember then
 			tinsert(ni.members, groupmember)
 		end
 	end
 end
-ni.members.mt.__index = {
+membersmt.__index = {
 	name = "members",
 	author = "bubba"
 }
 
-setmetatable(ni.members, ni.members.mt)
-function memberssetup:create(unit)
-	if memberssetup.cache[ni.unit.shortguid(unit)] then
+function ni.memberssetup:create(unit)
+	if ni.memberssetup.cache[ni.unit.shortguid(unit)] then
 		return false
 	end
 	local o = {}
-	setmetatable(o, memberssetup)
+	setmetatable(o, ni.memberssetup)
 	if unit and type(unit) == "string" then
 		o.unit = unit
 	end
@@ -158,27 +158,34 @@ function memberssetup:create(unit)
 		o.threat = ni.unit.threat(o.unit)
 		o.target = tostring(o.unit) .. "target"
 		o.istank = o:calculateistank()
-		memberssetup.cache[ni.unit.shortguid(o.unit)] = o
+		ni.memberssetup.cache[ni.unit.shortguid(o.unit)] = o
 	end
-	memberssetup.cache[ni.unit.shortguid(o.unit)] = o
+	ni.memberssetup.cache[ni.unit.shortguid(o.unit)] = o
 	return o
 end
-function ni.members:updatemembers()
-	for i = 1, #ni.members do
-		ni.members[i]:updatemember()
-	end
-	table.sort(
-		ni.members,
-		function(x, y)
-			if x.range and y.range then
-				return x.hp < y.hp
-			elseif x.range then
-				return true
-			elseif y.range then
-				return false
-			else
-				return x.hp < y.hp
-			end
+
+ni.memberssetup.set = function()
+	function ni.members:updatemembers()
+		for i = 1, #ni.members do
+			ni.members[i]:updatemember()
 		end
-	)
+
+		table.sort(
+			ni.members,
+			function(x, y)
+				if x.range and y.range then
+					return x.hp < y.hp
+				elseif x.range then
+					return true
+				elseif y.range then
+					return false
+				else
+					return x.hp < y.hp
+				end
+			end
+		)
+	end
+	ni.members()
 end
+
+ni.memberssetup.set()

@@ -135,9 +135,9 @@ ni.unit = {
 		end
 	end,
 	shortguid = function(t)
-		if ni.unit.exists(t) then
+		if UnitExists(t) then
 			local guid = UnitGUID(t)
-			return guid, string.sub(guid, -5, -1)
+			return string.sub(guid, -5, -1)
 		end
 	end,
 	isdummy = function(t)

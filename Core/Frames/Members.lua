@@ -8,12 +8,7 @@ ni.frames.members:RegisterEvent("PARTY_CONVERTED_TO_RAID")
 ni.frames.members:RegisterEvent("ZONE_CHANGED")
 ni.frames.members:RegisterEvent("PLAYER_ENTERING_WORLD")
 ni.frames.members_OnUpdate = function(self, elapsed)
-	if ni.objects ~= nil and ni.functions.getobjects ~= nil then
-		local throttle = 1 / GetFramerate()
-		self.st = elapsed + (self.st or 0)
-		if self.st > throttle then
-			self.st = 0
-			ni.members()
-		end
-	end
+	table.wipe(ni.members)
+	table.wipe(ni.memberssetup.cache)
+	ni.memberssetup.set()
 end
