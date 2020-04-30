@@ -100,7 +100,7 @@ ni.frames.global_OnUpdate = function(self, elapsed)
 				ni.rotation.started = true
 			end
 			if ni.vars.profiles.useEngine then
-				ni.members:update()
+				ni.members:updatemembers()
 			end
 			if ni.rotation.stopmod() then
 				return true

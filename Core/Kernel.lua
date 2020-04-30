@@ -16,6 +16,7 @@ ni.power = {}
 ni.objectmanager = {}
 ni.objects = {}
 ni.members = {}
+ni.healing = {}
 ni.tanks = {}
 ni.stopcastingtracker = {}
 ni.data = {}
