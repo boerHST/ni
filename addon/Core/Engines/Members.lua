@@ -152,11 +152,11 @@ memberssetup.set = function()
 			end
 		)
 	end
+	function ni.members.reset()
+		table.wipe(ni.members);
+		table.wipe(memberssetup.cache);
+		memberssetup.set();
+	end
 	ni.members()
 end
 memberssetup.set()
-function ni.members.reset()
-	table.wipe(ni.members);
-	table.wipe(memberssetup.cache);
-	memberssetup.set();
-end
