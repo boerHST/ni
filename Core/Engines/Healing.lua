@@ -1,3 +1,10 @@
+local UnitDebuff, UnitClass, tContains, tinsert, UnitHealthMax =
+	UnitDebuff,
+	UnitClass,
+	tContains,
+	tinsert,
+	UnitHealthMax
+
 ni.healing = {
 	dontdispel = function(t)
 		for k, v in pairs(ni.tables.blacklisteddispels) do

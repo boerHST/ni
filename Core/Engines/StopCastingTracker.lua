@@ -1,3 +1,5 @@
+local GetSpellInfo, UnitCastingInfo = GetSpellInfo, UnitCastingInfo
+
 ni.stopcastingtracker = {
 	stoptime = 0,
 	shouldstop = function(spell)

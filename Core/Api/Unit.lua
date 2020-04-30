@@ -15,7 +15,8 @@ local UnitGUID,
 	GetSpellInfo,
 	tContains,
 	UnitDebuff,
-	UnitChannelInfo =
+	UnitChannelInfo,
+	GetTime =
 	UnitGUID,
 	UnitCanAttack,
 	tinsert,
@@ -33,7 +34,8 @@ local UnitGUID,
 	GetSpellInfo,
 	tContains,
 	UnitDebuff,
-	UnitChannelInfo
+	UnitChannelInfo,
+	GetTime
 
 local creaturetypes = {
 	[0] = "Unknown",

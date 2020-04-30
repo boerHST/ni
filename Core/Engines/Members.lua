@@ -1,3 +1,13 @@
+local GetNumRaidMembers, GetNumPartyMembers, tinsert, UnitClass, UnitIsDeadOrGhost, UnitHealthMax, UnitName, UnitGUID =
+	GetNumRaidMembers,
+	GetNumPartyMembers,
+	tinsert,
+	UnitClass,
+	UnitIsDeadOrGhost,
+	UnitHealthMax,
+	UnitName,
+	UnitGUID
+
 ni.memberssetup = {}
 ni.memberssetup.cache = {}
 ni.memberssetup.__index = {

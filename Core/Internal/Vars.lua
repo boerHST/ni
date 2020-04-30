@@ -1,3 +1,5 @@
+local GetBuildInfo = GetBuildInfo
+
 local build = select(4, GetBuildInfo())
 
 ni.vars = {
