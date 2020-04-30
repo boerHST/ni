@@ -69,49 +69,7 @@ function ni.memberssetup:create(unit)
 		return ni.unit.hasbufftype(o.guid, str)
 	end
 	function o:candispel()
-		local dispelthem = false
-		local _, class = UnitClass("player")
-		if class == "DRUID" then
-			local k = 1
-			while UnitDebuff(o.unit, k) do
-				if ni.validDispel(o.unit) then
-					dispelthem = true
-					break
-				end
-				k = k + 1
-			end
-		elseif class == "SHAMAN" then
-			local k = 1
-			while UnitDebuff(o.unit, k) do
-				if ni.validDispel(o.unit) then
-					dispelthem = true
-					break
-				end
-				k = k + 1
-			end
-		elseif class == "PALADIN" then
-			local k = 1
-			while UnitDebuff(o.unit, k) do
-				if ni.validDispel(o.unit) then
-					dispelthem = true
-					break
-				end
-				k = k + 1
-			end
-		elseif class == "PRIEST" then
-			local k = 1
-			while UnitDebuff(o.unit, k) do
-				if ni.validDispel(o.unit) then
-					dispelthem = true
-					break
-				end
-				k = k + 1
-			end
-		end
-		if dispelthem == true then
-			return true
-		end
-		return false
+		return ni.healing.candispel(o.unit)
 	end
 	function o:calculatehp()
 		local hp = ni.unit.hp(o.unit)
