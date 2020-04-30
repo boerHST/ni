@@ -125,11 +125,19 @@ ni.unit = {
 	end,
 	id = function(t)
 		if ni.unit.exists(t) then
-			if tonumber(t) then
-				return tonumber((t):sub(-12, -7), 16)
-			else
-				return tonumber((UnitGUID(t)):sub(-12, -7), 16)
+			if not ni.unit.isplayer(t) then
+				if tonumber(t) then
+					return tonumber((t):sub(-12, -7), 16)
+				else
+					return tonumber((UnitGUID(t)):sub(-12, -7), 16)
+				end
 			end
+		end
+	end,
+	shortguid = function(t)
+		if ni.unit.exists(t) then
+			local guid = UnitGUID(t)
+			return guid, string.sub(guid, -5, -1)
 		end
 	end,
 	isdummy = function(t)
@@ -158,6 +166,9 @@ ni.unit = {
 	end,
 	hp = function(t)
 		return 100 * UnitHealth(t) / UnitHealthMax(t)
+	end,
+	hpraw = function(t)
+		return UnitHealthMax(t) - UnitHealth(t)
 	end,
 	power = function(t, type)
 		return ni.power.current(t, type)
@@ -574,5 +585,8 @@ ni.unit = {
 	end,
 	immune = function(t)
 		return (ni.unit.exists(t) and select(32, ni.unit.flags(t))) or false
+	end,
+	isplayer = function(t)
+		return select(5, ni.unit.info(t)) == 4
 	end
 }
