@@ -9,6 +9,7 @@ local files = {
 	"Core\\Tables\\BlacklistedAoEUnits.lua",
 	"Core\\Tables\\WhitelistedLoSUnits.lua",
 	"Core\\Tables\\StopCastingTracker.lua",
+	"Core\\Tables\\BlacklistedDispels.lua",
 	"Core\\Tables\\CantHeal.lua",
 	"Core\\Tables\\Classes.lua",
 	"Core\\Api\\Power.lua",
