@@ -8,9 +8,9 @@ local GetNumRaidMembers, GetNumPartyMembers, tinsert, UnitClass, UnitIsDeadOrGho
 	UnitName,
 	UnitGUID
 
-ni.memberssetup = {}
-ni.memberssetup.cache = {}
-ni.memberssetup.__index = {
+local memberssetup = {}
+memberssetup.cache = {}
+memberssetup.__index = {
 	unit = "noob",
 	name = "noob",
 	class = "noob",
@@ -24,7 +24,7 @@ ni.memberssetup.__index = {
 	target = "noobtarget",
 	istank = false
 }
-ni.memberssetup.cache.__index = {
+memberssetup.cache.__index = {
 	guid = 0,
 	name = "Unknown",
 	type = 0
@@ -35,11 +35,11 @@ membersmt.__call = function(_, ...)
 	local group = GetNumRaidMembers() > 0 and "raid" or "party"
 	local groupsize = group == "raid" and GetNumRaidMembers() or GetNumPartyMembers()
 	if group == "party" then
-		tinsert(ni.members, ni.memberssetup:create("player"))
+		tinsert(ni.members, memberssetup:create("player"))
 	end
 	for i = 1, groupsize do
 		local groupunit = group .. i
-		local groupmember = ni.memberssetup:create(groupunit)
+		local groupmember = memberssetup:create(groupunit)
 		if groupmember then
 			tinsert(ni.members, groupmember)
 		end
@@ -50,12 +50,12 @@ membersmt.__index = {
 	author = "bubba"
 }
 
-function ni.memberssetup:create(unit)
-	if ni.memberssetup.cache[ni.unit.shortguid(unit)] then
+function memberssetup:create(unit)
+	if memberssetup.cache[ni.unit.shortguid(unit)] then
 		return false
 	end
 	local o = {}
-	setmetatable(o, ni.memberssetup)
+	setmetatable(o, memberssetup)
 	if unit and type(unit) == "string" then
 		o.unit = unit
 	end
@@ -126,13 +126,12 @@ function ni.memberssetup:create(unit)
 		o.threat = ni.unit.threat(o.unit)
 		o.target = tostring(o.unit) .. "target"
 		o.istank = o:calculateistank()
-		ni.memberssetup.cache[ni.unit.shortguid(o.unit)] = o
+		memberssetup.cache[ni.unit.shortguid(o.unit)] = o
 	end
-	ni.memberssetup.cache[ni.unit.shortguid(o.unit)] = o
+	memberssetup.cache[ni.unit.shortguid(o.unit)] = o
 	return o
 end
-
-ni.memberssetup.set = function()
+memberssetup.set = function()
 	function ni.members:updatemembers()
 		for i = 1, #ni.members do
 			ni.members[i]:updatemember()
@@ -155,5 +154,9 @@ ni.memberssetup.set = function()
 	end
 	ni.members()
 end
-
-ni.memberssetup.set()
+memberssetup.set()
+function ni.members.reset()
+	table.wipe(ni.members);
+	table.wipe(memberssetup.cache);
+	memberssetup.set();
+end
