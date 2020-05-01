@@ -84,6 +84,23 @@ Returns: `number`
 
 Numerical type of the unit checked.
 
+| Numeric | String       |
+| ------- | ------------ |
+| 0       | Unknown      |
+| 1       | Beast        |
+| 2       | Dragon       |
+| 3       | Demon        |
+| 4       | Elemental    |
+| 5       | Giant        |
+| 6       | Undead       |
+| 7       | Humanoid     |
+| 8       | Critter      |
+| 9       | Mechanical   |
+| 10      | NotSpecified |
+| 11      | Totem        |
+| 12      | NonCombatPet |
+| 13      | GasCloud     |
+
 ```lua
 local type = ni.unit.creaturetype("playerpet")
 
@@ -101,6 +118,23 @@ Arguments:
 Returns: `string`
 
 Readable creature string of the unit checked.
+
+| Numeric | String       |
+| ------- | ------------ |
+| 0       | Unknown      |
+| 1       | Beast        |
+| 2       | Dragon       |
+| 3       | Demon        |
+| 4       | Elemental    |
+| 5       | Giant        |
+| 6       | Undead       |
+| 7       | Humanoid     |
+| 8       | Critter      |
+| 9       | Mechanical   |
+| 10      | NotSpecified |
+| 11      | Totem        |
+| 12      | NonCombatPet |
+| 13      | GasCloud     |
 
 ```lua
 local type = ni.unit.readablecreaturetype("playerpet")
@@ -280,7 +314,7 @@ Returns: `number`
 Retrieves detailed information about the unit.
 
 ```lua
-local tinfo = ni.unit.info("target")
+local x, y, z, facing, unittype, target, guid, height = ni.unit.info("target")
 ```
 
 ## isfacing
@@ -429,5 +463,156 @@ Checks if specified unit is channeling.
 ```lua
 if ni.unit.ischanneling("target") then
   -- Target is channeling
+end
+```
+
+## hasaura
+
+Arguments:
+
+- **unit** `guid|token`
+- **aura** `name|id`
+
+Returns: `boolean`
+
+Checks if specified unit has aura.
+
+```lua
+if ni.unit.hasaura("player", "Crusader Aura") then
+  -- Player has Crusader Aura
+end
+```
+
+## hasbuff
+
+Arguments:
+
+- **target** `guid|token`
+- **id** `name|id`
+- **caster** `guid|token` _optional_
+- **exact** `boolean` _default: false_
+
+Returns: `boolean`
+
+Checks if specified unit has certain buff.
+
+```lua
+if ni.unit.hasbuff("target", "Life Tap", "player") then
+  -- Target has Life Tap active
+end
+```
+
+## hasbuffs
+
+Arguments:
+
+- **target** `guid|token`
+- **ids** `name|id`
+- **caster** `guid|token` _optional_
+- **exact** `boolean` _default: false_
+
+Returns: `boolean`
+
+Checks if specified unit has certain buffs separated by `&&`.
+
+```lua
+if ni.unit.hasbuffs("target", "63321&&Fel Armor", "player") then
+  -- Target has both Life Tap and Fel Armor
+end
+```
+
+## hasdebufftype
+
+Arguments:
+
+- **target** `guid|token`
+- **types** `string|string`
+
+Returns: `boolean`
+
+Checks if specified unit has certain debuff types. Multiple types can be passed by using the pipe character (`|`).
+
+| Type    |
+| ------- |
+| Magic   |
+| Poison  |
+| Curse   |
+| Disease |
+
+```lua
+if ni.unit.hasdebufftype("target", "Poison|Magic") then
+	-- Target has either a poison or magic debuff present
+end
+```
+
+## hasdebuff
+
+Arguments:
+
+- **target** `guid|token`
+- **id** `name|id`
+- **caster** `guid|token` _optional_
+- **exact** `boolean` _default: false_
+
+Returns: `boolean`
+
+Checks if specified unit has certain debuff.
+
+```lua
+if ni.unit.hasdebuff("target", "Unstable Affliction", "player") then
+  -- Target has Unstable Affliction
+end
+```
+
+## hasdebuffs
+
+Arguments:
+
+- **target** `guid|token`
+- **ids** `name|id`
+- **caster** `guid|token` _optional_
+- **exact** `boolean` _default: false_
+
+Returns: `boolean`
+
+Checks if specified unit has certain debuffs separated by `&&`.
+
+```lua
+if ni.unit.hasdebuffs("target", "Faerie Fire&&Curse of Agony", "player") then
+  -- Target has both Faerie Fire and Curse of Agony
+end
+```
+
+## buffremaining
+
+Arguments:
+
+- **target** `guid|token`
+- **id** `name|id`
+- **caster** `guid|token` _optional_
+
+Returns: `boolean`
+
+Calculates the remaining time of the buff on target in seconds.
+
+```lua
+if ni.unit.buffremaining("target", 48441, "player") < 5 then
+  -- Target has Rejuvenation for less than 5 seconds
+end
+```
+
+## isplayer
+
+Arguments:
+
+- **unit** `guid|token`
+
+Returns: `boolean`
+
+Checks if passed unit is a player type.
+
+```lua
+if ni.unit.isplayer("target") then
+  -- Target is a player type
 end
 ```

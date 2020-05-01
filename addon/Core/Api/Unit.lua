@@ -286,31 +286,6 @@ ni.unit = {
 	hasaura = function(t, s)
 		return (t ~= nil and s ~= nil) and ni.functions.hasaura(t, s) or false
 	end,
-	hasbufftype = function(t, str)
-		if not ni.unit.exists(t) then
-			return false
-		end
-
-		local st = ni.utils.splitstringtolower(str)
-		local has = false
-		local i = 1
-		local buff = UnitBuff(t, i)
-
-		while buff do
-			local bufftype = select(5, UnitBuff(t, i))
-			if bufftype ~= nil then
-				local bTlwr = string.lower(bufftype)
-				if tContains(st, bTlwr) then
-					has = true
-					break
-				end
-			end
-			i = i + 1
-			buff = UnitBuff(t, i)
-		end
-
-		return has
-	end,
 	hasbuff = function(t, id, caster, exact)
 		exact = exact and true or false
 
@@ -534,7 +509,7 @@ ni.unit = {
 	taggedbyother = function(t)
 		return (ni.unit.exists(t) and select(8, ni.unit.dynamicflags(t))) or false
 	end,
-	canPerformAction = function(t)
+	canperformaction = function(t)
 		return (ni.unit.exists(t) and select(1, ni.unit.flags(t))) or false
 	end,
 	confused = function(t)
