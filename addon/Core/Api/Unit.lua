@@ -195,11 +195,11 @@ ni.unit = {
 	isfacing = function(t1, t2)
 		return (t1 ~= nil and t2 ~= nil) and ni.functions.isfacing(t1, t2) or false
 	end,
-	distance = function(t1, t2)
-		return (t1 ~= nil and t2 ~= nil) and ni.functions.getdistance(t1, t2) or nil
-	end,
 	isbehind = function(t1, t2)
 		return (t1 ~= nil and t2 ~= nil) and ni.functions.isbehind(t1, t2) or false
+	end,
+	distance = function(t1, t2)
+		return (t1 ~= nil and t2 ~= nil) and ni.functions.getdistance(t1, t2) or nil
 	end,
 	enemiesinrange = function(t, n)
 		local tmp = {}
@@ -216,7 +216,7 @@ ni.unit = {
 				end
 			end
 		end
-		return tmp, #tmp
+		return tmp
 	end,
 	friendsinrange = function(t, n)
 		local tmp = {}
@@ -233,7 +233,7 @@ ni.unit = {
 				end
 			end
 		end
-		return tmp, #tmp
+		return tmp
 	end,
 	unitstargeting = function(t, friendlies)
 		local unit = true and UnitGUID(t) or t
@@ -265,7 +265,7 @@ ni.unit = {
 				end
 			end
 		end
-		return returntable, #returntable
+		return returntable
 	end,
 	iscasting = function(t)
 		local name, _, _, _, _, _, _, id = UnitCastingInfo(t)
