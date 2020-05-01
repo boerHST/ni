@@ -283,10 +283,10 @@ ni.unit = {
 
 		return false
 	end,
-	hasaura = function(t, s)
-		return (t ~= nil and s ~= nil) and ni.functions.hasaura(t, s) or false
+	aura = function(t, s)
+		return (t ~= nil and s ~= nil) and ni.functions.aura(t, s) or false
 	end,
-	hasbuff = function(t, id, caster, exact)
+	buff = function(t, id, caster, exact)
 		exact = exact and true or false
 
 		local spellName = ""
@@ -314,7 +314,7 @@ ni.unit = {
 			return UnitBuff(t, spellName)
 		end
 	end,
-	hasbuffs = function(t, ids, caster, exact)
+	buffs = function(t, ids, caster, exact)
 		local ands = ni.utils.findand(ids)
 		local results = false
 		if ands ~= nil or (ands == nil and string.len(ids) > 0) then
@@ -326,14 +326,14 @@ ni.unit = {
 						local id = tonumber(tmp[i])
 
 						if id ~= nil then
-							if not ni.unit.hasbuff(t, id, caster, exact) then
+							if not ni.unit.buff(t, id, caster, exact) then
 								results = false
 								break
 							else
 								results = true
 							end
 						else
-							if not ni.unit.hasbuff(t, tmp[i], caster, exact) then
+							if not ni.unit.buff(t, tmp[i], caster, exact) then
 								results = false
 								break
 							else
@@ -349,12 +349,12 @@ ni.unit = {
 						local id = tonumber(tmp[i])
 
 						if id ~= nil then
-							if ni.unit.hasbuff(t, id, caster, exact) then
+							if ni.unit.buff(t, id, caster, exact) then
 								results = true
 								break
 							end
 						else
-							if ni.unit.hasbuff(t, tmp[i], caster, exact) then
+							if ni.unit.buff(t, tmp[i], caster, exact) then
 								results = true
 								break
 							end
@@ -365,7 +365,7 @@ ni.unit = {
 		end
 		return results
 	end,
-	hasdebufftype = function(t, str)
+	debufftype = function(t, str)
 		if not ni.unit.exists(t) then
 			return false
 		end
@@ -392,7 +392,7 @@ ni.unit = {
 
 		return has
 	end,
-	hasdebuff = function(t, spellID, caster, exact)
+	debuff = function(t, spellID, caster, exact)
 		exact = exact and true or false
 		local spellName = ""
 
@@ -420,7 +420,7 @@ ni.unit = {
 			return UnitDebuff(t, spellName, nil, caster)
 		end
 	end,
-	hasdebuffs = function(t, spellIDs, caster, exact)
+	debuffs = function(t, spellIDs, caster, exact)
 		local ands = ni.utils.findand(spellIDs)
 		local results = false
 
@@ -434,14 +434,14 @@ ni.unit = {
 					if tmp[i] ~= nil then
 						local id = tonumber(tmp[i])
 						if id ~= nil then
-							if not ni.unit.hasdebuff(t, id, caster, exact) then
+							if not ni.unit.debuff(t, id, caster, exact) then
 								results = false
 								break
 							else
 								results = true
 							end
 						else
-							if not ni.unit.hasdebuff(t, tmp[i], caster, exact) then
+							if not ni.unit.debuff(t, tmp[i], caster, exact) then
 								results = false
 								break
 							else
@@ -455,12 +455,12 @@ ni.unit = {
 				for i = 0, #tmp do
 					local id = tonumber(tmp[i])
 					if id ~= nil then
-						if ni.unit.hasdebuff(t, id, caster, exact) then
+						if ni.unit.debuff(t, id, caster, exact) then
 							results = true
 							break
 						end
 					else
-						if ni.unit.hasdebuff(t, tmp[i], caster, exact) then
+						if ni.unit.debuff(t, tmp[i], caster, exact) then
 							results = true
 							break
 						end
@@ -472,7 +472,7 @@ ni.unit = {
 		return results
 	end,
 	debuffremaining = function(target, spell, caster)
-		local expires = select(7, ni.unit.hasdebuff(target, spell, caster))
+		local expires = select(7, ni.unit.debuff(target, spell, caster))
 		if expires ~= nil then
 			return expires - GetTime()
 		else
@@ -480,7 +480,7 @@ ni.unit = {
 		end
 	end,
 	buffremaining = function(target, spell, caster)
-		local expires = select(7, ni.unit.hasbuff(target, spell, caster))
+		local expires = select(7, ni.unit.buff(target, spell, caster))
 		if expires ~= nil then
 			return expires - GetTime()
 		else
@@ -500,70 +500,87 @@ ni.unit = {
 	istappedbyallthreatlist = function(t)
 		return (ni.unit.exists(t) and select(2, ni.unit.dynamicflags(t))) or false
 	end,
-	lootable = function(t)
+	islootable = function(t)
 		return (ni.unit.exists(t) and select(3, ni.unit.dynamicflags(t))) or false
 	end,
-	taggedbyme = function(t)
+	istaggedbyme = function(t)
 		return (ni.unit.exists(t) and select(7, ni.unit.dynamicflags(t))) or false
 	end,
-	taggedbyother = function(t)
+	istaggedbyother = function(t)
 		return (ni.unit.exists(t) and select(8, ni.unit.dynamicflags(t))) or false
 	end,
 	canperformaction = function(t)
 		return (ni.unit.exists(t) and select(1, ni.unit.flags(t))) or false
 	end,
-	confused = function(t)
+	isconfused = function(t)
 		return (ni.unit.exists(t) and select(23, ni.unit.flags(t))) or false
 	end,
-	disarmed = function(t)
+	isdisarmed = function(t)
 		return (ni.unit.exists(t) and select(22, ni.unit.flags(t))) or false
 	end,
-	fleeing = function(t)
+	isfleeing = function(t)
 		return (ni.unit.exists(t) and select(24, ni.unit.flags(t))) or false
 	end,
-	looting = function(t)
+	islooting = function(t)
 		return (ni.unit.exists(t) and select(11, ni.unit.flags(t))) or false
 	end,
-	mounted = function(t)
+	ismounted = function(t)
 		return (ni.unit.exists(t) and select(28, ni.unit.flags(t))) or false
 	end,
-	notattackable = function(t)
+	isnotattackable = function(t)
 		return (ni.unit.exists(t) and select(2, ni.unit.flags(t))) or false
 	end,
-	notselectable = function(t)
+	isnotselectable = function(t)
 		return (ni.unit.exists(t) and select(26, ni.unit.flags(t))) or false
 	end,
-	pacified = function(t)
+	ispacified = function(t)
 		return (ni.unit.exists(t) and select(18, ni.unit.flags(t))) or false
 	end,
-	petInCombat = function(t)
+	ispetinombat = function(t)
 		return (ni.unit.exists(t) and select(12, ni.unit.flags(t))) or false
 	end,
-	playercontrolled = function(t)
+	isplayercontrolled = function(t)
 		return (ni.unit.exists(t) and select(4, ni.unit.flags(t))) or false
 	end,
-	possessed = function(t)
+	ispossessed = function(t)
 		return (ni.unit.exists(t) and select(25, ni.unit.flags(t))) or false
 	end,
-	preparation = function(t)
+	ispreparation = function(t)
 		return (ni.unit.exists(t) and select(6, ni.unit.flags(t))) or false
 	end,
-	pvpflagged = function(t)
+	ispvpflagged = function(t)
 		return (ni.unit.exists(t) and select(13, ni.unit.flags(t))) or false
 	end,
-	silenced = function(t)
+	issilenced = function(t)
 		return (ni.unit.exists(t) and select(14, ni.unit.flags(t))) or false
 	end,
-	skinnable = function(t)
+	isskinnable = function(t)
 		return (ni.unit.exists(t) and select(27, ni.unit.flags(t))) or false
 	end,
-	stunned = function(t)
+	isstunned = function(t)
 		return (ni.unit.exists(t) and select(19, ni.unit.flags(t))) or false
 	end,
-	immune = function(t)
+	isimmune = function(t)
 		return (ni.unit.exists(t) and select(32, ni.unit.flags(t))) or false
 	end,
 	isplayer = function(t)
 		return select(5, ni.unit.info(t)) == 4
+	end,
+	hasheal = function(t)
+		if UnitExists(t) then
+			local _, class = UnitClass(t)
+
+			if class == "PALADIN" then
+				return true
+			elseif class == "PRIEST" then
+				return true
+			elseif class == "DRUID" then
+				return true
+			elseif class == "SHAMAN" then
+				return true
+			end
+
+			return false
+		end
 	end
 }

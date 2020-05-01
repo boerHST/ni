@@ -18,7 +18,7 @@ ni.stopcastingtracker = {
 		for i = 1, #ni.tables.stopcasting.continue do
 			local buff = ni.tables.stopcasting.continue[i]
 
-			if ni.player.hasbuff(buff) and ni.player.buffremaining(buff) + 0.2 > bosscastend then
+			if ni.player.buff(buff) and ni.player.buffremaining(buff) + 0.2 > bosscastend then
 				return false
 			end
 		end

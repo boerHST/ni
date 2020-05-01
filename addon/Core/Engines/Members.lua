@@ -61,22 +61,22 @@ function memberssetup:create(unit)
 	end
 	function o:calculateistank()
 		local result = false
-		if select(2, UnitClass(o.unit)) == "WARRIOR" and ni.unit.hasaura(o.guid, 71) then
+		if select(2, UnitClass(o.unit)) == "WARRIOR" and ni.unit.aura(o.guid, 71) then
 			result = true
 		end
-		if select(2, UnitClass(o.unit)) == "DRUID" and ni.unit.hasbuff(o.unit, 9634) then
+		if select(2, UnitClass(o.unit)) == "DRUID" and ni.unit.buff(o.unit, 9634) then
 			result = true
 		end
-		if ni.unit.hasaura(o.guid, 57340) then
+		if ni.unit.aura(o.guid, 57340) then
 			result = true
 		end
 		return result
 	end
-	function o:hasdebufftype(str)
-		return ni.unit.hasdebufftype(o.guid, str)
+	function o:debufftype(str)
+		return ni.unit.debufftype(o.guid, str)
 	end
-	function o:hasbufftype(str)
-		return ni.unit.hasbufftype(o.guid, str)
+	function o:bufftype(str)
+		return ni.unit.bufftype(o.guid, str)
 	end
 	function o:candispel()
 		return ni.healing.candispel(o.unit)
@@ -95,7 +95,7 @@ function memberssetup:create(unit)
 			hp = hp - 2
 		end
 		for i = 1, #ni.tables.cantheal do
-			if ni.unit.hasdebuff(o.unit, ni.tables.cantheal[i]) then
+			if ni.unit.debuff(o.unit, ni.tables.cantheal[i]) then
 				hp = 100
 				hpraw = UnitHealthMax(o.unit)
 			end

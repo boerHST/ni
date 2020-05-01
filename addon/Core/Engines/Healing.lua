@@ -9,7 +9,7 @@ ni.healing = {
 	dontdispel = function(t)
 		for k, v in pairs(ni.tables.blacklisteddispels) do
 			local debuff = ni.tables.blacklisteddispels[k]
-			if ni.unit.hasdebuff(t, debuff) then
+			if ni.unit.debuff(t, debuff) then
 				return true
 			end
 		end
