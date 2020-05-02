@@ -31,7 +31,7 @@ ni.power = {
 			type = ni.power.types[type]
 		end
 
-		return UnitPowerMax(t, type) - UnitPower(t, type)
+		return UnitPower(t, type)
 	end,
 	max = function(t, type)
 		if tonumber(type) == nil then
