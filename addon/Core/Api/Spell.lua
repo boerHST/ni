@@ -82,10 +82,6 @@ ni.spell = {
 			end
 		end
 
-		if ni.stopcastingtracker.shouldstop(id) then
-			return false
-		end
-
 		if tonumber(id) == nil then
 			id = ni.spell.id(id)
 		end
@@ -94,6 +90,11 @@ ni.spell = {
 
 		if id ~= nil and id ~= 0 and IsSpellKnown(id) then
 			local name, _, _, cost, _, powertype = GetSpellInfo(id)
+
+			if ni.stopcastingtracker.shouldstop(id) then
+				return false
+			end
+
 			if
 				name and
 					((powertype == -2 and ni.player.hpraw() >= cost) or (powertype >= 0 and ni.player.powerraw(powertype) >= cost)) and
