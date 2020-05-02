@@ -15,14 +15,14 @@ Returns: `boolean`
 
 Checks if specified spell is available to use. Includes checks such as:
 
-- [`ni.spell.gcd`](spell.md#gcd)
-- [`ni.vars.combar.casting`](vars.md)
-- [`ni.spell.cd`](spell.md#cd)
-- [`ni.stopcastingtracker.shouldstop`](stopcasting.md)
-- [`ni.player.powerraw`](player.md)
-- [`ni.player.hpraw`](player.md)
+- [`ni.spell.gcd`](api/spell.md#gcd)
+- [`ni.vars.combar.casting`](api/vars.md)
+- [`ni.spell.cd`](api/spell.md#cd)
+- [`ni.stopcastingtracker.shouldstop`](api/stopcasting.md)
+- [`ni.player.powerraw`](api/player.md)
+- [`ni.player.hpraw`](api/player.md)
 
-!> [`ni.spell.available`](spell.md#available) is not the same as [`ni.spell.valid`](spell.md#valid).
+!> [`ni.spell.available`](api/spell.md#available) is not the same as [`ni.spell.valid`](api/spell.md#valid).
 
 ```lua
 if ni.spell.available("Fear") then
@@ -202,11 +202,11 @@ Returns: `boolean`
 
 This functions ensures that a spell can be casted at specific target. It includes checks such as:
 
-!> [`ni.spell.valid`](spell.md#valid) is not the same as [`ni.spell.available`](spell.md#available).
+!> [`ni.spell.valid`](api/spell.md#valid) is not the same as [`ni.spell.available`](api/spell.md#available).
 
-- [`ni.unit.exists`](unit.md#exists)
-- [`ni.player.los`](player.md)
-- [`ni.player.isfacing`](player.md)
+- [`ni.unit.exists`](api/unit.md#exists)
+- [`ni.player.los`](api/player.md)
+- [`ni.player.isfacing`](api/player.md)
 
 ```lua
 if ni.spell.valid("Fear", "target") then

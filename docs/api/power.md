@@ -4,10 +4,10 @@
 
 If you only need to get unit's current power percent - there are two shorthand functions such as:
 
-- [`ni.unit.power`](unit.md#power)
-- [`ni.unit.powerraw`](unit.md#powerraw)
-- [`ni.player.power`](player.md).
-- [`ni.player.power`](player.md).
+- [`ni.unit.power`](api/unit.md#power)
+- [`ni.unit.powerraw`](api/unit.md#powerraw)
+- [`ni.player.power`](api/player.md).
+- [`ni.player.powerraw`](api/player.md).
 
 By default power type will match specialization's current power type.
 

@@ -1,31 +1,24 @@
 - Getting started
 
-  - [Quick start](quickstart.md)
-  - [Basic](basic.md)
-  - [Advanced](advanced.md)
+  - [Quick start](getting-started/quickstart.md)
+  - [Creating your first profile](getting-started/creating-your-first-profile.md)
+  - [How to contribute](getting-started/how-to-contribute.md)
 
 - Profiles
 
-  - [Wrath of the Lich King](wotlk.md)
-  - [Cataclysm](cataclysm.md)
+  - [Wrath of the Lich King](profiles/wotlk.md)
+  - [Cataclysm](profiles/cataclysm.md)
   <!-- - [Mists of Pandaria](mop.md) -->
 
 - Api
 
-  - [Spell](spell.md)
-  - [Unit](unit.md)
-  - [Player](player.md)
-  - [Power](power.md)
-  - [Rune](rune.md)
-  - [Vars](vars.md)
-
-- Engines
-
-  - [Object Manager](object-manager.md)
-  - [Members](members.md)
-  - [Stop Casting](stopcasting.md)
-
-- Misc
-
-  - [Debug](debug.md)
-  - [Delay](delay.md)
+  - [Spell](api/spell.md)
+  - [Unit](api/unit.md)
+  - [Player](api/player.md)
+  - [Power](api/power.md)
+  - [Rune](api/rune.md)
+  - [Vars](api/vars.md)
+  - [Object Manager](api/object-manager.md)
+  - [Members](api/members.md)
+  - [Debug](api/debug.md)
+  - [Delay](api/delay.md)

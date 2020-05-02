@@ -791,7 +791,7 @@ Arguments:
 
 Returns: `boolean`
 
-Checks whether the creature is a totem. Shorthand function for [creaturetype](unit.md#creaturetype).
+Checks whether the creature is a totem. Shorthand function for [creaturetype](api/unit.md#creaturetype).
 
 ```lua
 if ni.unit.istotem("target") then

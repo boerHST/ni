@@ -2,7 +2,7 @@
 
 > All functions when used will be prepended with `ni.player`.
 
-Apart from functions listed below, it's possible to call `ni.player` as a shorthand for calling any function in [Unit](unit.md) and passing `player` as the first argument.
+Apart from functions listed below, it's possible to call `ni.player` as a shorthand for calling any function in [Unit](api/unit.md) and passing `player` as the first argument.
 
 ```lua
 ni.player.buff("Life Tap") -- Same as calling ni.unit.buff("player", "Life Tap")
