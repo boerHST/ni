@@ -105,7 +105,7 @@ function memberssetup:create(unit)
 	function o:inrange()
 		local range = false
 
-		if ni.unit.exists(o.guid) and ni.spell.los(o.guid) then
+		if ni.unit.exists(o.guid) and ni.player.los(o.guid) then
 			local dist = ni.player.distance(o.guid)
 			if (dist ~= nil and dist < 40) then
 				range = true
@@ -153,9 +153,9 @@ memberssetup.set = function()
 		)
 	end
 	function ni.members.reset()
-		table.wipe(ni.members);
-		table.wipe(memberssetup.cache);
-		memberssetup.set();
+		table.wipe(ni.members)
+		table.wipe(memberssetup.cache)
+		memberssetup.set()
 	end
 	ni.members()
 end
