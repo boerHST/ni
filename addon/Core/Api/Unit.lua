@@ -175,6 +175,9 @@ ni.unit = {
 	power = function(t, type)
 		return ni.power.current(t, type)
 	end,
+	powerraw = function(t, type)
+		return ni.power.currentraw(t, type)
+	end,
 	info = function(t)
 		if t == nil then
 			return

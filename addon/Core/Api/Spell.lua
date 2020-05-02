@@ -63,12 +63,12 @@ ni.spell = {
 		if id > 0 and IsSpellKnown(id) then
 			local start, duration = GetSpellCooldown(id)
 			if (start > 0 and duration > 0) then
-				return start + duration - GetTime(), true
+				return start + duration - GetTime()
 			else
-				return 0, false
+				return 0
 			end
 		else
-			return 0, false
+			return 0
 		end
 	end,
 	gcd = function()
@@ -76,7 +76,7 @@ ni.spell = {
 		return d ~= 0
 	end,
 	available = function(id, stutter)
-		local stutter = true and stutter or false
+		local stutter = true and stutter or true
 
 		if stutter then
 			if ni.spell.gcd() or ni.vars.combat.casting == true then
@@ -98,7 +98,7 @@ ni.spell = {
 			local name, _, _, cost, _, powertype = GetSpellInfo(id)
 			if
 				name and
-					((powertype == -2 and UnitHealth("player") >= cost) or (powertype >= 0 and UnitPower("player", powertype) >= cost)) and
+					((powertype == -2 and ni.player.hpraw() >= cost) or (powertype >= 0 and ni.player.powerraw(powertype) >= cost)) and
 					ni.spell.cd(id) == 0
 			 then
 				result = true
@@ -204,15 +204,7 @@ ni.spell = {
 	end,
 	stopchanneling = function()
 		StrafeLeftStart()
-		StrafeLeftStop()
-	end,
-	los = function(...)
-		local t = ...
-		if t == nil then
-			return false
-		end
-
-		return ni.functions.los("player", ...)
+		ni.player.stopmoving()
 	end,
 	valid = function(t, spellid, facing, los, friendly)
 		friendly = true and friendly or false
@@ -241,9 +233,9 @@ ni.spell = {
 			ni.unit.exists(t) and ((not friendly and (not UnitIsDeadOrGhost(t) and UnitCanAttack("player", t) == 1)) or friendly) and
 				IsSpellInRange(name, t) == 1 and
 				IsSpellKnown(spellid) and
-				UnitPower("player", powertype) >= cost and
+				ni.player.powerraw(powertype) >= cost and
 				((facing and ni.player.isfacing(t)) or not facing) and
-				((los and ni.spell.los(t)) or not los)
+				((los and ni.player.los(t)) or not los)
 		 then
 			return true
 		end

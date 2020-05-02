@@ -6,10 +6,7 @@ local GetGlyphSocketInfo,
 	GetItemCooldown,
 	GetSpellCooldown,
 	GetTime,
-	UnitClass,
-	IsFalling,
-	UnitExists,
-	IsSpellInRange =
+	IsFalling =
 	GetGlyphSocketInfo,
 	GetContainerNumSlots,
 	GetContainerItemID,
@@ -18,12 +15,7 @@ local GetGlyphSocketInfo,
 	GetItemCooldown,
 	GetSpellCooldown,
 	GetTime,
-	UnitClass,
-	IsFalling,
-	UnitExists,
-	IsSpellInRange
-
-local _, class = UnitClass("player")
+	IsFalling
 
 ni.player = {
 	moveto = function(...) --target/x,y,z

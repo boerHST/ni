@@ -4,13 +4,20 @@
   - [Basic](basic.md)
   - [Advanced](advanced.md)
 
+- Profiles
+
+  - [Wrath of the Lich King](wotlk.md)
+  - [Cataclysm](cataclysm.md)
+  <!-- - [Mists of Pandaria](mop.md) -->
+
 - Api
 
+  - [Spell](spell.md)
   - [Unit](unit.md)
   - [Player](player.md)
-  - [Spell](spell.md)
   - [Power](power.md)
   - [Rune](rune.md)
+  - [Vars](vars.md)
 
 - Engines
 
@@ -20,7 +27,5 @@
 
 - Misc
 
-  - [Tables](tables.md)
-  - [Delay](delay.md)
-  - [Interrupt](interrupt.md)
   - [Debug](debug.md)
+  - [Delay](delay.md)

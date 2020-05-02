@@ -26,6 +26,13 @@ ni.power = {
 
 		return 100 * UnitPower(t, type) / UnitPowerMax(t, type)
 	end,
+	currentraw = function(t, type)
+		if tonumber(type) == nil then
+			type = ni.power.types[type]
+		end
+
+		return UnitPowerMax(t, type) - UnitPower(t, type)
+	end,
 	max = function(t, type)
 		if tonumber(type) == nil then
 			type = ni.power.types[type]

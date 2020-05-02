@@ -30,7 +30,7 @@ Arguments:
 - **caster** `guid|token` _optional_
 - **exact** `boolean` _default: false_
 
-Returns: `boolean`
+Returns: `UnitBuff`
 
 Checks if specified unit has certain buff.
 
@@ -173,7 +173,7 @@ Arguments:
 - **caster** `guid|token` _optional_
 - **exact** `boolean` _default: false_
 
-Returns: `boolean`
+Returns: `UnitDebuff`
 
 Checks if specified unit has certain debuff.
 
@@ -348,6 +348,22 @@ Calculates and returns current unit's health.
 ```lua
 if ni.unit.hpraw("target") > 20000 then
   -- Unit has more than 20k hp
+end
+```
+
+## id
+
+Arguments:
+
+- **unit** `guid|token`
+
+Returns: `number`
+
+Retrieves unitd id.
+
+```lua
+if ni.unit.id("target") == 36597 then
+  -- Unit is Lich King
 end
 ```
 
@@ -814,6 +830,23 @@ Calculates and returns current percent of the unit's power (e.g. mana, energy, f
 ```lua
 if ni.unit.power("target") > 90 then
   -- Unit has more than 90% power
+end
+```
+
+## powerraw
+
+Arguments:
+
+- **unit** `guid|token`
+- **type** `string` _optional_
+
+Returns: `number`
+
+Calculates and returns current of unit's power (e.g. mana, energy, focus, etc.).
+
+```lua
+if ni.unit.powerraw("target") > 10000 then
+  -- Unit has more than 10000 power
 end
 ```
 
