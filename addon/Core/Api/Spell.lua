@@ -222,7 +222,7 @@ ni.spell = {
 
 		if unitid then
 			if (ni.tables.whitelistedlosunits[unitid]) then
-				ni.debug.log(tostring(ni.player.isfacing(t)) .. " " .. tostring(ni.spell.los(t)))
+				ni.debug.log(tostring(ni.player.isfacing(t)) .. " " .. tostring(ni.player.los(t)))
 				return true
 			end
 		end

@@ -119,7 +119,7 @@ function ni.objects:create(objguid, objtype, objname)
 		ni.spell.cast(spell, o.guid)
 	end
 	function o:castat(spell)
-		if ni.spell.los(o.guid) then
+		if ni.player.los(o.guid) then
 			ni.spell.castat(spell, o.guid)
 		end
 	end
