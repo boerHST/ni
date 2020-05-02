@@ -1,8 +1,8 @@
 - Getting started
 
   - [Quick start](getting-started/quickstart.md)
-  - [Creating your first profile](getting-started/creating-your-first-profile.md)
   - [How to contribute](getting-started/how-to-contribute.md)
+  - [FAQ](getting-started/faq.md)
 
 - Profiles
 
