@@ -76,9 +76,7 @@ ni.spell = {
 		return d ~= 0
 	end,
 	available = function(id, stutter)
-		local stutter = true and stutter or true
-
-		if stutter then
+		if not stutter then
 			if ni.spell.gcd() or ni.vars.combat.casting == true then
 				return false
 			end
