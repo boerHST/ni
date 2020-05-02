@@ -16,7 +16,6 @@ local GetSpellCooldown,
 	random,
 	sin,
 	cos,
-	UnitHealth,
 	sqrt,
 	tremove,
 	tinsert,
@@ -40,7 +39,6 @@ local GetSpellCooldown,
 	random,
 	sin,
 	cos,
-	UnitHealth,
 	sqrt,
 	tremove,
 	tinsert,
@@ -203,7 +201,7 @@ ni.spell = {
 	end,
 	stopchanneling = function()
 		StrafeLeftStart()
-		ni.player.stopmoving()
+		StrafeLeftStop()
 	end,
 	valid = function(t, spellid, facing, los, friendly)
 		friendly = true and friendly or false
