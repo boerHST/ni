@@ -6,7 +6,7 @@ See the [Quick start](https://nhub.app) guide for more details.
 
 ## Features
 
-⚡️ Lua Unlocker<br>
+⚡️ Wrapper for Protected Lua Functions<br>
 ⚡️ Anti Warden<br>
 ⚡️ PQR Converter<br>
 ⚡️ Support for 3.3.5 and 4.3.4<br>
@@ -17,9 +17,12 @@ See the [Quick start](https://nhub.app) guide for more details.
 ⚡️ Time to Die Calculations<br>
 ⚡️ Framework for Top Tier PvE/PvP Profiles<br>
 
-## Contributors
+## Program Developer
 
 - **Scott**
+
+## Contributors
+
 - **brajevicm**
 
 ## Community 👋
