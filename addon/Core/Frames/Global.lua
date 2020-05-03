@@ -112,8 +112,10 @@ ni.frames.global_OnUpdate = function(self, elapsed)
 				local func = tremove(qRec, 1)
 				local args = tremove(qRec, 1)
 				local id, tar = unpack(args)
+				local casttime = ni.spell.casttime(id)
 				ni.frames.spellqueue.update(id, true)
-				if ni.spell.available(id, true) then
+
+				if ni.spell.available(id, true) and ((casttime > 0.1 and not ni.player.ismoving()) or casttime < 0.1) then
 					count = count - 1
 					func(id, tar)
 				else

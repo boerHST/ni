@@ -177,6 +177,10 @@ Checks if a specific equipped slot is on cooldown and returns the remaining time
 if ni.player.slotcd(10) then
   -- Gloves on-use is on cooldown
 end
+
+if ni.player.slotcd(10) == 0 then
+  -- Gloves on-use is off cooldown
+end
 ```
 
 ## stopmoving
