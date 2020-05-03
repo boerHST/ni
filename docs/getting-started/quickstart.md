@@ -118,10 +118,10 @@ ni.data.example = {
 }
 ```
 
-#### 7. To load data files to our profile we can use `ni.utils.loadfile` function.
+#### 7. To load data files to our profile we can use `ni.rotation.loadlua` function.
 
 ```lua
-if ni.utils.loadfile("Rotations\\Data\\Data_Example.lua") then
+if ni.rotation.loadlua("Data_Example.lua") then
 	local queue = {
 		"Print Hello"
 	}
