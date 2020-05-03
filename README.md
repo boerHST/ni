@@ -4,6 +4,8 @@
 
 See the [Quick start](https://nhub.app) guide for more details.
 
+[Download here](https://github.com/scizzydo/ni/releases)
+
 ## Features
 
 ⚡️ Wrapper for Protected Lua Functions<br>
