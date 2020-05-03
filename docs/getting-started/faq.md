@@ -6,8 +6,25 @@
 
 ## Anti-virus flags ni as a malware - what should I do?
 
+Major Anti-viruses will recognize ni as a malware. However that is because ni comes with injector. This is a false positive and it's safe to put ni on exclusion list.
+
 ## One of the existing profiles doesn't work - what should I do?
 
-## I have a found a bug - where can I report it?
+Best option would be to contact the profile creator directly. They will usually hang out on ni's [Discord Channel](https://discord.gg/mBdcX5).
 
-## I have a feature request - where can I submit it?
+## How to reload profiles while the game is running?
+
+You can reload the profiles by running one of these slashs commands:
+
+```lua
+/reload ui
+/reload
+/rl
+```
+
+## Which text editor to use?
+
+Our recommendation is to use [Visual Studio Code](https://code.visualstudio.com/) with these Lua extensions:
+
+- [Lua](https://marketplace.visualstudio.com/items?itemName=sumneko.lua)
+- [vscode-lua](https://marketplace.visualstudio.com/items?itemName=trixnz.vscode-lua)
