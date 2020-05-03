@@ -1,6 +1,6 @@
 # ni
 
-> Profile Framework and Lua Unlocker for World of Warcraft and its older expansions.
+> Profile Framework for World of Warcraft and its older expansions.
 
 See the [Quick start](https://nhub.app) guide for more details.
 
