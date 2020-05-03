@@ -1,4 +1,4 @@
-# ni
+![Logo of ni](/_media/logo.png ":size=256x256")
 
 > Profile Framework for World of Warcraft and its older expansions.
 
