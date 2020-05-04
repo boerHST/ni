@@ -10,7 +10,7 @@
 ni.vars.latency -- interval between executing the rotation
 ni.vars.interrupt -- could be `all` or `wl` or `bl`
 ni.vars.build -- build version of currently running client
-ni.vars.debug -- is debug enabled/disabled?
+ni.vars.debug -- true/false to print when using ni.debug.print
 ni.vars.customtarget -- token or guid of custom target
 ```
 
@@ -48,10 +48,10 @@ ni.vars.units.offTankEnabled
 ## combat
 
 ```lua
-ni.vars.combat.started -- is combat started?
+ni.vars.combat.started -- true/false for when player regen enabled/disabled (combat)
 ni.vars.combat.time -- time since combat started
-ni.vars.combat.melee -- is player melee?
-ni.vars.combat.cd -- is cooldown toggled?
-ni.vars.combat.aoe -- is aoe toggled?
-ni.vars.combat.casting --  is player casting?
+ni.vars.combat.melee -- true/false for deciding movement using follow feature
+ni.vars.combat.cd -- true/false for cooldown toggle enabled
+ni.vars.combat.aoe -- true/false for aoe toggle enabled
+ni.vars.combat.casting --  true/false for spell sent to server
 ```
