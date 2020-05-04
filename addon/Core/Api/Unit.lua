@@ -287,7 +287,7 @@ ni.unit = {
 		return false
 	end,
 	castingpercent = function(t)
-		local castName, _, _, _, castStartTime, castEndTime, _, _, castInterruptable = UnitCastingInfo(t)
+		local castName, _, _, _, castStartTime, castEndTime = UnitCastingInfo(t)
 		if castName then
 			local timeSinceStart = (GetTime() * 1000 - castStartTime) / 1000;
 			local castTime = castEndTime - castStartTime;
@@ -297,7 +297,7 @@ ni.unit = {
 		return 0;
 	end,
 	channelpercent = function(t)
-		local channelName, _, _, _, channelStartTime, channelEndTime, _, _, channelInterruptable = UnitChannelInfo(t)
+		local channelName, _, _, _, channelStartTime, channelEndTime = UnitChannelInfo(t)
 		if channelName then
 			local timeSinceStart = (GetTime() * 1000 - channelStartTime) / 1000;
 			local channelTime = channelEndTime - channelStartTime;
