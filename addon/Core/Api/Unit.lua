@@ -286,6 +286,26 @@ ni.unit = {
 
 		return false
 	end,
+	castingpercent = function(t)
+		local castName, _, _, _, castStartTime, castEndTime, _, _, castInterruptable = UnitCastingInfo(t)
+		if castName then
+			local timeSinceStart = (GetTime() * 1000 - castStartTime) / 1000;
+			local castTime = castEndTime - castStartTime;
+			local currentPercent = timeSinceStart / castTime * 100000;
+			return currentPercent;
+		end
+		return 0;
+	end,
+	channelpercent = function(t)
+		local channelName, _, _, _, channelStartTime, channelEndTime, _, _, channelInterruptable = UnitChannelInfo(t)
+		if channelName then
+			local timeSinceStart = (GetTime() * 1000 - channelStartTime) / 1000;
+			local channelTime = channelEndTime - channelStartTime;
+			local currentPercent = timeSinceStart / channelTime * 100000;
+			return currentPercent;
+		end
+		return 0;
+	end,
 	aura = function(t, s)
 		return (t ~= nil and s ~= nil) and ni.functions.aura(t, s) or false
 	end,
