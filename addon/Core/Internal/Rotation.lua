@@ -20,15 +20,7 @@ local togglemod, cdtogglemod, customtogglemod = 0, 0, 0
 ni.rotation = {
 	started = false,
 	profile = {},
-	start = function()
-		if (ni.vars.profiles.active ~= nil and ni.vars.profiles.active ~= "None") then
-			ni.rotation.profile[ni.vars.profiles.active].execute()
-		end
-	end,
-	stop = function()
-		ni.vars.profiles.enabled = false
-		ni.showstatus(ni.vars.profiles.active)
-	end,
+	lastprofile = "",
 	custommod = function()
 		local mod = ni.vars.hotkeys.custom
 		if mod == "Left Shift" then
@@ -173,6 +165,6 @@ ni.rotation = {
 		end
 	end,
 	loadlua = function(file)
-		return ni.functions.loadlua("Rotations\\Data\\"..file);
+		return ni.functions.loadlua("Rotations\\Data\\" .. file)
 	end
 }

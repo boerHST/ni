@@ -121,35 +121,33 @@ ni.data.example = {
 #### 7. To load data files to our profile we can use `ni.rotation.loadlua` function.
 
 ```lua
-if ni.rotation.loadlua("Data_Example.lua") then
-	local queue = {
-		"Print Hello"
-	}
+local data = {"Rotations\\Data\\Data_Example.lua"}
+local queue = {
+	"Print Hello"
+}
 
-	local queue2 = {
-		"Print Hello World"
-	}
+local queue2 = {
+	"Print Hello World"
+}
 
-	local abilities = {
-		["Print Hello"] = function()
-			ni.data.example.ishelloprinted = true
-			ni.debug.log("Hello")
-		end,
-		["Print Hello World"] = function()
-			ni.data.example.ishelloprinted = false
-			ni.debug.log("Hello World")
-		end
-	}
+local abilities = {
+	["Print Hello"] = function()
+		ni.data.example.ishelloprinted = true
+		ni.debug.log("Hello")
+	end,
+	["Print Hello World"] = function()
+		ni.data.example.ishelloprinted = false
+		ni.debug.log("Hello World")
+	end
+}
 
-	local dynamicqueue = function()
-		if ni.data.example.ishelloprinted then
-			return queue
-		end
-
-		return queue2
+local dynamicqueue = function()
+	if ni.data.example.ishelloprinted then
+		return queue
 	end
 
-	ni.bootstrap.rotation("Warlock_Example", dynamicqueue, abilities)
+	return queue2
 end
 
+ni.bootstrap.rotation("Warlock_Example", dynamicqueue, abilities, data)
 ```

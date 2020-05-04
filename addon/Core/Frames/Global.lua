@@ -39,6 +39,12 @@ ni.frames.global_OnUpdate = function(self, elapsed)
 	if ni.vars.profiles.enabled then
 		ni.rotation.aoetoggle()
 		ni.rotation.cdtoggle()
+
+		if ni.rotation.profile[ni.rotation.lastprofile] and ni.rotation.lastprofile ~= ni.vars.profiles.active then
+			ni.rotation.profile[ni.rotation.lastprofile].unload()
+		end
+	else
+		ni.rotation.profile[ni.vars.profiles.active].unload()
 	end
 
 	local throttle = ni.vars.latency / 1000
@@ -128,7 +134,11 @@ ni.frames.global_OnUpdate = function(self, elapsed)
 			end
 			if ni.vars.profiles.active ~= "none" and ni.vars.profiles.active ~= "None" then
 				if ni.rotation.profile[ni.vars.profiles.active] then
-					ni.rotation.start()
+					ni.rotation.profile[ni.vars.profiles.active].execute()
+
+					if ni.rotation.lastprofile ~= ni.vars.profiles.active then
+						ni.rotation.lastprofile = ni.vars.profiles.active
+					end
 				end
 			end
 		else
