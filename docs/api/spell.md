@@ -50,7 +50,7 @@ ni.spell.cast("Shadow Bolt", "target")
 Arguments:
 
 - **spell** `id|string`
-- **target** `token|guid`
+- **target** `token|guid|mouse`
 - **offset** `number`
 
 Returns: `void`
@@ -66,7 +66,7 @@ ni.spell.castat("Rain of Fire", "target")
 Arguments:
 
 - **spell** `id|string`
-- **target** `token|guid`
+- **target** `token|guid|mouse`
 
 Returns: `void`
 
