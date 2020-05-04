@@ -15,9 +15,9 @@ Returns: `table`, `boolean`
 Prints the message if `ni.vars.debug` is set to true.
 
 ```lua
-ni.debuf.print("Test") -- Won't print
+ni.debug.print("Test") -- Won't print
 ni.vars.debug = true
-ni.debuf.print("Test") -- Will print
+ni.debug.print("Test") -- Will print
 ```
 
 ## log
@@ -29,7 +29,7 @@ Arguments:
 
 Returns: `void`
 
-Prints the message in the console of ni's application. Eror is optional, true for error message and empty for false or normal.
+Prints the message in the console of ni's application. Erorr is optional, true for error message and empty or false or normal.
 
 ```lua
 ni.debug.log("Test")
@@ -47,5 +47,5 @@ Returns: `void`
 Creates a popup with specified title and body.
 
 ```lua
-ni.debuf.popup("This is the title", "This is the body.")
+ni.debug.popup("This is the title", "This is the body.")
 ```
