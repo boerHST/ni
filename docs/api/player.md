@@ -22,7 +22,8 @@ Returns: `void`
 Clicks at the specific location.
 
 ```lua
-ni.player.clickat("target")
+ni.player.clickat("target") --Clicks at the targets x/y/z
+ni.player.clickat("mouse") --Clicks at the mouses current location
 ```
 
 ## hasglyph
@@ -73,7 +74,7 @@ if ni.player.hasitemequipped(51378) then
 end
 ```
 
-## hasslot
+## slotcastable
 
 Arguments:
 
@@ -81,10 +82,10 @@ Arguments:
 
 Returns: `boolean`
 
-Checks if a player has equipped a specific slot.
+Checks if the players current slot is a castable spell or not.
 
 ```lua
-if ni.player.hasslotcd(10) then
+if ni.player.slotcastable(10) then
   -- Player has a Spell on his hands (slot 10)
 end
 ```
@@ -114,7 +115,7 @@ Returns: `number`
 Checks if a specific inventory item is on cooldown and returns the remaining time.
 
 ```lua
-if ni.player.itemcd(41119) then
+if ni.player.itemcd(41119) > 0 then
   -- Saronite Bomb is on cooldown
 end
 ```
@@ -132,7 +133,7 @@ Looks in the direction of the unit. Can be inversed by passing `true` as second 
 
 ```lua
 ni.player.lookat("target")
-ni.player.lookat("target", true)
+ni.player.lookat("target", true) --Looks away from the target
 ```
 
 ## moveto
@@ -160,7 +161,7 @@ Returns: `number`
 Checks if a specific inventory item is on cooldown and returns the remaining time.
 
 ```lua
-if ni.player.petcd("Devour Magic") then
+if ni.player.petcd("Devour Magic") > 0 then
   -- Devour Magic is on cooldown
 end
 ```
@@ -190,7 +191,7 @@ Returns: `number`
 Checks if a specific equipped slot is on cooldown and returns the remaining time.
 
 ```lua
-if ni.player.slotcd(10) then
+if ni.player.slotcd(10) > 0 then
   -- Gloves on-use is on cooldown
 end
 
