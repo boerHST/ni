@@ -1,11 +1,23 @@
 ni.utils = {
 	loadfile = function(filename)
-		return ni.functions.loadlua(filename)
+		return ni.functions.loadlua(filename);
 	end,
 	loadfiles = function(files)
-		for _, v in pairs(files) do
+		for _, v in ipairs(files) do
 			if not ni.utils.loadfile(v) then
-				ni.debug.log("Failed to load: " .. v, true)
+				ni.debug.log("Failed to load: " .. v, true);
+				return false;
+			end
+		end
+		return true;
+	end,
+	loaddatafile = function(filename)
+		return ni.functions.loadlua("Rotations\\Data\\" .. file);
+	end
+	loaddatafiles = function(files)
+		for _, v in ipairs(files) do
+			if not ni.utils.loaddatafile(v) then
+				ni.debug.log("Failed to load: "..v, true);
 				return false;
 			end
 		end
