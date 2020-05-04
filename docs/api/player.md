@@ -73,6 +73,22 @@ if ni.player.hasitemequipped(51378) then
 end
 ```
 
+## hasslot
+
+Arguments:
+
+- **slot** `id`
+
+Returns: `boolean`
+
+Checks if a player has equipped a specific slot.
+
+```lua
+if ni.player.hasslotcd(10) then
+  -- Player has a Spell on his hands (slot 10)
+end
+```
+
 ## interact
 
 Arguments:
@@ -169,9 +185,9 @@ Arguments:
 
 - **slot** `id`
 
-Returns: `boolean|number`
+Returns: `number`
 
-Checks if a specific equipped slot is on cooldown and returns the remaining time. If the player doesn't have that slot equipped it'll return `false`.
+Checks if a specific equipped slot is on cooldown and returns the remaining time.
 
 ```lua
 if ni.player.slotcd(10) then

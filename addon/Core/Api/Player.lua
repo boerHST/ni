@@ -73,9 +73,12 @@ ni.player = {
 		end
 		return false
 	end,
+	hasslot = function(slotnum)
+		return GetItemSpell(GetInventoryItemID("player", slotnum)) == nil
+	end,
 	slotcd = function(slotnum)
 		if GetItemSpell(GetInventoryItemID("player", slotnum)) == nil then
-			return false
+			return 0
 		end
 		local start, duration, enable = GetItemCooldown(GetInventoryItemID("player", slotnum))
 		if (start > 0 and duration > 0) then
