@@ -271,19 +271,15 @@ ni.unit = {
 		return returntable
 	end,
 	iscasting = function(t)
-		local name, _, _, _, _, _, _, id = UnitCastingInfo(t)
-		if name and id == t then
+		if UnitCastingInfo(t) then
 			return true
 		end
-
 		return false
 	end,
 	ischanneling = function(t)
-		local name, _, _, _, _, _, _, id = UnitChannelInfo(t)
-		if name and id == t then
+		if UnitChannelInfo(t) then
 			return true
 		end
-
 		return false
 	end,
 	castingpercent = function(t)
