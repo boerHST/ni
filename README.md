@@ -2,7 +2,7 @@
 
 > Profile Framework for World of Warcraft and its older expansions.
 
-See the [Quick start](https://nhub.app) guide for more details.
+See the [Quick start](https://nhub.app/#/getting-started/quickstart) guide for more details.
 
 [Download here](https://github.com/scizzydo/ni/releases)
 
