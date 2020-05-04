@@ -13,7 +13,7 @@ ni.utils = {
 	end,
 	loaddatafile = function(filename)
 		return ni.functions.loadlua("Rotations\\Data\\" .. filename);
-	end
+	end,
 	loaddatafiles = function(files)
 		for _, v in ipairs(files) do
 			if not ni.utils.loaddatafile(v) then
