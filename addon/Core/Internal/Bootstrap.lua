@@ -25,9 +25,9 @@ ni.bootstrap = {
 				end
 			end,
 			unload = function()
-				if ni.rotation[ni.vars.profiles.active].loaded then
+				if ni.rotation.profile[ni.vars.profiles.active].loaded then
 					table.wipe(ni.data)
-					ni.rotation[ni.vars.profiles.active].loaded = false
+					ni.rotation.profile[ni.vars.profiles.active].loaded = false
 				end
 			end
 		}
