@@ -23,13 +23,13 @@ ni.bootstrap = {
 						break
 					end
 				end
+			end,
+			unload = function()
+				if ni.rotation[ni.vars.profiles.active].loaded then
+					table.wipe(ni.data)
+					ni.rotation[ni.vars.profiles.active].loaded = false
+				end
 			end
 		}
-	end,
-	unload = function()
-		if ni.rotation[ni.vars.profiles.active].loaded then
-			table.wipe(ni.data)
-			ni.rotation[ni.vars.profiles.active].loaded = false
-		end
 	end
 }
