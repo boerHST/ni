@@ -8,9 +8,9 @@ ni.bootstrap = {
 		return {
 			loaded = false,
 			execute = function()
-				if not ni.rotation[ni.vars.profiles.active].loaded then
+				if not ni.rotation.profile[ni.vars.profiles.active].loaded then
 					ni.utils.loadfiles(data)
-					ni.rotation[ni.vars.profiles.active].loaded = true
+					ni.rotation.profile[ni.vars.profiles.active].loaded = true
 				end
 
 				if type(queue) == "function" then
