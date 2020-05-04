@@ -1,11 +1,13 @@
 local UnitName, GetTime, CreateFrame = UnitName, GetTime, CreateFrame
 
-local maul, cleave, heroicstrike = GetSpellInfo(6807), GetSpellInfo(845), GetSpellInfo(78);
+local maul, cleave, heroicstrike, runestrike, raptorstrike = GetSpellInfo(6807), GetSpellInfo(845), GetSpellInfo(78), GetSpellInfo(56815), GetSpellInfo(2973);
 
 local function isspelltoignore(spellname)
 	if spellname == maul
 	 or spellname == cleave
-	 or spellname == heroicstrike then
+	 or spellname == heroicstrike
+	 or spellname == raptorstrike
+	 or spellname == runestrike then
 		return true;
 	end
 	return false;
