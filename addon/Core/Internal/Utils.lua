@@ -12,7 +12,7 @@ ni.utils = {
 		return true;
 	end,
 	loaddatafile = function(filename)
-		return ni.functions.loadlua("Rotations\\Data\\" .. file);
+		return ni.functions.loadlua("Rotations\\Data\\" .. filename);
 	end
 	loaddatafiles = function(files)
 		for _, v in ipairs(files) do
