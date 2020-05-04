@@ -169,9 +169,9 @@ Arguments:
 
 - **slot** `id`
 
-Returns: `number`
+Returns: `boolean|number`
 
-Checks if a specific equipped slot is on cooldown and returns the remaining time.
+Checks if a specific equipped slot is on cooldown and returns the remaining time. If the player doesn't have that slot equipped it'll return `false`.
 
 ```lua
 if ni.player.slotcd(10) then

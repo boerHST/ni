@@ -75,7 +75,7 @@ ni.player = {
 	end,
 	slotcd = function(slotnum)
 		if GetItemSpell(GetInventoryItemID("player", slotnum)) == nil then
-			return 0
+			return false
 		end
 		local start, duration, enable = GetItemCooldown(GetInventoryItemID("player", slotnum))
 		if (start > 0 and duration > 0) then
