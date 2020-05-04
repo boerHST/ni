@@ -43,7 +43,7 @@ ni.frames.global_OnUpdate = function(self, elapsed)
 		if ni.rotation.profile[ni.rotation.lastprofile] and ni.rotation.lastprofile ~= ni.vars.profiles.active then
 			ni.rotation.profile[ni.rotation.lastprofile].unload()
 		end
-	else
+	elseif ni.rotation.profile[ni.vars.profiles.active] then
 		ni.rotation.profile[ni.vars.profiles.active].unload()
 	end
 
