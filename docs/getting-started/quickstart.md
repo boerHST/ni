@@ -118,10 +118,13 @@ ni.data.example = {
 }
 ```
 
-#### 7. To load data files to our profile we can use `ni.rotation.loadlua` function.
+#### 7. Loading Data files can be done by creating a table which contains strings of file names and passing that table as 4th argument to `ni.bootstrap.rotation`.
 
 ```lua
-local data = {"Rotations\\Data\\Data_Example.lua"}
+local data = {
+	"Data_Example.lua"
+}
+
 local queue = {
 	"Print Hello"
 }

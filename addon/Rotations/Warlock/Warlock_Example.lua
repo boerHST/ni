@@ -1,4 +1,7 @@
-local data = {"Rotations\\Data\\Data_Example.lua"}
+local data = {
+	"Data_Example.lua"
+}
+
 local queue = {
 	"Print Hello"
 }
