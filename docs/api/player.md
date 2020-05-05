@@ -74,22 +74,6 @@ if ni.player.hasitemequipped(51378) then
 end
 ```
 
-## slotcastable
-
-Arguments:
-
-- **slot** `id`
-
-Returns: `boolean`
-
-Checks if the players current slot is a castable spell or not.
-
-```lua
-if ni.player.slotcastable(10) then
-  -- Player has a Spell on his hands (slot 10)
-end
-```
-
 ## interact
 
 Arguments:
@@ -178,6 +162,22 @@ Runs the passed text as a macro.
 
 ```lua
 ni.player.runtext("/s Hello") -- writes "Hello" to Say channel.
+```
+
+## slotcastable
+
+Arguments:
+
+- **slot** `id`
+
+Returns: `boolean`
+
+Checks if the players current slot is a castable spell or not.
+
+```lua
+if ni.player.slotcastable(10) then
+  -- Player has a Spell on his hands (slot 10)
+end
 ```
 
 ## slotcd
