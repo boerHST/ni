@@ -128,10 +128,15 @@ ni.unit = {
 	id = function(t)
 		if ni.unit.exists(t) then
 			if not ni.unit.isplayer(t) then
+				local bit = -7
+				if ni.vars.build >= 40300 then
+					bit = -9
+				end
+
 				if tonumber(t) then
-					return tonumber((t):sub(-12, -7), 16)
+					return tonumber((t):sub(-12, bit), 16)
 				else
-					return tonumber((UnitGUID(t)):sub(-12, -7), 16)
+					return tonumber((UnitGUID(t)):sub(-12, bit), 16)
 				end
 			end
 		end
@@ -139,7 +144,7 @@ ni.unit = {
 	shortguid = function(t)
 		if UnitExists(t) then
 			local guid = UnitGUID(t)
-			return string.sub(guid, -5, -1)
+			return string.sub(tostring(guid), -5, -1)
 		end
 	end,
 	isdummy = function(t)
