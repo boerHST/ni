@@ -34,6 +34,14 @@
 
 #### Frost
 
+## Monk
+
+#### Brewmaster
+
+#### Mistweaver
+
+#### Windwalker
+
 ## Paladin
 
 #### Holy
