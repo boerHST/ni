@@ -285,25 +285,56 @@ ni.unit = {
 	castingpercent = function(t)
 		local castName, _, _, _, castStartTime, castEndTime = UnitCastingInfo(t)
 		if castName then
-			local timeSinceStart = (GetTime() * 1000 - castStartTime) / 1000;
-			local castTime = castEndTime - castStartTime;
-			local currentPercent = timeSinceStart / castTime * 100000;
-			return currentPercent;
+			local timeSinceStart = (GetTime() * 1000 - castStartTime) / 1000
+			local castTime = castEndTime - castStartTime
+			local currentPercent = timeSinceStart / castTime * 100000
+			return currentPercent
 		end
-		return 0;
+		return 0
 	end,
 	channelpercent = function(t)
 		local channelName, _, _, _, channelStartTime, channelEndTime = UnitChannelInfo(t)
 		if channelName then
-			local timeSinceStart = (GetTime() * 1000 - channelStartTime) / 1000;
-			local channelTime = channelEndTime - channelStartTime;
-			local currentPercent = timeSinceStart / channelTime * 100000;
-			return currentPercent;
+			local timeSinceStart = (GetTime() * 1000 - channelStartTime) / 1000
+			local channelTime = channelEndTime - channelStartTime
+			local currentPercent = timeSinceStart / channelTime * 100000
+			return currentPercent
 		end
-		return 0;
+		return 0
 	end,
 	aura = function(t, s)
 		return (t ~= nil and s ~= nil) and ni.functions.aura(t, s) or false
+	end,
+	bufftype = function(t, str)
+		if not ni.unit.exists(t) then
+			return false
+		end
+
+		local st = ni.utils.splitstringtolower(str)
+		local has = false
+		local i = 1
+		local buff = UnitBuff(t, i)
+
+		while buff do
+			local bufftype = select(5, UnitBuff(t, i))
+
+			if bufftype ~= nil then
+				if bufftype == "" then
+					bufftype = "Enrage"
+				end
+
+				local dTlwr = string.lower(bufftype)
+				if tContains(st, dTlwr) then
+					has = true
+					break
+				end
+			end
+
+			i = i + 1
+			buff = UnitBuff(t, i)
+		end
+
+		return has
 	end,
 	buff = function(t, id, caster, exact)
 		exact = exact and true or false

@@ -77,6 +77,28 @@ if ni.unit.buffs("target", "63321&&Fel Armor", "player") then
 end
 ```
 
+## bufftype
+
+Arguments:
+
+- **target** `guid|token`
+- **types** `string|string`
+
+Returns: `boolean`
+
+Checks if specified unit has certain buff types. Multiple types can be passed by using the pipe character (`|`).
+
+| Type   |
+| ------ |
+| Magic  |
+| Enrage |
+
+```lua
+if ni.unit.bufftype("target", "Enrage|Magic") then
+        -- Target has either a Enrage or Magic debuff present
+end
+```
+
 ## combatreach
 
 Arguments:
