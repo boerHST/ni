@@ -17,12 +17,14 @@ ni.bootstrap = {
 						ni.rotation.profile[ni.vars.profiles.active].loaded = true
 					end
 				end
-
+				local temp_queue;
 				if type(queue) == "function" then
-					queue = queue()
+					temp_queue = queue()
+				else
+					temp_queue = queue;
 				end
-				for i = 1, #queue do
-					local abilityinqueue = queue[i]
+				for i = 1, #temp_queue do
+					local abilityinqueue = temp_queue[i]
 					if abilities[abilityinqueue]() then
 						break
 					end
