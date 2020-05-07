@@ -11,7 +11,7 @@ See the [Quick start](/getting-started/quickstart.md) guide for more details.
 ⚡️ Wrapper for Protected Lua Functions<br>
 ⚡️ Anti Warden<br>
 ⚡️ PQR Converter<br>
-⚡️ Support for 3.3.5 and 4.3.4<br>
+⚡️ Support for 3.3.5, 4.3.4 and 5.4.8<br>
 ⚡️ Party/Raid Support<br>
 ⚡️ Object Manager<br>
 ⚡️ Ground Spells Support<br>

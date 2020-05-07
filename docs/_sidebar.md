@@ -8,7 +8,7 @@
 
   - [Wrath of the Lich King](profiles/wotlk.md)
   - [Cataclysm](profiles/cataclysm.md)
-  <!-- - [Mists of Pandaria](mop.md) -->
+  - [Mists of Pandaria](mop.md)
 
 - Api
 
