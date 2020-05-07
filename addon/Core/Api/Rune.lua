@@ -2,17 +2,15 @@ local GetRuneCooldown, GetRuneType, GetTime = GetRuneCooldown, GetRuneType, GetT
 
 ni.rune = {
 	available = function()
-		local s, d, i = GetRuneCooldown()
-
-		if i == true then
-			return 0
+		local runesavailable = 0
+		for i = 1, 6 do
+			local _, _, ready = GetRuneCooldown(i)
+			if ready == true then
+				runesavailable = runesavailable + 1
+			end
 		end
 
-		if s ~= 0 then
-			return s + d - GetTime()
-		else
-			return 0
-		end
+		return runesavailable
 	end,
 	cd = function(rune)
 		local runesoncd = 0
