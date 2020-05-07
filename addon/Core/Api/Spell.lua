@@ -107,23 +107,11 @@ ni.spell = {
 		return select(7, GetSpellInfo(spell)) / 1000 + select(3, GetNetStats()) / 1000
 	end,
 	cast = function(...)
-		local i, t = ...
+		local i = ...;
 		if i == nil then
 			return
 		end
-
-		if tonumber(i) == nil then
-			i = ni.spell.id(i)
-			if i == 0 then
-				return
-			end
-		end
-
-		if t ~= nil then
-			ni.functions.cast(i, t)
-		else
-			ni.functions.cast(i)
-		end
+		ni.functions.cast(...)
 	end,
 	castspells = function(spells, t)
 		local items = ni.utils.splitstring(spells)

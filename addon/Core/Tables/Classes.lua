@@ -7,6 +7,9 @@ ni.tables.classes = {
 	mage = {
 		dispel = {"Curse"}
 	},
+	monk = {
+		dispel = {"Poison", "Disease"}
+	},
 	paladin = {
 		dispel = {"Poison", "Disease", "Magic"}
 	},

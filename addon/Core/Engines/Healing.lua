@@ -5,6 +5,8 @@ local UnitDebuff, UnitClass, tContains, tinsert, UnitHealthMax =
 	tinsert,
 	UnitHealthMax
 
+local class = string.lower(select(2, UnitClass("player")));
+
 ni.healing = {
 	dontdispel = function(t)
 		for k, v in pairs(ni.tables.blacklisteddispels) do
@@ -22,9 +24,6 @@ ni.healing = {
 		if ni.healing.dontdispel(t) then
 			return false
 		end
-
-		local _, class = UnitClass("player")
-		class = string.lower(class)
 
 		while debuff do
 			local debufftype = select(5, UnitDebuff(t, i))

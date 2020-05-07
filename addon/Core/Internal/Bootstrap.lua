@@ -21,7 +21,6 @@ ni.bootstrap = {
 				if type(queue) == "function" then
 					queue = queue()
 				end
-
 				for i = 1, #queue do
 					local abilityinqueue = queue[i]
 					if abilities[abilityinqueue]() then
