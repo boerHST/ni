@@ -645,22 +645,6 @@ if ni.unit.isplayer("target") then
 end
 ```
 
-## isplayer
-
-Arguments:
-
-- **unit** `guid|token`
-
-Returns: `boolean`
-
-Checks if passed unit is a player type.
-
-```lua
-if ni.unit.isplayer("target") then
-  -- Target is a player type
-end
-```
-
 ## isplayercontrolled
 
 Arguments:
