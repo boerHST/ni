@@ -357,6 +357,22 @@ if ni.unit.hp("target") > 90 then
 end
 ```
 
+## hppredicted
+
+Arguments:
+
+- **unit** `guid|token`
+
+Returns: `number`
+
+Calculates and returns predicted unit's health. It calculates current health with incoming heal and calculates the percent.
+
+```lua
+if ni.unit.hppredicted("target") < 30 > then
+  -- Unit will have less than 30% after getting healed
+end
+```
+
 ## hpraw
 
 Arguments:
