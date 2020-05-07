@@ -333,6 +333,28 @@ ni.unit = {
 			return UnitBuff(t, spellName)
 		end
 	end,
+	hasbufftype = function(t, str)
+		if not ni.unit.exists(t) then
+			return false;
+		end
+		local st = ni.utils.splitstringtolower(str);
+		local has = false
+		local i = 1
+		local buff = UnitBuff(t, i)
+		while buff do
+			local buffType = select(5, UnitBuff(t, i))
+			if buffType ~= nil then
+				local bTlwr = string.lower(buffType);
+				if tContains(st, bTlwr) then
+					has = true
+					break;
+				end
+			end
+			i = i + 1
+			buff = UnitBuff(t, i)
+		end	
+		return has	
+	end,
 	buffs = function(t, ids, caster, exact)
 		local ands = ni.utils.findand(ids)
 		local results = false
