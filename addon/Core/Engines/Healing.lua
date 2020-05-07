@@ -8,10 +8,14 @@ local UnitDebuff, UnitClass, tContains, tinsert, UnitHealthMax =
 local class = string.lower(select(2, UnitClass("player")));
 
 ni.healing = {
+	debufftoblacklist = function(id)
+		if not tContains(ni.tables.blacklisteddispels, id) then
+			tinsert(ni.tables.blacklisteddispels, id);
+		end
+	end,
 	dontdispel = function(t)
 		for k, v in pairs(ni.tables.blacklisteddispels) do
-			local debuff = ni.tables.blacklisteddispels[k]
-			if ni.unit.debuff(t, debuff) then
+			if ni.unit.debuff(t, v) then
 				return true
 			end
 		end
