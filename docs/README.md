@@ -29,4 +29,4 @@ See the [Quick start](/getting-started/quickstart.md) guide for more details.
 
 ## Community 👋
 
-Users and the development team are usually in the [Discord Channel](https://discord.gg/mBdcX5).
+Users and the development team are usually in the [Discord Channel](https://discord.gg/BbSE5qw).

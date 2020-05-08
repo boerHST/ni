@@ -29,4 +29,4 @@ See the [Quick start](https://nhub.app/#/getting-started/quickstart) guide for m
 
 ## Community 👋
 
-Users and the development team are usually in the [Discord Channel](https://discord.gg/mBdcX5).
+Users and the development team are usually in the [Discord Channel](https://discord.gg/BbSE5qw).
