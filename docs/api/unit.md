@@ -9,14 +9,14 @@
 Arguments:
 
 - **unit** `guid|token`
-- **aura** `name|id`
+- **aura** `id`
 
 Returns: `boolean`
 
 Checks if specified unit has aura.
 
 ```lua
-if ni.unit.aura("player", "Crusader Aura") then
+if ni.unit.aura("player", 32223) then
   -- Player has Crusader Aura
 end
 ```
@@ -364,6 +364,8 @@ Arguments:
 - **unit** `guid|token`
 
 Returns: `number`
+
+Supported: `4.3.4` and `5.4.8`
 
 Calculates and returns predicted unit's health. It calculates current health with incoming heal and calculates the percent.
 
