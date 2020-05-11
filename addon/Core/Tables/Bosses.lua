@@ -851,5 +851,137 @@ ni.tables.bosses = {
 	[18399] = true, -- Murkblood Twin
 	[18400] = true, -- Rokdar the Sundered Lord
 	[18401] = true, -- Skra'gath
-	[18402] = true -- Warmaul Champion
+	[18402] = true, -- Warmaul Champion
+	-- Cataclysm Dungeons --
+	-- Abyssal Maw: Throne of the Tides
+	[40586] = true, -- Lady Naz'jar
+	[40765] = true, -- Commander Ulthok
+	[40825] = true, -- Erunak Stonespeaker
+	[40788] = true, -- Mindbender Ghur'sha
+	[42172] = true, -- Ozumat
+	-- Blackrock Caverns
+	[39665] = true, -- Rom'ogg Bonecrusher
+	[39679] = true, -- Corla, Herald of Twilight
+	[39698] = true, -- Karsh Steelbender
+	[39700] = true, -- Beauty
+	[39705] = true, -- Ascendant Lord Obsidius
+	-- The Stonecore
+	[43438] = true, -- Corborus
+	[43214] = true, -- Slabhide
+	[42188] = true, -- Ozruk
+	[42333] = true, -- High Priestess Azil
+	-- The Vortex Pinnacle
+	[43878] = true, -- Grand Vizier Ertan
+	[43873] = true, -- Altairus
+	[43875] = true, -- Asaad
+	-- Grim Batol
+	[39625] = true, -- General Umbriss
+	[40177] = true, -- Forgemaster Throngus
+	[40319] = true, -- Drahga Shadowburner
+	[40484] = true, -- Erudax
+	-- Halls of Origination
+	[39425] = true, -- Temple Guardian Anhuur
+	[39428] = true, -- Earthrager Ptah
+	[39788] = true, -- Anraphet
+	[39587] = true, -- Isiset
+	[39731] = true, -- Ammunae
+	[39732] = true, -- Setesh
+	[39378] = true, -- Rajh
+	-- Lost City of the Tol'vir
+	[44577] = true, -- General Husam
+	[43612] = true, -- High Prophet Barim
+	[43614] = true, -- Lockmaw
+	[49045] = true, -- Augh
+	[44819] = true, -- Siamat
+	-- Zul'Aman
+	[23574] = true, -- Akil'zon
+	[23576] = true, -- Nalorakk
+	[23578] = true, -- Jan'alai
+	[23577] = true, -- Halazzi
+	[24239] = true, -- Hex Lord Malacrass
+	[23863] = true, -- Daakara
+	-- Zul'Gurub
+	[52155] = true, -- High Priest Venoxis
+	[52151] = true, -- Bloodlord Mandokir
+	[52271] = true, -- Edge of Madness
+	[52059] = true, -- High Priestess Kilnara
+	[52053] = true, -- Zanzil
+	[52148] = true, -- Jin'do the Godbreaker
+	-- End Time
+	[54431] = true, -- Echo of Baine
+	[54445] = true, -- Echo of Jaina
+	[54123] = true, -- Echo of Sylvanas
+	[54544] = true, -- Echo of Tyrande
+	[54432] = true, -- Murozond
+	-- Hour of Twilight
+	[54590] = true, -- Arcurion
+	[54968] = true, -- Asira Dawnslayer
+	[54938] = true, -- Archbishop Benedictus
+	-- Well of Eternity
+	[55085] = true, -- Peroth'arn
+	[54853] = true, -- Queen Azshara
+	[54969] = true, -- Mannoroth
+	[55419] = true, -- Captain Varo'then
+	-- Mists of Pandaria Dungeons --
+	-- Scarlet Halls
+	[59303] = true, -- Houndmaster Braun
+	[58632] = true, -- Armsmaster Harlan
+	[59150] = true, -- Flameweaver Koegler
+	-- Scarlet Monastery
+	[59789] = true, -- Thalnos the Soulrender
+	[59223] = true, -- Brother Korloff
+	[3977] = true, -- High Inquisitor Whitemane
+	[60040] = true, -- Commander Durand
+	-- Scholomance
+	[58633] = true, -- Instructor Chillheart
+	[59184] = true, -- Jandice Barov
+	[59153] = true, -- Rattlegore
+	[58722] = true, -- Lilian Voss
+	[58791] = true, -- Lilian's Soul
+	[59080] = true, -- Darkmaster Gandling
+	-- Stormstout Brewery
+	[56637] = true, -- Ook-Ook
+	[56717] = true, -- Hoptallus
+	[59479] = true, -- Yan-Zhu the Uncasked
+	-- Tempe of the Jade Serpent
+	[56448] = true, -- Wise Mari
+	[56843] = true, -- Lorewalker Stonestep
+	[59051] = true, -- Strife
+	[59726] = true, -- Peril
+	[58826] = true, -- Zao Sunseeker
+	[56732] = true, -- Liu Flameheart
+	[56762] = true, -- Yu'lon
+	[56439] = true, -- Sha of Doubt
+	-- Mogu'shan Palace
+	[61444] = true, -- Ming the Cunning
+	[61442] = true, -- Kuai the Brute
+	[61445] = true, -- Haiyan the Unstoppable
+	[61243] = true, -- Gekkan
+	[61398] = true, -- Xin the Weaponmaster
+	-- Shado-Pan Monastery
+	[56747] = true, -- Gu Cloudstrike
+	[56541] = true, -- Master Snowdrift
+	[56719] = true, -- Sha of Violence
+	[56884] = true, -- Taran Zhu
+	-- Gate of the Setting Sun
+	[56906] = true, -- Saboteur Kip'tilak
+	[56589] = true, -- Striker Ga'dok
+	[56636] = true, -- Commander Ri'mok
+	[56877] = true, -- Raigonn
+	-- Siege of Niuzao Temple
+	[61567] = true, -- Vizier Jin'bak
+	[61634] = true, -- Commander Vo'jak
+	[61485] = true, -- General Pa'valak
+	[62205] = true, -- Wing Leader Ner'onok
+	-- Training Dummies --
+	[46647] = true, -- Level 85 Training Dummy
+	[67127] = true, -- Level 90 Training Dummy
+	[31146] = true,
+	-- Pandaria Raid Adds --
+	[63346] = true, -- Tsulong: The Dark of Night
+	[62969] = true, -- Tsulong: Embodied Terror
+	[62977] = true, -- Tsulong: Frightspawn
+	[62919] = true, -- Tsulong: Unstable Sha
+	[61034] = true, -- Sha of Fear: Terror Spawn
+	[61003] = true -- Sha of Fear: Dread Spawn
 }
