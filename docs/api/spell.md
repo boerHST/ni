@@ -164,6 +164,22 @@ Converts spell's name into spell id. If spell doesn't exist returns nil.
 local spellid = ni.spell.id("Life Tap") -- 57946
 ```
 
+## isinstant
+
+Arguments:
+
+- **spell** `string|id`
+
+Returns: `boolean`
+
+Checks if passed spell is instant cast.
+
+```lua
+if ni.spell.isinstant(57946) then
+  -- Life Tap is instant spell
+end
+```
+
 ## stopcasting
 
 Arguments:

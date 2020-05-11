@@ -106,6 +106,13 @@ ni.player = {
 			return true
 		end
 		return false
+	end,
+	ismelee = function(t)
+		t = true and t or "target"
+		if ni.unit.exists(t) then
+			return IsSpellInRange(GetSpellInfo(6603), t) == 1
+		end
+		return false
 	end
 }
 

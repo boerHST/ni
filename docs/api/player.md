@@ -88,6 +88,22 @@ Interacts with the specified unit (e.g. opens a dialog with NPC, loot a containe
 ni.player.interact("target")
 ```
 
+## ismelee
+
+Arguments:
+
+- **unit** `token|guid` _default: "target"_
+
+Returns: `boolean`
+
+Checks if player is in melee range of passed unit. If no unit is passed it'll check against target.
+
+```lua
+if ni.player.ismelee() then
+  -- Player is in melee range
+end
+```
+
 ## itemcd
 
 Arguments:

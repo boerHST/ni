@@ -7,7 +7,6 @@ local GetSpellCooldown,
 	UnitCanAttack,
 	IsSpellInRange,
 	IsSpellKnown,
-	UnitPower,
 	UnitClass,
 	GetShapeshiftForm,
 	UnitCastingInfo,
@@ -30,7 +29,6 @@ local GetSpellCooldown,
 	UnitCanAttack,
 	IsSpellInRange,
 	IsSpellKnown,
-	UnitPower,
 	UnitClass,
 	GetShapeshiftForm,
 	UnitCastingInfo,
@@ -107,7 +105,7 @@ ni.spell = {
 		return select(7, GetSpellInfo(spell)) / 1000 + select(3, GetNetStats()) / 1000
 	end,
 	cast = function(...)
-		local i = ...;
+		local i = ...
 		if i == nil then
 			return
 		end
@@ -314,5 +312,8 @@ ni.spell = {
 			return true
 		end
 		return false
+	end,
+	isinstant = function(spell)
+		return ni.spell.casttime(spell) < 0.1
 	end
 }
