@@ -99,6 +99,11 @@ ni.unit = {
 	isboss = function(t)
 		local bossId = ni.unit.id(t)
 
+		-- useful for non ?? level training dummies
+		if ni.tables.dummies[bossId] then
+			return true
+		end
+
 		if ni.tables.bosses[bossId] then
 			return true
 		end
