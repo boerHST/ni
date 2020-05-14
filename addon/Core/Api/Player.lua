@@ -34,15 +34,23 @@ ni.player = {
 		ni.functions.settarget(target)
 	end,
 	runtext = function(text)
+		ni.debug.print(string.format("Running: %s", text));
 		ni.functions.runtext(text)
 	end,
 	useitem = function(...) --itemid/name[, target]
+		if #{ ... } > 1 then
+			ni.debug.print(string.format("Using item %s on %s", ...));
+		else
+			ni.debug.print(string.format("Using item %s", ...));
+		end
 		ni.functions.item(...)
 	end,
 	useinventoryitem = function(slotid)
+		ni.debug.print(string.format("Using Inventory Slot %s", slotid));
 		ni.functions.inventoryitem(slotid)
 	end,
 	interact = function(target)
+		ni.debug.print(string.format("Interacting with %s", target));
 		ni.functions.interact(target)
 	end,
 	hasglyph = function(glyphid)

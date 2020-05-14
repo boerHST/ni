@@ -109,6 +109,11 @@ ni.spell = {
 		if i == nil then
 			return
 		end
+		if #{ ... } > 1 then
+			ni.debug.print(string.format("Casting %s on %s", ...));
+		else
+			ni.debug.print(string.format("Casting %s", ...));
+		end
 		ni.functions.cast(...)
 	end,
 	castspells = function(spells, t)
@@ -314,6 +319,6 @@ ni.spell = {
 		return false
 	end,
 	isinstant = function(spell)
-		return ni.spell.casttime(spell) < 0.1
+		return select(7, GetSpellInfo(spell)) == 0;
 	end
 }
