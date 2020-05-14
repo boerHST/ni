@@ -314,6 +314,6 @@ ni.spell = {
 		return false
 	end,
 	isinstant = function(spell)
-		return ni.spell.casttime(spell) < 0.1
+		return select(7, GetSpellInfo(spell)) == 0;
 	end
 }
