@@ -21,4 +21,4 @@
   - [Object Manager](api/object-manager.md)
   - [Members](api/members.md)
   - [Debug](api/debug.md)
-  - [Delay](api/delay.md)
+  - [Generic](api/generic.md)
