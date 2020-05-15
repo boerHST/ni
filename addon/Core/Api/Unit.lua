@@ -185,7 +185,7 @@ ni.unit = {
 		return UnitHealthMax(t) - UnitHealth(t)
 	end,
 	hppredicted = function(t)
-		if ni.vars.build >= 30300 then
+		if ni.vars.build >= 40300 then
 			return (100 * (UnitHealth(t) + UnitGetIncomingHeals(t)) / UnitHealthMax(t))
 		end
 
