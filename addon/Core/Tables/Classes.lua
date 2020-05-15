@@ -8,7 +8,7 @@ ni.tables.classes = {
 		dispel = {"Curse"}
 	},
 	monk = {
-		dispel = {"Poison", "Disease"}
+		dispel = {"Magic", "Poison", "Disease"}
 	},
 	paladin = {
 		dispel = {"Poison", "Disease", "Magic"}

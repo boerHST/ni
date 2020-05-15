@@ -49,5 +49,6 @@ ni.functions = {
 	cast = %%Cast%%,
 	getspellid = %%GetSpellID%%,
 	stopcasting = %%StopCasting%%,
-	getobjects = %%GetOM%%
+	getobjects = %%GetOM%%,
+	keypressed = %%KeyPressed%%
 }
