@@ -421,6 +421,23 @@ Retrieves detailed information about the unit.
 local x, y, z, facing, unittype, target, guid, height = ni.unit.info("target")
 ```
 
+## inmelee
+
+Arguments:
+
+- **unit1** `token|guid`
+- **unit2** `token|guid`
+
+Returns: `boolean`
+
+Checks if `unit1` is in melee range of `unit2`.
+
+```lua
+if ni.unit.inmelee("player", "target") then
+  -- Target is in melee range of player
+end
+```
+
 ## isbehind
 
 Arguments:
@@ -838,6 +855,21 @@ Checks if units have line of sight on each other.
 if ni.unit.los("player", "target") then
   -- Do something
 end
+```
+
+## meleerange
+
+Arguments:
+
+- **unit1** `token|guid`
+- **unit2** `token|guid`
+
+Returns: `boolean`
+
+Calculates melee range of `unit1` to `unit2`. If you want to check if unit is in melee range use [`inmelee`](api/unit.md#inmelee)
+
+```lua
+ni.unit.meleerange("player", "target")
 ```
 
 ## power

@@ -5,12 +5,12 @@ local UnitDebuff, UnitClass, tContains, tinsert, UnitHealthMax =
 	tinsert,
 	UnitHealthMax
 
-local class = string.lower(select(2, UnitClass("player")));
+local class = string.lower(select(2, UnitClass("player")))
 
 ni.healing = {
 	debufftoblacklist = function(id)
 		if not tContains(ni.tables.blacklisteddispels, id) then
-			tinsert(ni.tables.blacklisteddispels, id);
+			tinsert(ni.tables.blacklisteddispels, id)
 		end
 	end,
 	dontdispel = function(t)
@@ -47,10 +47,12 @@ ni.healing = {
 			for i = n, 0, -1 do
 				if #ni.members >= i then
 					n = i
-					average = average + ni.members[i].hp
 					break
 				end
 			end
+		end
+		for i = 1, n do
+			average = average + ni.members[i].hp
 		end
 		average = average / n
 		return average
