@@ -41,10 +41,14 @@ ni.frames.global_OnUpdate = function(self, elapsed)
 		ni.rotation.cdtoggle()
 
 		if ni.rotation.profile[ni.rotation.lastprofile] and ni.rotation.lastprofile ~= ni.vars.profiles.active then
-			ni.rotation.profile[ni.rotation.lastprofile].unload()
+			if ni.rotation.profile[ni.rotation.lastprofile].unload then
+				ni.rotation.profile[ni.rotation.lastprofile].unload()
+			end
 		end
 	elseif ni.rotation.profile[ni.vars.profiles.active] then
-		ni.rotation.profile[ni.vars.profiles.active].unload()
+		if ni.rotation.profile[ni.rotation.lastprofile].unload then
+			ni.rotation.profile[ni.vars.profiles.active].unload()
+		end
 	end
 
 	local throttle = ni.vars.latency / 1000
@@ -120,9 +124,10 @@ ni.frames.global_OnUpdate = function(self, elapsed)
 				local id, tar = unpack(args)
 				ni.frames.spellqueue.update(id, true)
 
-				if
-					ni.spell.available(id, true) and ((not ni.spell.isinstant(id) and not ni.player.ismoving()) or ni.spell.isinstant(id))
-				 then
+				if ni.spell.available(id, true)
+				 and ((not ni.spell.isinstant(id)
+				 and not ni.player.ismoving()) 
+				 or ni.spell.isinstant(id)) then
 					count = count - 1
 					func(id, tar)
 				else
