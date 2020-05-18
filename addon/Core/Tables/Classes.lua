@@ -1,7 +1,7 @@
 ni.tables.classes = {
 	deathknight = {},
 	druid = {
-		dispel = {"Curse"}
+		dispel = {"Curse", "Poison"}
 	},
 	hunter = {},
 	mage = {

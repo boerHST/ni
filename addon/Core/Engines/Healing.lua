@@ -60,7 +60,7 @@ ni.healing = {
 }
 
 ni.unitDispel = {
-	druid = {"Curse"},
+	druid = {"Curse", "Poison"},
 	shaman = {"Disease", "Poison", "Curse"},
 	paladin = {"Poison", "Disease", "Magic"},
 	priest = {"Magic", "Disease"},
