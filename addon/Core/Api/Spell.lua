@@ -43,6 +43,8 @@ local GetSpellCooldown,
 	StrafeLeftStart,
 	StrafeLeftStop
 
+local _, class = UnitClass("player")
+
 ni.spell = {
 	queue = {},
 	id = function(s)
@@ -231,7 +233,6 @@ ni.spell = {
 		return false
 	end,
 	getinterrupt = function()
-		local _, class = UnitClass("player")
 		local interruptSpell = 0
 
 		if class == "SHAMAN" then
@@ -252,6 +253,8 @@ ni.spell = {
 			interruptSpell = 2139
 		elseif class == "HUNTER" then
 			interruptSpell = 34490
+		elseif class == "MONK" then
+			interruptSpell = 116705
 		elseif class == "WARLOCK" and IsSpellKnown(19647, true) then
 			interruptSpell = 19647
 		end

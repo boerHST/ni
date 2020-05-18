@@ -14,7 +14,7 @@ ni.tables.classes = {
 		dispel = {"Poison", "Disease", "Magic"}
 	},
 	priest = {
-		{"Magic", "Disease"}
+		dispel = {"Magic", "Disease"}
 	},
 	rogue = {},
 	shaman = {

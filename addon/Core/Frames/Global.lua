@@ -10,8 +10,7 @@ local CreateFrame,
 	GetTime,
 	tremove,
 	tinsert,
-	unpack,
-	type =
+	unpack =
 	CreateFrame,
 	GetZoneText,
 	UnitExists,
@@ -24,8 +23,7 @@ local CreateFrame,
 	GetTime,
 	tremove,
 	tinsert,
-	unpack,
-	type
+	unpack
 
 local lastclick = 0
 ni.frames.global = CreateFrame("Frame")
@@ -42,17 +40,11 @@ ni.frames.global_OnUpdate = function(self, elapsed)
 		ni.rotation.aoetoggle()
 		ni.rotation.cdtoggle()
 
-		local rotation = ni.rotation.profile[ni.rotation.lastprofile]
-
-		if rotation and ni.rotation.lastprofile ~= ni.vars.profiles.active then
-			if type(rotation.unload) == "function" then
-				rotation.unload()
-			end
+		if ni.rotation.profile[ni.rotation.lastprofile] and ni.rotation.lastprofile ~= ni.vars.profiles.active then
+			ni.rotation.profile[ni.rotation.lastprofile].unload()
 		end
 	elseif ni.rotation.profile[ni.vars.profiles.active] then
-		if type(ni.rotation.profile[ni.vars.profiles.active].unload) == "function" then
-			ni.rotation.profile[ni.vars.profiles.active].unload()
-		end
+		ni.rotation.profile[ni.vars.profiles.active].unload()
 	end
 
 	local throttle = ni.vars.latency / 1000
@@ -129,8 +121,7 @@ ni.frames.global_OnUpdate = function(self, elapsed)
 				ni.frames.spellqueue.update(id, true)
 
 				if
-					ni.spell.available(id, true) and
-						((not ni.spell.isinstant(id) and not ni.player.ismoving()) or ni.spell.isinstant(id))
+					ni.spell.available(id, true) and ((not ni.spell.isinstant(id) and not ni.player.ismoving()) or ni.spell.isinstant(id))
 				 then
 					count = count - 1
 					func(id, tar)
