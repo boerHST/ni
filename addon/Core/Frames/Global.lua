@@ -46,7 +46,7 @@ ni.frames.global_OnUpdate = function(self, elapsed)
 			end
 		end
 	elseif ni.rotation.profile[ni.vars.profiles.active] then
-		if ni.rotation.profile[ni.rotation.lastprofile].unload then
+		if ni.rotation.profile[ni.vars.profiles.active].unload then
 			ni.rotation.profile[ni.vars.profiles.active].unload()
 		end
 	end
@@ -124,10 +124,10 @@ ni.frames.global_OnUpdate = function(self, elapsed)
 				local id, tar = unpack(args)
 				ni.frames.spellqueue.update(id, true)
 
-				if ni.spell.available(id, true)
-				 and ((not ni.spell.isinstant(id)
-				 and not ni.player.ismoving()) 
-				 or ni.spell.isinstant(id)) then
+				if
+					ni.spell.available(id, true) and
+						((not ni.spell.isinstant(id) and not ni.player.ismoving()) or ni.spell.isinstant(id))
+				 then
 					count = count - 1
 					func(id, tar)
 				else
