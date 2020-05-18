@@ -19,7 +19,8 @@ local GetSpellCooldown,
 	tremove,
 	tinsert,
 	StrafeLeftStart,
-	StrafeLeftStop =
+	StrafeLeftStop,
+	IsPlayerSpell =
 	GetSpellCooldown,
 	GetTime,
 	GetSpellInfo,
@@ -41,7 +42,8 @@ local GetSpellCooldown,
 	tremove,
 	tinsert,
 	StrafeLeftStart,
-	StrafeLeftStop
+	StrafeLeftStop,
+	IsPlayerSpell
 
 local _, class = UnitClass("player")
 
@@ -86,7 +88,7 @@ ni.spell = {
 
 		local result = false
 
-		if id ~= nil and id ~= 0 and IsSpellKnown(id) then
+		if id ~= nil and id ~= 0 and (IsSpellKnown(id) or (ni.vars.build >= 50400 and IsPlayerSpell(id))) then
 			local name, _, _, cost, _, powertype = GetSpellInfo(id)
 
 			if ni.stopcastingtracker.shouldstop(id) then
@@ -111,10 +113,10 @@ ni.spell = {
 		if i == nil then
 			return
 		end
-		if #{ ... } > 1 then
-			ni.debug.print(string.format("Casting %s on %s", ...));
+		if #{...} > 1 then
+			ni.debug.print(string.format("Casting %s on %s", ...))
 		else
-			ni.debug.print(string.format("Casting %s", ...));
+			ni.debug.print(string.format("Casting %s", ...))
 		end
 		ni.functions.cast(...)
 	end,
@@ -222,7 +224,7 @@ ni.spell = {
 		if
 			ni.unit.exists(t) and ((not friendly and (not UnitIsDeadOrGhost(t) and UnitCanAttack("player", t) == 1)) or friendly) and
 				IsSpellInRange(name, t) == 1 and
-				IsSpellKnown(spellid) and
+				(IsSpellKnown(spellid) or (ni.vars.build >= 50400 and IsPlayerSpell(spellid))) and
 				ni.player.powerraw(powertype) >= cost and
 				((facing and ni.player.isfacing(t)) or not facing) and
 				((los and ni.player.los(t)) or not los)
@@ -286,6 +288,10 @@ ni.spell = {
 		end
 
 		if castName ~= nil then
+			if castinterruptable then
+				return false
+			end
+
 			if UnitCanAttack("player", t) == nil then
 				return false
 			end
@@ -297,15 +303,6 @@ ni.spell = {
 				return false
 			end
 
-			local interruptSpell = ni.spell.getinterrupt()
-
-			if interruptSpell ~= 0 then
-				if ni.spell.cd(interruptSpell) > 0 or not IsSpellInRange(GetSpellInfo(interruptSpell), t) == 1 then
-					return false
-				end
-			else
-				return false
-			end
 			if ni.vars.interrupt == "wl" then
 				if tContains(ni.vars.interrupts.whitelisted, castName) then
 					return true
@@ -322,6 +319,6 @@ ni.spell = {
 		return false
 	end,
 	isinstant = function(spell)
-		return select(7, GetSpellInfo(spell)) == 0;
+		return select(7, GetSpellInfo(spell)) == 0
 	end
 }
