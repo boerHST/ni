@@ -59,14 +59,6 @@ ni.healing = {
 	end
 }
 
-ni.unitDispel = {
-	druid = {"Curse", "Poison"},
-	shaman = {"Disease", "Poison", "Curse"},
-	paladin = {"Poison", "Disease", "Magic"},
-	priest = {"Magic", "Disease"},
-	mage = {"Curse"}
-}
-
 ni.tanks = function()
 	if ni.vars.units.mainTankEnabled and ni.vars.units.offTankEnabled then
 		return ni.vars.units.mainTank, ni.vars.units.offTank
