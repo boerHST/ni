@@ -1,5 +1,4 @@
-<img src="https://nhub.app/_media/logo.png" alt="Logo of ni" width="256"/>
-
+<img src="https://nhub.app/_media/GitHub Logo.png" alt="Logo of ni" width="256"/>
 > Profile Framework for World of Warcraft and its older expansions.
 
 See the [Quick start](https://nhub.app/#/getting-started/quickstart) guide for more details.
