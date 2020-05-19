@@ -34,11 +34,7 @@ ni.utils = {
 		return t
 	end,
 	splitstring = function(str)
-		local t = {}
-		for st in string.gmatch(str, "([^|]+)") do
-			table.insert(t, st)
-		end
-		return t
+                return ni.utils.splitstringbydelimiter(str, "|")
 	end,
 	splitstringtolower = function(str)
 		str = string.lower(str)
