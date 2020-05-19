@@ -33,14 +33,18 @@ local membersmt = {}
 setmetatable(ni.members, membersmt)
 membersmt.__call = function(_, ...)
 	if ni.vars.build == 50400 then
-		local group =  IsInRaid() and 'raid' or 'party';
-		local groupSize = IsInRaid() and GetNumGroupMembers() or GetNumGroupMembers() - 1;
-		if group == 'party' then tinsert(ni.members, memberssetup:create('player')) end 
-		for i=1, groupSize do 
-			local groupUnit = group..i
+		local group = IsInRaid() and "raid" or "party"
+		local groupSize = IsInRaid() and GetNumGroupMembers() or GetNumGroupMembers() - 1
+		if group == "party" then
+			tinsert(ni.members, memberssetup:create("player"))
+		end
+		for i = 1, groupSize do
+			local groupUnit = group .. i
 			local groupMember = memberssetup:create(groupUnit)
-			if groupMember then tinsert(ni.members, groupMember) end 
-		end	
+			if groupMember then
+				tinsert(ni.members, groupMember)
+			end
+		end
 	else
 		local group = GetNumRaidMembers() > 0 and "raid" or "party"
 		local groupsize = group == "raid" and GetNumRaidMembers() or GetNumPartyMembers()

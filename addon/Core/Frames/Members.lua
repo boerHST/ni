@@ -8,5 +8,5 @@ ni.frames.members:RegisterEvent("PARTY_CONVERTED_TO_RAID")
 ni.frames.members:RegisterEvent("ZONE_CHANGED")
 ni.frames.members:RegisterEvent("PLAYER_ENTERING_WORLD")
 ni.frames.members_OnEvent = function()
-	ni.members.reset();
+	ni.members.reset()
 end

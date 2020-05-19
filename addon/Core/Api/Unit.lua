@@ -149,7 +149,7 @@ ni.unit = {
 		end
 	end,
 	shortguid = function(t)
-		if UnitExists(t) then
+		if t ~= nil then
 			local guid = UnitGUID(t)
 			return string.sub(tostring(guid), -5, -1)
 		end
@@ -215,12 +215,12 @@ ni.unit = {
 		end
 	end,
 	location = function(t)
-		local loc = { x = 0, y = 0, z = 0 };
+		local loc = {x = 0, y = 0, z = 0}
 		if ni.unit.exists(t) then
-			local x, y, z = ni.unit.info(t);
-			loc.x, loc.y, loc.z = x, y, z;
+			local x, y, z = ni.unit.info(t)
+			loc.x, loc.y, loc.z = x, y, z
 		end
-		return loc;
+		return loc
 	end,
 	isfacing = function(t1, t2)
 		return (t1 ~= nil and t2 ~= nil) and ni.functions.isfacing(t1, t2) or false
@@ -232,22 +232,22 @@ ni.unit = {
 		return (t1 ~= nil and t2 ~= nil) and ni.functions.getdistance(t1, t2) or nil
 	end,
 	distancesqr = function(t1, t2)
-		local loc1 = ni.unit.location(t1);
-		local loc2 = ni.unit.location(t2);
-		return math.pow(loc1.x - loc2.x, 2) + math.pow(loc1.y - loc2.y, 2) + math.pow(loc1.z - loc2.z, 2);
+		local loc1 = ni.unit.location(t1)
+		local loc2 = ni.unit.location(t2)
+		return math.pow(loc1.x - loc2.x, 2) + math.pow(loc1.y - loc2.y, 2) + math.pow(loc1.z - loc2.z, 2)
 	end,
 	meleerange = function(t1, t2)
-		local cr1 = ni.unit.combatreach(t1);
-		local cr2 = ni.unit.combatreach(t2);
-		return math.max(5.0, cr1 + cr2 + (4/3));
+		local cr1 = ni.unit.combatreach(t1)
+		local cr2 = ni.unit.combatreach(t2)
+		return math.max(5.0, cr1 + cr2 + (4 / 3))
 	end,
 	inmelee = function(t1, t2)
-		local meleerange = ni.unit.meleerange(t1, t2);
-		local distancesqr = ni.unit.distancesqr(t1, t2);
+		local meleerange = ni.unit.meleerange(t1, t2)
+		local distancesqr = ni.unit.distancesqr(t1, t2)
 		if distancesqr then
-			return distancesqr < meleerange * meleerange;
+			return distancesqr < meleerange * meleerange
 		end
-		return false;
+		return false
 	end,
 	enemiesinrange = function(t, n)
 		local tmp = {}
