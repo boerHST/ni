@@ -25,6 +25,7 @@ ni.bootstrap = {
 				end
 				for i = 1, #temp_queue do
 					local abilityinqueue = temp_queue[i]
+					ni.debug.print("Using ability: "..abilityinqueue);
 					if abilities[abilityinqueue]() then
 						break
 					end

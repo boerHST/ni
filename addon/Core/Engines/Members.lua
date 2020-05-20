@@ -172,6 +172,38 @@ memberssetup.set = function()
 		table.wipe(memberssetup.cache)
 		memberssetup.set()
 	end
+	function ni.members.below(percent)
+		local total = 0;
+		for i = 1, #ni.members do
+			if ni.members[i].hp < percent then
+				total = total + 1;
+			end
+		end
+	end
+	function ni.members.average()
+		local count = #ni.members;
+		local average = 0;
+		for i = 1, count do
+			average = average + ni.members[i].hp;
+		end
+		return average/count;
+	end
+	function ni.members.averageof(count)
+		local members = count;
+		local average = 0;
+		if #ni.members < members then
+			for i = members, 0, -1 do
+				if #ni.members >= i then
+					members = i;
+					break;
+				end
+			end
+		end
+		for i = 1, members do
+			average = average + ni.members[i].hp;
+		end
+		return average/members;
+	end
 	ni.members()
 end
 memberssetup.set()
