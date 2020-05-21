@@ -40,6 +40,8 @@
 
 #### Mistweaver
 
+[Scotts Mistweaver](../../../addon/Rotations/Monk/Mistweaver.lua)
+
 #### Windwalker
 
 ## Paladin
