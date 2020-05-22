@@ -93,6 +93,12 @@ function memberssetup:create(unit)
 	function o:bufftype(str)
 		return ni.unit.bufftype(o.guid, str)
 	end
+	function o:buff(buff, caster)
+		return ni.unit.buff(o.guid, buff, caster)
+	end
+	function o:debuff(debuff, caster)
+		return ni.unit.debuff(o.guid, debuff, caster)
+	end
 	function o:candispel()
 		return ni.healing.candispel(o.unit)
 	end
@@ -146,6 +152,13 @@ function memberssetup:create(unit)
 	memberssetup.cache[ni.unit.shortguid(o.unit)] = o
 	return o
 end
+local membersrange = { };
+local memberswithbuff = { };
+local memberswithoutbuff = { };
+local memberswithdebuff = { };
+local memberswithoutdebuff = { };
+local membersbelow = { };
+
 memberssetup.set = function()
 	function ni.members:updatemembers()
 		for i = 1, #ni.members do
@@ -203,6 +216,66 @@ memberssetup.set = function()
 			average = average + ni.members[i].hp;
 		end
 		return average/members;
+	end
+	function ni.members.inrange(unit, distance)
+		table.wipe(membersrange);
+		for _, v in ipairs(ni.members) do
+			local unitdistance = ni.unit.distance(v.unit, unit);
+			if unitdistance ~= nil and unitdistance <= distance then
+				tinsert(membersrange, v);
+			end
+		end
+		return membersrange;
+	end
+	function ni.members.inrangewithbuff(unit, distance, buff, caster)
+		table.wipe(memberswithbuff);
+		ni.members.inrange(unit, distance);
+		for _, v in ipairs(membersrange) do
+			if v:buff(buff, caster) then
+				tinsert(memberswithbuff, v);
+			end
+		end
+		return memberswithbuff;
+	end
+	function ni.members.inrangewithoutbuff(unit, distance, buff, caster)
+		table.wipe(memberswithoutbuff);
+		ni.members.inrange(unit, distance);
+		for _, v in ipairs(membersrange) do
+			if not v:buff(buff, caster) then
+				tinsert(memberswithoutbuff, v);
+			end
+		end
+		return memberswithoutbuff
+	end
+	function ni.members.inrangewithdebuff(unit, distance, debuff, caster)
+		table.wipe(memberswithdebuff);
+		ni.members.inrange(unit, distance);
+		for _, v in ipairs(membersrange) do
+			if v:debuff(debuff, caster) then
+				tinsert(memberswithdebuff, v);
+			end
+		end
+		return memberswithdebuff;
+	end
+	function ni.members.inrangewithoutdebuff(unit, distance, debuff, caster)
+		table.wipe(memberswithoutdebuff);
+		ni.members.inrange(unit, distance);
+		for _, v in ipairs(membersrange) do
+			if not v:debuff(debuff, caster) then
+				tinsert(memberswithoutdebuff, v);
+			end
+		end
+		return memberswithoutdebuff
+	end
+	function ni.members.inrangebelow(unit, distance, hp)
+		table.wipe(membersbelow);
+		ni.members.inrange(unit, distance);
+		for _, v in ipairs(membersrange) do
+			if v.hp < hp then
+				tinsert(membersbelow, v);
+			end
+		end
+		return membersbelow;
 	end
 	ni.members()
 end

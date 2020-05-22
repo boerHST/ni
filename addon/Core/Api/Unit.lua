@@ -56,6 +56,11 @@ local creaturetypes = {
 	[13] = "GasCloud"
 }
 
+local enemiestable = { };
+local friendstable = { };
+local creationstable = { };
+local targetingtable = { };
+
 ni.unit = {
 	exists = function(t)
 		return ni.functions.objectexists(t)
@@ -68,18 +73,18 @@ ni.unit = {
 	end,
 	creations = function(unit)
 		if unit then
-			local t = {}
+			table.wipe(creationstable);
 			local guid = UnitGUID(unit)
 			for k, v in pairs(ni.objects) do
 				if type(k) ~= "function" and (type(k) == "string" and type(v) == "table") then
 					local creator = v:creator()
 					if creator == guid then
-						table.insert(t, {name = v.name, guid = v.guid})
+						table.insert(creationstable, {name = v.name, guid = v.guid})
 					end
 				end
 			end
-			if (#t > 0) then
-				return t
+			if (#creationstable > 0) then
+				return creationstable
 			end
 		end
 		return nil
@@ -215,12 +220,11 @@ ni.unit = {
 		end
 	end,
 	location = function(t)
-		local loc = {x = 0, y = 0, z = 0}
 		if ni.unit.exists(t) then
 			local x, y, z = ni.unit.info(t)
-			loc.x, loc.y, loc.z = x, y, z
+			return x, y, z
 		end
-		return loc
+		return 0, 0, 0
 	end,
 	isfacing = function(t1, t2)
 		return (t1 ~= nil and t2 ~= nil) and ni.functions.isfacing(t1, t2) or false
@@ -232,9 +236,9 @@ ni.unit = {
 		return (t1 ~= nil and t2 ~= nil) and ni.functions.getdistance(t1, t2) or nil
 	end,
 	distancesqr = function(t1, t2)
-		local loc1 = ni.unit.location(t1)
-		local loc2 = ni.unit.location(t2)
-		return math.pow(loc1.x - loc2.x, 2) + math.pow(loc1.y - loc2.y, 2) + math.pow(loc1.z - loc2.z, 2)
+		local x1, y1, z1 = ni.unit.location(t1)
+		local x2, y2, z2 = ni.unit.location(t2)
+		return math.pow(x1 - x2, 2) + math.pow(y1 - y2, 2) + math.pow(z1 - z2, 2)
 	end,
 	meleerange = function(t1, t2)
 		local cr1 = ni.unit.combatreach(t1)
@@ -250,7 +254,7 @@ ni.unit = {
 		return false
 	end,
 	enemiesinrange = function(t, n)
-		local tmp = {}
+		table.wipe(enemiestable);
 		local unit = true and UnitGUID(t) or t
 		if unit then
 			for k, v in pairs(ni.objects) do
@@ -258,16 +262,16 @@ ni.unit = {
 					if k ~= unit and v:canattack() and not UnitIsDeadOrGhost(k) then
 						local distance = v:distance(unit)
 						if (distance ~= nil and distance <= n) then
-							tinsert(tmp, {guid = k, name = v.name, distance = distance})
+							tinsert(enemiestable, {guid = k, name = v.name, distance = distance})
 						end
 					end
 				end
 			end
 		end
-		return tmp
+		return enemiestable
 	end,
 	friendsinrange = function(t, n)
-		local tmp = {}
+		table.wipe(friendstable);
 		local unit = true and UnitGUID(t) or t
 		if unit then
 			for k, v in pairs(ni.objects) do
@@ -275,18 +279,18 @@ ni.unit = {
 					if k ~= unit and v:canassist() and not UnitIsDeadOrGhost(k) then
 						local distance = v:distance(unit)
 						if (distance ~= nil and distance <= n) then
-							tinsert(tmp, {guid = k, name = v.name, distance = distance})
+							tinsert(friendstable, {guid = k, name = v.name, distance = distance})
 						end
 					end
 				end
 			end
 		end
-		return tmp
+		return friendstable
 	end,
 	unitstargeting = function(t, friendlies)
 		local unit = true and UnitGUID(t) or t
 		local f = true and friendlies or false
-		local returntable = {}
+		table.wipe(targetingtable);
 
 		if unit then
 			if not f then
@@ -295,7 +299,7 @@ ni.unit = {
 						if k ~= unit and UnitReaction(unit, k) ~= nil and UnitReaction(unit, k) <= 4 and not UnitIsDeadOrGhost(k) then
 							local target = v:target()
 							if target ~= nil and target == unit then
-								table.insert(returntable, {name = v.name, guid = k})
+								table.insert(targetingtable, {name = v.name, guid = k})
 							end
 						end
 					end
@@ -306,14 +310,14 @@ ni.unit = {
 						if k ~= unit and UnitReaction(unit, k) ~= nil and UnitReaction(unit, k) > 4 then
 							local target = v:target()
 							if target ~= nil and target == unit then
-								table.insert(returntable, {name = v.name, guid = k})
+								table.insert(targetingtable, {name = v.name, guid = k})
 							end
 						end
 					end
 				end
 			end
 		end
-		return returntable
+		return targetingtable
 	end,
 	iscasting = function(t)
 		if UnitCastingInfo(t) then
