@@ -266,7 +266,7 @@ ni.spell = {
 	castinterrupt = function(t)
 		local interruptSpell = ni.spell.getinterrupt()
 
-		if interruptSpell ~= 0 then
+		if interruptSpell ~= 0 and ni.spell.cd(interruptSpell) == 0 then
 			ni.spell.stopcasting()
 			ni.spell.stopchanneling()
 			ni.spell.cast(interruptSpell, t)
