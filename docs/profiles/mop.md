@@ -40,7 +40,7 @@
 
 #### Mistweaver
 
-[Scotts Mistweaver](https://raw.githubusercontent.com/scizzydo/ni/master/addon/Rotations/Monk/Mistweaver.lua)
+[Scotts Mistweaver](https://raw.githubusercontent.com/scizzydo/ni/master/addon/Rotations/Monk/Mistweaver.lua)  
 [Scotts Windwalker](https://raw.githubusercontent.com/scizzydo/ni/master/addon/Rotations/Monk/Windwalker.lua)
 
 #### Windwalker
