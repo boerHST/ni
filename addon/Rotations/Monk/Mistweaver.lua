@@ -72,6 +72,7 @@ local settings = {
 	current = nil,
 };
 local mainqueue = {
+	"add to members",
 	"pause",
 	"stopcasting",
 	"Stance Of The Wise Serpent",
@@ -99,6 +100,7 @@ local mainqueue = {
 	"DPS: Jab",
 };
 local raidqueue = {
+	"add to members",
 	"pause",
 	"stopcasting",
 	"Stance Of The Wise Serpent",
@@ -149,6 +151,41 @@ local IsInInstance,
 		UnitHealth,
 		UnitHealthMax;
 
+local temptable = { };
+local customtable = { };
+local function SortByUnits(x, y)
+	return x.unitsclose > y.unitsclose;
+end
+local function SortByHP(x, y)
+	return x.hp < y.hp
+end
+local function GetTableForBestUnit(health, distance, unitsclose, buff)
+	table.wipe(customtable);
+	for i = 1, #ni.members do
+		if ni.members[i].hp <= health
+		 and ni.members[i].range
+		 and (buff ~= nil 
+		 and not ni.unit.buff(ni.members[i].unit, buff, "player")) then
+			table.wipe(temptable);
+			if buff ~= nil then
+				temptable = ni.members.inrangewithoutbuff(ni.members[i].unit, distance, buff, "player");
+				for k, v in ipairs(temptable) do
+					if v and v.hp > health then
+						tremove(temptable, k);
+					end
+				end
+			else
+				temptable = ni.members.inrangebelow(ni.members[i].unit, distannce, health);				
+			end
+			if #temptable >= unitsclose then
+				tinsert(customtable, { unit = ni.members[i].unit, hp = ni.members[i].hp, unitsclose = #temptable });
+			end
+		end
+	end
+	if #customtable > 0 then
+		table.sort(customtable, SortByHP)
+	end
+end
 local function CalculateStopHealing(tar)
 	local myincheal = UnitGetIncomingHeals(tar, "player") or 0;
 	local allincheal = UnitGetIncomingHeals(tar) or 0;
@@ -183,6 +220,22 @@ local blackoutkick = GetSpellInfo(100784);
 local tigerpalm = GetSpellInfo(100787);
 
 local abilities = {
+	["add to members"] = function()
+		if GetCurrentKeyBoardFocus() then
+			return;
+		end
+		if not IsRightShiftKeyDown() and ni.functions.keypressed(0x52) then
+			if UnitExists("mouseover") and UnitCanAssist("player", "mouseover") then
+				ni.members.addcustom(UnitGUID("mouseover"));
+				return true;
+			end
+		elseif IsRightShiftKeyDown() and ni.functions.keypressed(0x52) then
+			if UnitExists("mouseover") and UnitCanAssist("player", "mouseover") then
+				ni.members.removecustom(UnitGUID("mouseover"));
+				return true;
+			end
+		end
+	end,
 	["pause"] = function()
 		if UnitIsDeadOrGhost("player")
 		 or IsMounted()
@@ -289,13 +342,19 @@ local abilities = {
 	["Revival"] = function()
 		if available(115310)
 		 and UnitChannelInfo("player") ~= zenmeditation
-		 and UnitAffectingCombat("player")
-		 and ni.members.averageof(settings.current.revivallimit) <= settings.current.revival then
-			if UnitCastingInfo("player") then
-				ni.spell.stopcasting();
+		 and UnitAffectingCombat("player") then
+			local count = settings.current.revivallimit;
+			if settings.current.revivallimit > #ni.members then
+				count = #ni.members
 			end
-			ni.spell.cast(115310);
-			return true;
+			if #ni.members.inrangebelow(settings.current.revival) >= settings.current.revivallimit then
+			--and ni.members.averageof(settings.current.revivallimit) <= settings.current.revival then
+				if UnitCastingInfo("player") then
+					ni.spell.stopcasting();
+				end
+				ni.spell.cast(115310);
+				return true;
+			end
 		end
 	end,
 	["Mana Tea"] = function()
@@ -340,14 +399,25 @@ local abilities = {
 		 	if not ni.player.buff(101546)
 			 and curchannel ~= zenmeditation
 			 and curchannel ~= cracklingjadelightning then
-				for i = 1, #ni.members do
-					if ni.members[i].hp <= settings.main.rmist
-					 and not ni.unit.buff(ni.members[i].unit, 115151, "player")
-					 and ni.spell.valid(ni.members[i].unit, 115151, false, true, true) then
-						ni.spell.cast(115151, ni.members[i].unit);
-						return true;
+				GetTableForBestUnit(settings.main.rmisttank, 40, 2, 115151);
+				if #customtable > 0 then
+					if customtable[1].unitsclose >= 2
+					 and ni.spell.valid(customtable[1].unit, 115151, false, true, true) then
+						if UnitThreatSituation(customtable[1].unit) == 3
+						 or customtable[1].hp <= settings.main.rmist then
+							ni.spell.cast(115151, customtable[1].unit);
+							return true;
+						end
 					end
 				end
+				--for i = 1, #ni.members do
+				--	if ni.members[i].hp <= settings.main.rmist
+				--	 and not ni.unit.buff(ni.members[i].unit, 115151, "player")
+				--	 and ni.spell.valid(ni.members[i].unit, 115151, false, true, true) then
+				--		ni.spell.cast(115151, ni.members[i].unit);
+				--		return true;
+				--	end
+				--end
 			end
 		end
 	end,
@@ -375,9 +445,12 @@ local abilities = {
 						end
 					end
 				end
-				if ni.spell.valid(ni.members[1].unit, 115098, false, true, true) then
-					ni.spell.cast(115098, ni.members[1].unit);
-					return true;
+				GetTableForBestUnit(settings.current.chiwave, 20, settings.current.chiwavelimit);
+				if #customtable > 0 then
+					if ni.spell.valid(customtable[1].unit, 115098, false, true, true) then
+						ni.spell.cast(115098, customtable[1].unit);
+						return true;
+					end
 				end
 			end
 		end
@@ -494,6 +567,7 @@ local abilities = {
 		 and curchannel ~= cracklingjadelightning
 		 and not ni.player.ismoving()
 		 and not ni.player.buff(131523)
+		 and not ni.members[1]:buff(115175, "player")
 		 and ni.spell.valid(ni.members[1].unit, 115175, false, true, true) then
 			local chi = ni.player.powerraw("chi");
 			if ni.members[1].hp <= settings.main.smist 

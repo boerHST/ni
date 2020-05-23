@@ -154,10 +154,10 @@ ni.unit = {
 		end
 	end,
 	shortguid = function(t)
-		if t ~= nil then
-			local guid = UnitGUID(t)
-			return string.sub(tostring(guid), -5, -1)
+		if UnitExists(t) then
+			return string.sub(tostring(UnitGUID(t)), -5, -1);
 		end
+		return "";
 	end,
 	isdummy = function(t)
 		if ni.unit.exists(t) then

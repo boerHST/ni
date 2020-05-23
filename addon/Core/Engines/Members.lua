@@ -220,9 +220,11 @@ memberssetup.set = function()
 	function ni.members.inrange(unit, distance)
 		table.wipe(membersrange);
 		for _, v in ipairs(ni.members) do
-			local unitdistance = ni.unit.distance(v.unit, unit);
-			if unitdistance ~= nil and unitdistance <= distance then
-				tinsert(membersrange, v);
+			if not UnitIsUnit(v.unit, unit) then
+				local unitdistance = ni.unit.distance(v.unit, unit);
+				if unitdistance ~= nil and unitdistance <= distance then
+					tinsert(membersrange, v);
+				end
 			end
 		end
 		return membersrange;
@@ -276,6 +278,22 @@ memberssetup.set = function()
 			end
 		end
 		return membersbelow;
+	end
+	function ni.members.addcustom(unit)
+		local groupMember = memberssetup:create(unit);
+		if groupMember then
+			tinsert(ni.members, groupMember);
+			print("Added "..unit.." to the members table");
+		end
+	end
+	function ni.members.removecustom(unit)
+		for k, v in ipairs(ni.members) do
+			if v.unit == unit then
+				memberssetup.cache[ni.unit.shortguid(unit)] = nil;
+				tremove(ni.members, k);
+				print("Removed "..unit.." from the members table");
+			end
+		end
 	end
 	ni.members()
 end
