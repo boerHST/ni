@@ -79,7 +79,7 @@ function memberssetup:create(unit)
 		if select(2, UnitClass(o.unit)) == "WARRIOR" and ni.unit.aura(o.guid, 71) then
 			result = true
 		end
-		if select(2, UnitClass(o.unit)) == "DRUID" and ni.unit.buff(o.unit, 9634) then
+		if select(2, UnitClass(o.unit)) == "DRUID" and ni.unit.buff(o.unit, 9634, "EXACT") then
 			result = true
 		end
 		if ni.unit.aura(o.guid, 57340) then
