@@ -58,12 +58,12 @@ ni.healing = {
 		return average
 	end
 }
-
+local tanks = { };
 ni.tanks = function()
 	if ni.vars.units.mainTankEnabled and ni.vars.units.offTankEnabled then
 		return ni.vars.units.mainTank, ni.vars.units.offTank
 	end
-	local tanks = {}
+	table.wipe(tanks);
 	for i = 1, #ni.members do
 		if ni.members[i].istank then
 			tinsert(tanks, {unit = ni.members[i].unit, health = UnitHealthMax(ni.members[i].unit)})
@@ -84,6 +84,8 @@ ni.tanks = function()
 			else
 				return tanks[1].unit, tanks[2].unit
 			end
+		else
+			return tanks[1].unit, tanks[2].unit
 		end
 	end
 	if #tanks == 1 then
