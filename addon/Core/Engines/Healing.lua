@@ -81,8 +81,6 @@ ni.tanks = function()
 				return tanks[1].unit, ni.vars.units.offTank
 			elseif ni.vars.units.mainTankEnabled and not ni.vars.units.offTankEnabled then
 				return ni.vars.units.mainTank, tanks[1].unit
-			else
-				return tanks[1].unit, tanks[2].unit
 			end
 		else
 			return tanks[1].unit, tanks[2].unit
