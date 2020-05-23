@@ -69,6 +69,7 @@ local cache = {
 local function TouchOfDeathCheck()
 	if UnitExists("target") then
 		if ni.spell.cd(touchofdeath) == 0
+		 and not UnitIsPlayer("target")
 		 and not UnitIsDeadOrGhost("target")
 		 and UnitCanAttack("player", "target") 
 		 and (ni.player.buff(121125)
@@ -215,7 +216,7 @@ local abilities = {
 	["tigereye brew"] = function()
 		if not cache.tod
 		 and ni.spell.available(tigereyebrew, true) then
-			local tebr = ni.player.buffremaining(125195)
+			local tebr = ni.player.buffremaining(116740, "EXACT")
 			local teb = select(4, ni.player.buff(125195)) or 0;
 			if tebr < 1 
 			 and ni.spell.cd(risingsunkick) == 0

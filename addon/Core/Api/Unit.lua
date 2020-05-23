@@ -385,35 +385,28 @@ ni.unit = {
 
 		return has
 	end,
-	buff = function(t, id, caster, exact)
-		exact = exact and true or false
-
-		local spellName = ""
-
-		if tonumber(id) ~= nil then
-			spellName = GetSpellInfo(id)
+	buff = function(t, id, filter)
+		local spellName = GetSpellInfo(id);
+		if filter == nil then
+			return UnitBuff(t, spellName);
 		else
-			spellName = id
-			id = nil
-		end
-		if spellName == "" or spellName == nil then
-			return
-		end
-		if
-			caster ~= nil and
-				((id and exact and select(11, UnitBuff(t, spellName, nil, caster)) == id) or
-					((not id or exact == false) and UnitBuff(t, spellName, nil, caster)))
-		 then
-			return UnitBuff(t, spellName, nil, caster)
-		elseif
-			caster == nil and
-				((id and exact and select(11, UnitBuff(t, spellName)) == id) or
-					((not id or exact == false) and UnitBuff(t, spellName)))
-		 then
-			return UnitBuff(t, spellName)
+			if strfind(strupper(filter), "EXACT") then
+				local caster = strfind(strupper(filter), "PLAYER");
+				for i = 1, 40 do
+					local _, _, _, _, _, _, _, buffCaster, _, _, buffSpellID = UnitBuff(t, i);
+					if buffSpellID ~= nil
+					 and buffSpellID == id
+					 and (not caster
+					 or buffCaster == "player") then
+						return UnitBuff(t, i);
+					end
+				end
+			else
+				return UnitBuff(t, spellName, nil, filter)
+			end
 		end
 	end,
-	buffs = function(t, ids, caster, exact)
+	buffs = function(t, ids, filter)
 		local ands = ni.utils.findand(ids)
 		local results = false
 		if ands ~= nil or (ands == nil and string.len(ids) > 0) then
@@ -425,14 +418,14 @@ ni.unit = {
 						local id = tonumber(tmp[i])
 
 						if id ~= nil then
-							if not ni.unit.buff(t, id, caster, exact) then
+							if not ni.unit.buff(t, id, filter) then
 								results = false
 								break
 							else
 								results = true
 							end
 						else
-							if not ni.unit.buff(t, tmp[i], caster, exact) then
+							if not ni.unit.buff(t, tmp[i], filter) then
 								results = false
 								break
 							else
@@ -448,12 +441,12 @@ ni.unit = {
 						local id = tonumber(tmp[i])
 
 						if id ~= nil then
-							if ni.unit.buff(t, id, caster, exact) then
+							if ni.unit.buff(t, id, filter) then
 								results = true
 								break
 							end
 						else
-							if ni.unit.buff(t, tmp[i], caster, exact) then
+							if ni.unit.buff(t, tmp[i], filter) then
 								results = true
 								break
 							end
@@ -491,41 +484,32 @@ ni.unit = {
 
 		return has
 	end,
-	debuff = function(t, spellID, caster, exact)
-		exact = exact and true or false
-		local spellName = ""
-
-		if tonumber(spellID) ~= nil then
-			spellName = GetSpellInfo(spellID)
+	debuff = function(t, id, filter)
+		local spellName = GetSpellInfo(id);
+		if filter == nil then
+			return UnitDebuff(t, spellName);
 		else
-			spellName = spellID
-			spellID = nil
-		end
-
-		if spellName == "" or spellName == nil then
-			return
-		end
-		if
-			caster == nil and
-				((spellID and exact and select(11, UnitDebuff(t, spellName)) == spellID) or
-					((not spellID or exact == false) and UnitDebuff(t, spellName)))
-		 then
-			return UnitDebuff(t, spellName)
-		elseif
-			caster ~= nil and
-				((spellID and exact and select(11, UnitDebuff(t, spellName, nil, caster)) == spellID) or
-					((not spellID or exact == false) and UnitDebuff(t, spellName, nil, caster)))
-		 then
-			return UnitDebuff(t, spellName, nil, caster)
+			if strfind(strupper(filter), "EXACT") then
+				local caster = strfind(strupper(filter), "PLAYER");
+				for i = 1, 40 do
+					local _, _, _, _, _, _, _, debuffCaster, _, _, debuffSpellID = UnitDebuff(t, i);
+					if debuffSpellID ~= nil
+					 and debuffSpellID == id
+					 and (not caster
+					 or debuffCaster == "player") then
+						return UnitDebuff(t, i);
+					end
+				end
+			else
+				return UnitDebuff(t, spellName, nil, filter);
+			end
 		end
 	end,
-	debuffs = function(t, spellIDs, caster, exact)
+	debuffs = function(t, spellIDs, filter)
 		local ands = ni.utils.findand(spellIDs)
 		local results = false
-
 		if ands ~= nil or (ands == nil and string.len(spellIDs) > 0) then
 			local tmp
-
 			if ands then
 				tmp = ni.utils.splitstringbydelimiter(spellIDs, "&&")
 
@@ -533,14 +517,14 @@ ni.unit = {
 					if tmp[i] ~= nil then
 						local id = tonumber(tmp[i])
 						if id ~= nil then
-							if not ni.unit.debuff(t, id, caster, exact) then
+							if not ni.unit.debuff(t, id, filter) then
 								results = false
 								break
 							else
 								results = true
 							end
 						else
-							if not ni.unit.debuff(t, tmp[i], caster, exact) then
+							if not ni.unit.debuff(t, tmp[i], filter) then
 								results = false
 								break
 							else
@@ -554,12 +538,12 @@ ni.unit = {
 				for i = 0, #tmp do
 					local id = tonumber(tmp[i])
 					if id ~= nil then
-						if ni.unit.debuff(t, id, caster, exact) then
+						if ni.unit.debuff(t, id, filter) then
 							results = true
 							break
 						end
 					else
-						if ni.unit.debuff(t, tmp[i], caster, exact) then
+						if ni.unit.debuff(t, tmp[i], filter) then
 							results = true
 							break
 						end
@@ -567,19 +551,18 @@ ni.unit = {
 				end
 			end
 		end
-
 		return results
 	end,
-	debuffremaining = function(target, spell, caster)
-		local expires = select(7, ni.unit.debuff(target, spell, caster))
+	debuffremaining = function(target, spell, filter)
+		local expires = select(7, ni.unit.debuff(target, spell, filter))
 		if expires ~= nil then
 			return expires - GetTime()
 		else
 			return 0
 		end
 	end,
-	buffremaining = function(target, spell, caster)
-		local expires = select(7, ni.unit.buff(target, spell, caster))
+	buffremaining = function(target, spell, filter)
+		local expires = select(7, ni.unit.buff(target, spell, filter))
 		if expires ~= nil then
 			return expires - GetTime()
 		else
