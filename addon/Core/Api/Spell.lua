@@ -57,16 +57,9 @@ ni.spell = {
 		return (id ~= 0) and id or nil
 	end,
 	cd = function(id)
-		if tonumber(id) == nil then
-			id = ni.spell.id(id)
-		end
-		if id > 0 and IsSpellKnown(id) then
-			local start, duration = GetSpellCooldown(id)
-			if (start > 0 and duration > 0) then
-				return start + duration - GetTime()
-			else
-				return 0
-			end
+		local start, duration = GetSpellCooldown(id)
+		if (start > 0 and duration > 0) then
+			return start + duration - GetTime()
 		else
 			return 0
 		end
@@ -98,7 +91,7 @@ ni.spell = {
 			if
 				name and
 					((powertype == -2 and ni.player.hpraw() >= cost) or (powertype >= 0 and ni.player.powerraw(powertype) >= cost)) and
-					ni.spell.cd(id) == 0
+					ni.spell.cd(name) == 0
 			 then
 				result = true
 			end
