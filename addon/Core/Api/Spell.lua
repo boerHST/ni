@@ -46,7 +46,14 @@ local GetSpellCooldown,
 	IsPlayerSpell
 
 local _, class = UnitClass("player")
-
+local casts = { };
+setmetatable(casts,
+	{
+		__index = function(t, k)
+			rawset(t, k, { at = 0 });
+			return t[k];
+		end
+	})
 ni.spell = {
 	queue = {},
 	id = function(s)
@@ -58,7 +65,8 @@ ni.spell = {
 	end,
 	cd = function(id)
 		local start, duration = GetSpellCooldown(id)
-		if (start > 0 and duration > 0) then
+		local start2 = GetSpellCooldown(61304)
+		if (start > 0 and duration > 0 and start ~= start2) then
 			return start + duration - GetTime()
 		else
 			return 0
@@ -112,6 +120,15 @@ ni.spell = {
 			ni.debug.print(string.format("Casting %s", ...))
 		end
 		ni.functions.cast(...)
+	end,
+	delaycast = function(spell, target, delay)
+		if delay then
+			if GetTime() - casts[spell].at < delay then
+				return
+			end
+		end
+		ni.spell.cast(spell, target);
+		casts[spell].at = GetTime();
 	end,
 	castspells = function(spells, t)
 		local items = ni.utils.splitstring(spells)

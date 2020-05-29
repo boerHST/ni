@@ -218,6 +218,19 @@ local cracklingjadelightning = GetSpellInfo(117952);
 local jab = GetSpellInfo(115693);
 local blackoutkick = GetSpellInfo(100784);
 local tigerpalm = GetSpellInfo(100787);
+local spinningcranekick = GetSpellInfo(101546);
+local manatea = GetSpellInfo(115294);
+local jadeserpentstatue = GetSpellInfo(115313);
+local stanceofthewiseserpent = GetSpellInfo(115070);
+local legacyoftheemperor = GetSpellInfo(115921);
+local dampenharm = GetSpellInfo(122278);
+local fortifyingbrew = GetSpellInfo(115203);
+local lifecocoon = GetSpellInfo(116849);
+local revival = GetSpellInfo(115310);
+local detox = GetSpellInfo(115450);
+local renewingmist = GetSpellInfo(115151);
+local chiwave = GetSpellInfo(115098);
+local uplift = GetSpellInfo(116670);
 
 local abilities = {
 	["add to members"] = function()
@@ -269,17 +282,17 @@ local abilities = {
 	["Stance Of The Wise Serpent"] = function()
 		if GetShapeshiftForm() ~= 1
 		 and not UnitCastingInfo("player") then
-			ni.spell.cast(115070);
+			cast(stanceofthewiseserpent, nil, 1);
 		end
 	end,
 	["Legacy Of The Emperor"] = function()
 		if not ni.player.buff(1126)
 		 and not ni.player.buff(20217)
 		 and not ni.player.buff(90363)
-		 and not ni.player.buff(115921)
-		 and ni.spell.available(115921)
+		 and not ni.player.buff(legacyoftheemperor)
+		 and ni.spell.available(legacyoftheemperor)
 		 and not UnitCastingInfo("player") then
-				ni.spell.cast(115921, "player");
+				ni.spell.cast(legacyoftheemperor, "player");
 				return true;
 		 end
 	end,
@@ -287,8 +300,8 @@ local abilities = {
 		if not GetCurrentKeyBoardFocus() and ni.functions.keypressed(0x47) then
 			if not UnitChannelInfo("player")
 			 and not UnitCastingInfo("player")
-			 and available(115313) then
-				ni.spell.castat(115313, "mouse");
+			 and available(jadeserpentstatue) then
+				ni.spell.castat(jadeserpentstatue, "mouse");
 				return true;
 			end
 		end
@@ -306,61 +319,61 @@ local abilities = {
 				end
 				ni.player.useitem(5512);
 				return true;
-			elseif available(122278)
+			elseif available(dampenharm)
 			 and curchannel ~= zenmeditation
 			 and select(2, GetTalentRowSelectionInfo(5)) == 14 then
 				if iscasting then
 					ni.spell.stopcasting();
 				end
-				ni.spell.cast(122278);
+				ni.spell.cast(dampenharm);
 				return true;
-			elseif available(115203)
+			elseif available(fortifyingbrew)
 			 and curchannel ~= zenmeditation
 			 and not ni.player.buff(122278) then
 				if iscasting then
 					ni.spell.stopcasting();
 				end
-				ni.spell.cast(115203);
+				ni.spell.cast(fortifyingbrew);
 				return true;
 			end
 		end
 	end,
 	["Life Cocoon"] = function()
-		if available(116849)
+		if available(lifecocoon)
 		 and UnitChannelInfo("player") ~= zenmeditation
 		 and UnitAffectingCombat("player")
 		 and ni.members[1].hp < settings.main.lifecocoon
 		 and ni.members[1].threat == 3
-		 and ni.spell.valid(ni.members[1].unit, 116849, false, true, true) then
+		 and ni.spell.valid(ni.members[1].unit, lifecocoon, false, true, true) then
 			if UnitCastingInfo("player") then
 				ni.spell.stopcasting();
 			end
-			ni.spell.cast(116849, ni.members[1].unit);
+			ni.spell.cast(lifecocoon, ni.members[1].unit);
 			return true;
 		end
 	end,
 	["Revival"] = function()
-		if available(115310)
+		if available(revival)
 		 and UnitChannelInfo("player") ~= zenmeditation
 		 and UnitAffectingCombat("player") then
 			local count = settings.current.revivallimit;
 			if settings.current.revivallimit > #ni.members then
 				count = #ni.members
 			end
-			if #ni.members.inrangebelow(settings.current.revival) >= settings.current.revivallimit then
-			--and ni.members.averageof(settings.current.revivallimit) <= settings.current.revival then
+			if #ni.members.inrangebelow("player", 100, settings.current.revival) >= count then
 				if UnitCastingInfo("player") then
 					ni.spell.stopcasting();
 				end
-				ni.spell.cast(115310);
+				ni.spell.cast(revival);
 				return true;
 			end
 		end
 	end,
 	["Mana Tea"] = function()
 		local curchannel = UnitChannelInfo("player");
-		if available(115294)
+		if available(manatea)
 		 and not ni.player.buff(101546)
+		 and not ni.player.ismoving()
 		 and curchannel ~= zenmeditation
 		 and curchannel ~= cracklingjadelightning
 		 and not UnitCastingInfo("player") then
@@ -370,42 +383,118 @@ local abilities = {
 			 and ni.player.power("mana") <= settings.main.manatea)
 			 or ni.player.buff(64904)
 			 or ni.player.power("mana") <= settings.main.lowmana) then
-				ni.spell.cast(115294, "player");
+				ni.spell.cast(manatea, "player");
 				return true;
 			end
 		end
 	end,
 	["Tsulong Heal"] = function()
-
+		if UnitExists("boss1") then
+			if ni.unit.id("boss1") == 62442 then
+				if available(115175)
+				 and ni.spell.valid("boss1", 115175, false, true, true) then
+					if ni.unit.hp("boss1") < 100 then
+						local isbil = false;
+						local bathedinlight = GetSpellInfo(122858);
+						if UnitCastingInfo("boss1") == bathedinlight then
+							isbil = true;
+						end
+						local iscasting = UnitCastingInfo("player");
+						--Renewing Mist
+						if available(115151)
+						 and not ni.unit.buff("boss1", 115151, "player")
+						 and ni.spell.valid("boss1", 115151, false, true, true)
+						 and not iscasting then
+							ni.spell.cast(115151, "boss1");
+							return true;
+						end
+						local channeling = UnitChannelInfo("player");
+						--Enveloping Mist
+						if available(124682)
+						 and ni.spell.valid("boss1", 124682, false, true, true)
+						 and channeling == GetSpellInfo(115175)
+						 and ni.unit.buff("boss1", 115175, "player")
+						 and not ni.unit.buff("boss1", 124682, "player") then
+							local chi = ni.player.powerraw("chi");
+							if chi >= 3 then
+								ni.spell.cast(124682, "boss1");
+								return true;
+							elseif chi == 0
+							 and select(2, GetTalentRowSelection(3)) == 9 then
+								ni.spell.cast(115339);
+								ni.spell.cast(124682, "boss1");
+								return true;
+							end
+						end
+						--Surging Mist
+						if available(116694)
+						 and ni.spell.valid("boss1", 116694, false, true, true) then
+							local vitalmists, _, _, vmcount = ni.player.buff(118674);
+							if vitalmists and vmcount == 5
+							 and not iscasting then
+								ni.spell.cast(116694, "boss1");
+								return true;
+							end
+							if ni.player.power("mana") > 70
+							 or UnitDebuff("player", "Bathed in Light") then
+								if channeling == GetSpellInfo(115175)
+								 and ni.unit.buff("boss1", 115175, "player")
+								 and not iscasting then
+									if available(116680)
+									 and not ni.player.buff(116680)
+									 and ni.player.powerraw("chi") >= 3 then
+										ni.spell.cast(116680);
+									end
+									ni.spell.cast(116694, "boss1");
+									return true;
+								end
+							end
+						end
+						--Soothing mist
+						if ni.members[1].hp > 30
+						 and ni.members.below(80) < 10 then
+							if available(115175)
+							 and not ni.player.ismoving()
+							 and not iscasting
+							 and ni.spell.valid("boss1", 115175, false, true, true)
+							 and not ni.unit.buff("boss1", 115175, "player") then
+								ni.spell.cast(115175, "boss1");
+								return true;
+							end
+						end
+					end
+				end
+			end
+		end
 	end,
 	["Detox Mouseover"] = function()
-		if available(115450) then
+		if available(detox) then
 			local curchannel = UnitChannelInfo("player");
 			if UnitExists("mouseover")
 			 and not ni.player.buff(101546)
 			 and not UnitCastingInfo("player")
 			 and curchannel ~= zenmeditation
 			 and curchannel ~= cracklingjadelightning
-			 and ni.spell.valid("mouseover", 115450, false, true, true)
+			 and ni.spell.valid("mouseover", detox, false, true, true)
 			 and ni.healing.candispel("mouseover") then 
-				ni.spell.cast(115450, "mouseover");
+				ni.spell.cast(detox, "mouseover");
 				return true;
 			end
 		end
 	end,
 	["Renewing Mist"] = function()
-		if available(115151) then
+		if available(renewingmist) then
 			local curchannel = UnitChannelInfo("player");
 		 	if not ni.player.buff(101546)
 			 and curchannel ~= zenmeditation
 			 and curchannel ~= cracklingjadelightning then
-				GetTableForBestUnit(settings.main.rmisttank, 40, 2, 115151);
+				GetTableForBestUnit(settings.main.rmisttank, 40, 2, renewingmist);
 				if #customtable > 0 then
 					if customtable[1].unitsclose >= 2
-					 and ni.spell.valid(customtable[1].unit, 115151, false, true, true) then
+					 and ni.spell.valid(customtable[1].unit, renewingmist, false, true, true) then
 						if UnitThreatSituation(customtable[1].unit) == 3
 						 or customtable[1].hp <= settings.main.rmist then
-							ni.spell.cast(115151, customtable[1].unit);
+							ni.spell.cast(renewingmist, customtable[1].unit);
 							return true;
 						end
 					end
@@ -428,7 +517,7 @@ local abilities = {
 		
 	end,
 	["Chi Wave"] = function()
-		if select(2, GetTalentRowSelectionInfo(2)) == 4 and available(115098) then
+		if select(2, GetTalentRowSelectionInfo(2)) == 4 and available(chiwave) then
 			local curchannel = UnitChannelInfo("player");
 			if not ni.player.buff(101546)
 			 and curchannel ~= zenmeditation
@@ -447,8 +536,8 @@ local abilities = {
 				end
 				GetTableForBestUnit(settings.current.chiwave, 20, settings.current.chiwavelimit);
 				if #customtable > 0 then
-					if ni.spell.valid(customtable[1].unit, 115098, false, true, true) then
-						ni.spell.cast(115098, customtable[1].unit);
+					if ni.spell.valid(customtable[1].unit, chiwave, false, true, true) then
+						ni.spell.cast(chiwave, customtable[1].unit);
 						return true;
 					end
 				end
@@ -457,7 +546,7 @@ local abilities = {
 	end,
 	["Uplift"] = function()
 		local curchannel = UnitChannelInfo("player");
-		if available(116670)
+		if available(uplift)
 		 and not ni.player.buff(101546)
 		 and not UnitCastingInfo("player")
 		 and curchannel ~= zenmeditation
@@ -485,14 +574,23 @@ local abilities = {
 					 or (rmcount >= settings.main.tftrmist)) then
 						ni.spell.cast(116680);
 					end
-					ni.spell.cast(116670);
+					ni.spell.cast(uplift);
 					return true;
 				end
 			end
 		end
 	end,
 	["Spinning Crane Kick"] = function()
-		
+		if ni.spell.available(spinningcranekick) then
+			if not ni.player.buff(139597)
+			 and ni.player.power("mana") >= 20
+			 and ni.player.powerraw("chi") <= 3
+			 and not UnitCastingInfo("player")
+			 and #ni.members.inrangebelow("player", 8, settings.main.sck) >= settings.main.scklimit then
+				ni.spell.cast(spinningcranekick);
+				return true;
+			end
+		end
 	end,
 	["Surging Mist"] = function()
 		local curchannel = UnitChannelInfo("player");
@@ -556,7 +654,7 @@ local abilities = {
 		end
 	end,
 	["Soothing Mist"] = function()
-		if ni.spell.valid("target", jab, true, true) then
+		if ni.spell.valid("target", jab, true, true) or ni.player.ismoving() then
 			return false;
 		end
 		local curchannel = UnitChannelInfo("player");

@@ -263,7 +263,7 @@ local abilities = {
 					ni.spell.cast(tigerpalm);
 					return true;
 				end
-				local rskremaining = ni.unit.debuffremaining("target", risingsunkick, "player");
+				local rskremaining = ni.unit.debuffremaining("target", 130320, "player");
 				local energy = (UnitPowerMax("player") - UnitPower("player")) * (1.0 / select(2, GetPowerRegen("player")));
 				if chi >= 1
 				 and cache.tigerpower == 0

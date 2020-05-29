@@ -192,6 +192,7 @@ memberssetup.set = function()
 				total = total + 1;
 			end
 		end
+		return total;
 	end
 	function ni.members.average()
 		local count = #ni.members;

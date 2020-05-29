@@ -1,6 +1,7 @@
 local files = {
 	"Core\\Internal\\Vars.lua",
 	"Core\\Internal\\Debug.lua",
+	"Core\\Internal\\Memory.lua",
 	"Core\\Internal\\Rotation.lua",
 	"Core\\Internal\\Bootstrap.lua",
 	"Core\\Tables\\Dummies.lua",

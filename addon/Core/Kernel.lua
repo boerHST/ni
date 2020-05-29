@@ -50,5 +50,8 @@ ni.functions = {
 	getspellid = %%GetSpellID%%,
 	stopcasting = %%StopCasting%%,
 	getobjects = %%GetOM%%,
-	keypressed = %%KeyPressed%%
+	keypressed = %%KeyPressed%%,
+	objectpointer = %%ObjectPointer%%,
+	read = %%Read%%,
+	baseaddress = %%BaseAddress%%,
 }
