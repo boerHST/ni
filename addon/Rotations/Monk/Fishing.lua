@@ -1,6 +1,14 @@
 local queue = {
 	"fish"
 }
+local offset;
+if ni.vars.build == 40300 then
+	offset = 0xD4;
+elseif ni.vars.build > 40300 then
+	offset = 0xCC;
+else
+	offset = 0xBC;
+end
 local functionsent = 0;
 local abilities = {
 	["fish"] = function()
@@ -17,7 +25,7 @@ local abilities = {
 							if tonumber(creator) == tonumber(playerguid) then
 								local ptr = ni.memory.objectpointer(v.guid);
 								if ptr ~= nil then
-									local result = ni.memory.read("byte", ptr, 0x0CC)
+									local result = ni.memory.read("byte", ptr, offset)
 									if result == 1 then
 										ni.player.interact(v.guid);
 										functionsent = GetTime();
