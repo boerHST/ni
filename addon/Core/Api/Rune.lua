@@ -4,13 +4,21 @@ ni.rune = {
 	available = function()
 		local runesavailable = 0
 		for i = 1, 6 do
-			local _, _, ready = GetRuneCooldown(i)
-			if ready == true then
+			if select(3, GetRuneCooldown(i)) then
 				runesavailable = runesavailable + 1
 			end
 		end
 
 		return runesavailable
+	end,
+	deathrunes = function()
+		local dr = 0;
+		for i = 1, 6 do
+			if GetRuneType(i) == 4 then
+				dr = dr + 1;
+			end
+		end
+		return dr;
 	end,
 	cd = function(rune)
 		local runesoncd = 0

@@ -386,7 +386,12 @@ ni.unit = {
 		return has
 	end,
 	buff = function(t, id, filter)
-		local spellName = GetSpellInfo(id);
+		local spellName;
+		if tonumber(id) ~= nil then
+			spellName = GetSpellInfo(id);
+		else
+			spellName = id
+		end
 		if filter == nil then
 			return UnitBuff(t, spellName);
 		else
@@ -485,7 +490,12 @@ ni.unit = {
 		return has
 	end,
 	debuff = function(t, id, filter)
-		local spellName = GetSpellInfo(id);
+		local spellName;
+		if tonumber(id) ~= nil then
+			spellName = GetSpellInfo(id);
+		else
+			spellName = id
+		end
 		if filter == nil then
 			return UnitDebuff(t, spellName);
 		else
