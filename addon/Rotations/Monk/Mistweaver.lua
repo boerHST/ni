@@ -232,6 +232,8 @@ local renewingmist = GetSpellInfo(115151);
 local chiwave = GetSpellInfo(115098);
 local uplift = GetSpellInfo(116670);
 
+local cast = ni.spell.delaycast
+
 local abilities = {
 	["add to members"] = function()
 		if GetCurrentKeyBoardFocus() then
