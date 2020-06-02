@@ -566,6 +566,14 @@ ni.unit = {
 		end
 		return results
 	end,
+	buffstacks = function (target, spell, filter)
+		local stacks = select(4, ni.unit.debuff(target, spell, filter))
+		if stacks ~= nil then
+			return stacks
+		else
+			return 0
+		end
+	end,
 	debuffremaining = function(target, spell, filter)
 		local expires = select(7, ni.unit.debuff(target, spell, filter))
 		if expires ~= nil then
