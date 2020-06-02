@@ -140,15 +140,18 @@ ni.unit = {
 	id = function(t)
 		if ni.unit.exists(t) then
 			if not ni.unit.isplayer(t) then
-				local bit = -7
+				local bitfrom = -9
+				local bitto = -12
+				
 				if ni.vars.build >= 40300 then
-					bit = -9
+					bitfrom = -7
+					bitto = -10
 				end
 
 				if tonumber(t) then
-					return tonumber((t):sub(-12, bit), 16)
+					return tonumber((t):sub(bitto, bitfrom), 16)
 				else
-					return tonumber((UnitGUID(t)):sub(-12, bit), 16)
+					return tonumber((UnitGUID(t)):sub(bitto, bitfrom), 16)
 				end
 			end
 		end
@@ -169,7 +172,7 @@ ni.unit = {
 	end,
 	ttd = function(t)
 		if ni.unit.isdummy(t) then
-			return 99
+			return 999
 		end
 		if ni.unit.exists(t) and (not UnitIsDeadOrGhost(t) and UnitCanAttack("player", t) == 1) then
 			t = UnitGUID(t)
@@ -181,7 +184,7 @@ ni.unit = {
 			return ni.objects[t].ttd
 		end
 
-		return 99
+		return -1
 	end,
 	hp = function(t)
 		return 100 * UnitHealth(t) / UnitHealthMax(t)

@@ -250,10 +250,14 @@ ni.spell = {
 		if class == "SHAMAN" then
 			interruptSpell = 57994
 		elseif class == "WARRIOR" then
-			if GetShapeshiftForm() == 3 then
+			if ni.vars.build >= 40300 then
 				interruptSpell = 6552
-			elseif GetShapeshiftForm() == 2 then
-				interruptSpell = 72
+			else
+				if GetShapeshiftForm() == 3 then
+					interruptSpell = 6552
+				elseif GetShapeshiftForm() == 2 then
+					interruptSpell = 72
+				end
 			end
 		elseif class == "PRIEST" then
 			interruptSpell = 15487
