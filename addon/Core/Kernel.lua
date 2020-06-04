@@ -54,4 +54,5 @@ ni.functions = {
 	objectpointer = %%ObjectPointer%%,
 	read = %%Read%%,
 	baseaddress = %%BaseAddress%%,
+	transport = %%Transport%%,
 }

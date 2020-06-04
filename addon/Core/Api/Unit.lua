@@ -232,8 +232,8 @@ ni.unit = {
 		end
 		return 0, 0, 0
 	end,
-	isfacing = function(t1, t2)
-		return (t1 ~= nil and t2 ~= nil) and ni.functions.isfacing(t1, t2) or false
+	isfacing = function(t1, t2, degrees)
+		return (t1 ~= nil and t2 ~= nil) and ni.functions.isfacing(t1, t2, degrees) or false
 	end,
 	isbehind = function(t1, t2)
 		return (t1 ~= nil and t2 ~= nil) and ni.functions.isbehind(t1, t2) or false
