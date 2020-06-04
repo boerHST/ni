@@ -37,7 +37,7 @@ Checks if specified unit has certain buff.
 if ni.unit.buff("target", "Life Tap", "player") then
   -- Target has Life Tap active
 end
-if ni.player.buff(533, "exact") then
+if ni.unit.buff("player", 533, "exact") then
   -- Player has the buff that exactly matches ID 533
 end
 ```
@@ -613,7 +613,7 @@ Checks if `unit` is facing `target`, degrees is defaulted to 180.
 if ni.unit.isfacing("player", "target") then
   -- Player is facing the target
 end
-if ni.player.isfacing("target", 90) then
+if ni.unit.isfacing("player", "target", 90) then
   -- Player is facing the target with a 90 degree precision (45 degrees both left and right)
 end
 ```
