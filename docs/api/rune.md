@@ -18,6 +18,20 @@ if ni.rune.available() == 6 then
 end
 ```
 
+## deathrunes
+
+Arguments:
+
+Returns: `number`
+
+Calculates the number of death runes.
+
+```lua
+if ni.rune.deathrunes() == 4 then
+  -- Player has 4 of their runes as death runes
+end
+```
+
 ## bloodrunecd
 
 Arguments:
