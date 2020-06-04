@@ -9,7 +9,7 @@
 Arguments:
 
 - **unit** `guid|token`
-- **aura** `id`
+- **aura** `id (no name)`
 
 Returns: `boolean`
 
@@ -27,8 +27,7 @@ Arguments:
 
 - **target** `guid|token`
 - **id** `name|id`
-- **caster** `guid|token` _optional_
-- **exact** `boolean` _default: false_
+- **filter** `EXACT|PLAYER` _optional_
 
 Returns: `UnitBuff`
 
@@ -38,6 +37,9 @@ Checks if specified unit has certain buff.
 if ni.unit.buff("target", "Life Tap", "player") then
   -- Target has Life Tap active
 end
+if ni.player.buff(533, "exact") then
+  -- Player has the buff that exactly matches ID 533
+end
 ```
 
 ## buffremaining
@@ -46,7 +48,7 @@ Arguments:
 
 - **target** `guid|token`
 - **id** `name|id`
-- **caster** `guid|token` _optional_
+- **filter** `EXACT|PLAYER` _optional_
 
 Returns: `boolean`
 
@@ -58,22 +60,42 @@ if ni.unit.buffremaining("target", 48441, "player") < 5 then
 end
 ```
 
+## buffstacks
+
+Arguments:
+
+- **target** `guid|token`
+- **id** `name|id`
+- **filter** `EXACT|PLAYER` _optional_
+
+Returns: `number`
+
+Obtains the number of buff stacks on target.
+
+```lua
+if ni.unit.buffstacks("target", 1234) < 5 then
+  -- Target has less than 5 stacks of 1234 on them
+end
+```
+
 ## buffs
 
 Arguments:
 
 - **target** `guid|token`
 - **ids** `name|id`
-- **caster** `guid|token` _optional_
-- **exact** `boolean` _default: false_
+- **filter** `EXACT|PLAYER` _optional_
 
 Returns: `boolean`
 
-Checks if specified unit has certain buffs separated by `&&`.
+Checks if specified unit has certain buffs separated by `&&` or `||`.
 
 ```lua
 if ni.unit.buffs("target", "63321&&Fel Armor", "player") then
   -- Target has both Life Tap and Fel Armor
+end
+if ni.unit.buffs("target", "63321||Fel Armor") then
+  -- Target has either Life Tap, or Fel Armor
 end
 ```
 
@@ -192,8 +214,7 @@ Arguments:
 
 - **target** `guid|token`
 - **id** `name|id`
-- **caster** `guid|token` _optional_
-- **exact** `boolean` _default: false_
+- **filter** `EXACT|PLAYER` _optional_
 
 Returns: `UnitDebuff`
 
@@ -203,6 +224,45 @@ Checks if specified unit has certain debuff.
 if ni.unit.debuff("target", "Unstable Affliction", "player") then
   -- Target has Unstable Affliction
 end
+if ni.unit.debuff("target", 1234, "exact|player") then
+  -- Target has debuff matching the spell ID 1234 cast by the player
+end
+```
+
+## debuffstacks
+
+Arguments:
+
+- **target** `guid|token`
+- **id** `name|id`
+- **filter** `EXACT|PLAYER` _optional_
+
+Returns: `number`
+
+Obtains the number of debuff stacks on target.
+
+```lua
+if ni.unit.debuffstacks("target", 1234) < 5 then
+  -- Target has less than 5 stacks of 1234 on them
+end
+```
+
+## debuffremaining
+
+Arguments:
+
+- **target** `guid|token`
+- **id** `name|id`
+- **filter** `EXACT|PLAYER` _optional_
+
+Returns: `boolean`
+
+Calculates the remaining time of the debuff on target in seconds.
+
+```lua
+if ni.unit.debuffremaining("target", 1234, "player") < 5 then
+  -- Target has spell of ID 1234 for less than 5 seconds
+end
 ```
 
 ## debuffs
@@ -211,16 +271,18 @@ Arguments:
 
 - **target** `guid|token`
 - **ids** `name|id`
-- **caster** `guid|token` _optional_
-- **exact** `boolean` _default: false_
+- **filter** `EXACT|PLAYER` _optional_
 
 Returns: `boolean`
 
-Checks if specified unit has certain debuffs separated by `&&`.
+Checks if specified unit has certain debuffs separated by `&&` or `||`.
 
 ```lua
 if ni.unit.debuffs("target", "Faerie Fire&&Curse of Agony", "player") then
   -- Target has both Faerie Fire and Curse of Agony
+end
+if ni.unit.debuffs("target", "Faerie Fire||Curse of Agony") then
+  -- Target has either Faerie Fire or Curse of Agony
 end
 ```
 
@@ -541,14 +603,18 @@ Arguments:
 
 - **unit** `guid|token`
 - **target** `guid|token`
+- **degrees** `number` _optional_
 
 Returns: `boolean`
 
-Checks if `unit` is facing `target`.
+Checks if `unit` is facing `target`, degrees is defaulted to 180.
 
 ```lua
 if ni.unit.isfacing("player", "target") then
   -- Player is facing the target
+end
+if ni.player.isfacing("target", 90) then
+  -- Player is facing the target with a 90 degree precision (45 degrees both left and right)
 end
 ```
 
@@ -800,7 +866,7 @@ Arguments:
 
 Returns: `boolean`
 
-Checks if passed unit is tagged by me.
+Checks if passed unit is tagged by player or group members.
 
 ```lua
 if ni.unit.istaggedbyme("target") then
