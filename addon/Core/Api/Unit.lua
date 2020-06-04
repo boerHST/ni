@@ -140,12 +140,15 @@ ni.unit = {
 	id = function(t)
 		if ni.unit.exists(t) then
 			if not ni.unit.isplayer(t) then
-				local bitfrom = -9
-				local bitto = -12
-				
-				if ni.vars.build >= 40300 then
-					bitfrom = -7
-					bitto = -10
+				local bitfrom = -7
+				local bitto = -10
+
+				if ni.vars.build == 40300 then
+					bitfrom = -9
+					bitto = -12
+				elseif ni.vars.build == 50300 then
+					bitfrom = -6
+					bitto = -9
 				end
 
 				if tonumber(t) then
