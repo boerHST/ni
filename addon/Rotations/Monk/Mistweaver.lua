@@ -501,14 +501,6 @@ local abilities = {
 						end
 					end
 				end
-				--for i = 1, #ni.members do
-				--	if ni.members[i].hp <= settings.main.rmist
-				--	 and not ni.unit.buff(ni.members[i].unit, 115151, "player")
-				--	 and ni.spell.valid(ni.members[i].unit, 115151, false, true, true) then
-				--		ni.spell.cast(115151, ni.members[i].unit);
-				--		return true;
-				--	end
-				--end
 			end
 		end
 	end,
@@ -789,7 +781,7 @@ local abilities = {
 			end
 		end
 	end,
-}
+};
 local function queue()
 	local info1, info2, info3 = GetInstanceInfo();
 	if IsInInstance() then

@@ -121,17 +121,9 @@ ni.unit = {
 	end,
 	threat = function(t, u)
 		if u then
-			if UnitExists(t) and UnitExists(u) and UnitThreatSituation(t, u) ~= nil then
-				return UnitThreatSituation(t, u)
-			else
-				return 0
-			end
+			return UnitThreatSituation(t, u)
 		else
-			if UnitExists(t) and UnitThreatSituation(t) ~= nil then
-				return UnitThreatSituation(t)
-			else
-				return 0
-			end
+			return UnitThreatSituation(t)
 		end
 	end,
 	ismoving = function(t)
@@ -679,6 +671,15 @@ ni.unit = {
 	end,
 	isplayer = function(t)
 		return select(5, ni.unit.info(t)) == 4
+	end,
+	transport = function(t)
+		return ni.functions.transport(t);
+	end,
+	facing = function(t)
+		return ni.functions.facing(t);
+	end,
+	vtables = function(...)
+		return ni.functions.vtables(...);
 	end,
 	hasheal = function(t)
 		if UnitExists(t) then

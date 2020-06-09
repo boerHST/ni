@@ -55,4 +55,6 @@ ni.functions = {
 	read = %%Read%%,
 	baseaddress = %%BaseAddress%%,
 	transport = %%Transport%%,
+	vtables = %%vtables%%,
+	facing = %%Facing%%,
 }

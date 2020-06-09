@@ -124,11 +124,12 @@ ni.spell = {
 	delaycast = function(spell, target, delay)
 		if delay then
 			if GetTime() - casts[spell].at < delay then
-				return
+				return false
 			end
 		end
 		ni.spell.cast(spell, target);
 		casts[spell].at = GetTime();
+		return true;
 	end,
 	castspells = function(spells, t)
 		local items = ni.utils.splitstring(spells)
