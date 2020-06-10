@@ -22,9 +22,15 @@ See the [Quick start](https://nhub.app/#/getting-started/quickstart) guide for m
 
 - **Scott**
 
-## Contributors
+## Lead Administrator
 
 - **brajevicm**
+
+## Contributers
+
+- **[DarhangeR](https://github.com/DarhangeR/Ni-Profiles/)**
+- **[Xcesius](https://github.com/Xcesius/Ni-Profiles/)**
+
 
 ## Community 👋
 
