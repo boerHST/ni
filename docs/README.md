@@ -23,9 +23,15 @@ See the [Quick start](/getting-started/quickstart.md) guide for more details.
 
 - **Scott**
 
-## Contributors
+## Lead Administrator
 
 - **brajevicm**
+
+## Contributers
+
+- **[DarhangeR](https://github.com/DarhangeR/Ni-Profiles/)**
+- **[Xcesius](https://github.com/Xcesius/Ni-Profiles/)**
+
 
 ## Community 👋
 
