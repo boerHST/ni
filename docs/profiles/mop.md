@@ -6,6 +6,8 @@
 
 #### Blood
 
+[Scotts Death Knight](https://raw.githubusercontent.com/scizzydo/ni/master/addon/Rotations/Death%20Knight/Blood%20-%20MoP.lua)
+
 #### Frost
 
 #### Unholy
@@ -41,9 +43,10 @@
 #### Mistweaver
 
 [Scotts Mistweaver](https://raw.githubusercontent.com/scizzydo/ni/master/addon/Rotations/Monk/Mistweaver.lua)  
-[Scotts Windwalker](https://raw.githubusercontent.com/scizzydo/ni/master/addon/Rotations/Monk/Windwalker.lua)
 
 #### Windwalker
+
+[Scotts Windwalker](https://raw.githubusercontent.com/scizzydo/ni/master/addon/Rotations/Monk/Windwalker.lua)
 
 ## Paladin
 
