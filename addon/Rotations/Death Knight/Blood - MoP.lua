@@ -47,7 +47,6 @@ local pestilence = GetSpellInfo(50842);
 local empowerruneweapon = GetSpellInfo(47568);
 
 local IgnoresDiseases = {
-	
 }
 local function InRange()
 	return IsSpellInRange(plaguestrike, "target") == 1;
