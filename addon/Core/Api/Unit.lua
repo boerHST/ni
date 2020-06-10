@@ -120,10 +120,16 @@ ni.unit = {
 		return UnitLevel(t) == -1
 	end,
 	threat = function(t, u)
+		local threat;
 		if u then
-			return UnitThreatSituation(t, u)
+			threat = UnitThreatSituation(t, u);
 		else
-			return UnitThreatSituation(t)
+			threat = UnitThreatSituation(t);
+		end
+		if threat ~= nil then
+			return threat
+		else
+			return -1;
 		end
 	end,
 	ismoving = function(t)

@@ -130,7 +130,7 @@ local abilities = {
 			local enemies = ni.unit.enemiesinrange("target", 7);
 			local tartransport = ni.unit.transport("target");
 			for k, v in ipairs(enemies) do
-				if ni.player.threat(v.guid) ~= nil
+				if ni.player.threat(v.guid) ~= -1
 				 and CanDisease(v.guid)
 				 and (tartransport == nil
 				 or (tonumber(v.guid) ~= tonumber(tartransport))) then
