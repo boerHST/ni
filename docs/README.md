@@ -11,7 +11,7 @@ See the [Quick start](/getting-started/quickstart.md) guide for more details.
 ⚡️ Wrapper for Protected Lua Functions<br>
 ⚡️ Anti Warden<br>
 ⚡️ PQR Converter<br>
-⚡️ Support for 3.3.5, 4.3.4 and 5.4.8<br>
+⚡️ Support for 3.3.5, 4.3.4, 5.4.7 and 5.4.8<br>
 ⚡️ Party/Raid Support<br>
 ⚡️ Object Manager<br>
 ⚡️ Ground Spells Support<br>
@@ -23,9 +23,15 @@ See the [Quick start](/getting-started/quickstart.md) guide for more details.
 
 - **Scott**
 
-## Contributors
+## Lead Administrator
 
 - **brajevicm**
+
+## Contributers
+
+- **[DarhangeR](https://github.com/DarhangeR/Ni-Profiles/)**
+- **[Xcesius](https://github.com/Xcesius/Ni-Profiles/)**
+
 
 ## Community 👋
 
