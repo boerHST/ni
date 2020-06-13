@@ -111,8 +111,8 @@ ni.frames.global_OnUpdate = function(self, elapsed)
 			if ni.rotation.stopmod() then
 				return true
 			end
-			local count = #ni.spell.queue
-			local i = 1
+			count = #ni.spell.queue
+			i = 1
 			while i <= count do
 				local qRec = tremove(ni.spell.queue, i)
 				local func = tremove(qRec, 1)

@@ -65,7 +65,7 @@ ni.unit = {
 	exists = function(t)
 		return ni.functions.objectexists(t)
 	end,
-	los = function(...) --target, target/x1,y1,z1,x2,y2,z2
+	los = function(...) --target, target/x1,y1,z1,x2,y2,z2 [optional, hitflags]
 		return ni.functions.los(...)
 	end,
 	creator = function(t)

@@ -6,6 +6,14 @@ local UnitName, UnitGUID, UnitAffectingCombat, GetTime, UnitCanAssist, UnitCanAt
 	UnitCanAssist,
 	UnitCanAttack
 
+local locale = GetLocale()
+local unknown;
+if locale == "ruRU" then
+	unknown = "Неизвестно";
+else
+	unknown = "Unknown";
+end
+
 ni.objectmanager = {
 	get = function()
 		return ni.functions.getobjects()
@@ -46,7 +54,7 @@ local objectsetup = {}
 objectsetup.cache = {}
 objectsetup.cache.__index = {
 	guid = 0,
-	name = "Unknown",
+	name = unknown,
 	type = 0
 }
 setmetatable(
@@ -63,7 +71,7 @@ setmetatable(
 				local ob = ni.objects:get(guid, otype, name)
 				return ob
 			end
-			return ni.objects:get(0, 0, "Unknown")
+			return ni.objects:get(0, 0, unknown)
 		end
 	}
 )
@@ -170,7 +178,7 @@ function ni.objects:create(objguid, objtype, objname)
 	end
 	function o:updateobject()
 		o.guid = o.guid
-		o.name = o.name ~= "Unknown" and o.name or UnitName(o.guid)
+		o.name = (o.name ~= unknown and o.name ~= "UNKNOWNOBJECT") and o.name or UnitName(o.guid);
 		o.type = o.type
 		o:calculatettd()
 	end

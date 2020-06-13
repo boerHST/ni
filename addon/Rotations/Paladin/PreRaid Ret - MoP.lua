@@ -224,7 +224,7 @@ local abilities = {
 		if HaveAbility(spells.hammeroftherighteous.id)
 		 and ni.spell.cd(spells.hammeroftherighteous.id) == 0
 		 and ActiveEnemies() >= 4
-		 and FacingLosCast(hammeroftherighteous, "target") then
+		 and FacingLosCast(spells.hammeroftherighteous.name, "target") then
 			return true;
 		end
 	end,
