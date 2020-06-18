@@ -57,4 +57,8 @@ ni.functions = {
 	transport = %%Transport%%,
 	vtables = %%vtables%%,
 	facing = %%Facing%%,
+	getsetting = %%GetSetting%%,
+	savesetting = %%SaveSetting%%,
+	fileexists = %%FileExists%%,
+	resetlasthardwareaction = %%ResetLastHardwareAction%%,
 }

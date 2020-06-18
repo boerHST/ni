@@ -705,3 +705,49 @@ ni.unit = {
 		end
 	end
 }
+--[[local function locationvalid(x, y, z)
+	if x == 0 and y == 0 and z == 0 then
+		return false;
+	end
+	return true;
+end
+local function TestFacing(t,t2,d)
+	if d == nil then
+		d = 90
+	end
+	if ni.unit.exists(t) and ni.unit.exists(t2) then
+		local angle3
+		local angle1 = ni.unit.facing(t)
+		local angle2 = ni.unit.facing(t2)
+		local Y1,X1,Z1 = ni.unit.location(t)
+		local Y2,X2,Z2 = ni.unit.location(t2)
+		if locationvalid(X1, Y1, Z1) and angle1 and locationvalid(X2, Y2, Z2) and angle2 then
+			local deltaY = Y2 - Y1
+			local deltaX = X2 - X1
+			angle1 = math.deg(math.abs(angle1-math.pi*2))
+			if deltaX > 0 then
+				angle2 = math.deg(math.atan(deltaY/deltaX)+(math.pi/2)+math.pi)
+			elseif deltaX < 0 then
+				angle2 = math.deg(math.atan(deltaY/deltaX)+(math.pi/2))
+			end
+			local angle = math.abs(angle2-angle1);
+			if angle > 180 then
+				angle3 = math.abs(angle-360)
+			else
+				angle3 = math.abs(angle)
+			end
+			-- return angle3
+			if angle3 < d then
+				return true
+			else
+				return false
+			end
+		end
+	end
+end
+local function TestBehind(t, t2)
+	local result = TestFacing(t2, t, 90);
+	if result ~= nil then
+		return (result == false);
+	end
+end]]--

@@ -64,14 +64,7 @@ ni.player = {
 		return false
 	end,
 	hasitem = function(itemid)
-		for b = 0, 4 do
-			for s = 1, GetContainerNumSlots(b) do
-				if GetContainerItemID(b, s) == itemid then
-					return true
-				end
-			end
-		end
-		return false
+		return GetItemCount(itemid, false, false) > 0
 	end,
 	hasitemequipped = function(id)
 		for i = 1, 19 do

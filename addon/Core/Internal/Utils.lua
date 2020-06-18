@@ -46,5 +46,17 @@ ni.utils = {
 	firstcharacterupper = function(str)
 		str = string.lower(str)
 		return str:sub(1, 1):upper() .. str:sub(2)
-	end
+	end,
+	savesetting = function(filename, key, ...)
+		return ni.functions.savesetting("Settings\\"..filename, key, ...);
+	end,
+	getsetting = function(filename, key, result_type)
+		return ni.functions.getsetting("Settings\\"..filename, key, result_type);
+	end,
+	fileexists = function(filename)
+		return ni.functions.fileexists(filename);
+	end,
+	resetlasthardwareaction = function()
+		ni.functions.resetlasthardwareaction();
+	end,
 }

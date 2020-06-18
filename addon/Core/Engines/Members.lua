@@ -75,17 +75,16 @@ function memberssetup:create(unit)
 		o.unit = unit
 	end
 	function o:calculateistank()
-		local result = false
 		if select(2, UnitClass(o.unit)) == "WARRIOR" and ni.unit.aura(o.guid, 71) then
-			result = true
+			return true;
+		elseif select(2, UnitClass(o.unit)) == "DRUID" and ni.unit.buff(o.unit, 9634, "EXACT") then
+			return true;
+		elseif ni.unit.aura(o.guid, 57340) then
+			return true;
+		elseif UnitGroupRolesAssigned(o.guid) == "TANK" then
+			return true;
 		end
-		if select(2, UnitClass(o.unit)) == "DRUID" and ni.unit.buff(o.unit, 9634, "EXACT") then
-			result = true
-		end
-		if ni.unit.aura(o.guid, 57340) then
-			result = true
-		end
-		return result
+		return false
 	end
 	function o:debufftype(str)
 		return ni.unit.debufftype(o.guid, str)

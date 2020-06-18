@@ -1,14 +1,18 @@
 ni.bootstrap = {
-	rotation = function(profile, queue, abilities, data)
+	rotation = function(profile, queue, abilities, data, GUI)
+		GUI = true and GUI or {};
 		data = true and data or {}
 		ni.debug.log("Loaded " .. profile)
-		rawset(ni.rotation.profile, profile, ni.bootstrap.start(queue, abilities, data))
+		rawset(ni.rotation.profile, profile, ni.bootstrap.start(queue, abilities, data, GUI))
 	end,
-	start = function(queue, abilities, data)
+	start = function(queue, abilities, data, GUI)
 		return {
 			loaded = false,
 			execute = function()
 				if not ni.rotation.profile[ni.vars.profiles.active].loaded then
+					if GUI ~= nil and #GUI > 0 then
+						ni.GUI.AddFrame(GUI[1], GUI[2]);
+					end
 					if data ~= nil and #data > 0 then
 						if ni.utils.loaddatafiles(data) then
 							ni.rotation.profile[ni.vars.profiles.active].loaded = true
@@ -31,9 +35,12 @@ ni.bootstrap = {
 				end
 			end,
 			unload = function()
-				if ni.rotation.profile[ni.vars.profiles.active].loaded then
+				if ni.rotation.profile[ni.rotation.lastprofile].loaded then
 					table.wipe(ni.data)
-					ni.rotation.profile[ni.vars.profiles.active].loaded = false
+					if GUI ~= nil and #GUI > 0 then
+						ni.GUI.DestroyFrame(GUI[1]);
+					end
+					ni.rotation.profile[ni.rotation.lastprofile].loaded = false
 				end
 			end
 		}

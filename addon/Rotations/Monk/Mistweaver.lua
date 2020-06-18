@@ -1,77 +1,120 @@
+local items = {
+	settingsfile = "Nrdr_Mistweaver.xml",
+	{ type = "title", text = "Mistweaver" },
+	{ type = "separator" },
+	{ type = "title", value = "Main Settings" },
+	{ type = "entry", text = "Enveloping Mist", enabled = true, value = 60, key = "emist" },
+	{ type = "entry", text = "Mana Tea Count", value = 2, key = "manateacount" },
+	{ type = "entry", text = "Mana Tea", enabled = true, value = 90, key = "manatea" },
+	{ type = "entry", text = "Renewing Mist", enabled = true, value = 95, key = "rmist" },
+	{ type = "entry", text = "Renewing Mist (Tank)", enabled = true, value = 90, key = "rmisttank" },
+	{ type = "entry", text = "Soothing Mist", enabled = true, value = 71, key = "soothmist" },
+	{ type = "entry", text = "Soothing Mist (4 Chi)", enabled = true, value = 95, key = "soothmist4chi" },
+	{ type = "entry", text = "Surging Mist (Instant)", enabled = true, value = 70, key = "surgmistinst" },
+	{ type = "entry", text = "Surging Mist", enabled = true, value = 40, key = "surgmist" },
+	{ type = "entry", text = "TFT Surging Mist", enabled = true, value = 20, key = "tftsurgmist" },
+	{ type = "entry", text = "TFT Renewing Mist", enabled = true, value = 6, key = "tftrmist" },
+	{ type = "entry", text = "Life Cocoon", enabled = true, value = 20, key = "lifecocoon" },
+	{ type = "entry", text = "Spinning Crane Kick", enabled = true, value = 70, key = "sck" },
+	{ type = "entry", text = "Spinning Crane Kick Count", enabled = nil, value = 3, key = "sckcount" },
+	{ type = "entry", text = "Low Mana", enabled = true, value = 20, key = "lowmana" },
+	{ type = "entry", text = "Detox", enabled = true, value = 60, key = "detox" },
+	{ type = "separator" },
+	{ type = "page", number = 1, text = "Non Instance Settings" },
+	{ type = "separator" },
+	{ type = "entry", text = "Uplift Count", enabled = nil, value = 3, key = "mainupliftcount" },
+	{ type = "entry", text = "Uplift", enabled = true, value = 90, key = "mainuplift" },
+	{ type = "entry", text = "TFT Uplift", enabled = true, value = 4, key = "maintftuplift" },
+	{ type = "entry", text = "Chi Burst Count", enabled = nil, value = 3, key = "mainchiburstcount" },
+	{ type = "entry", text = "Chi Burst", enabled = true, value = 80, key = "mainchiburst" },
+	{ type = "entry", text = "Zen Sphere Count", enabled = nil, value = 1, key = "mainzenspherecount" },
+	{ type = "entry", text = "Zen Sphere", enabled = true, value = 85, key = "mainzensphere" },
+	{ type = "entry", text = "Chi Wave Count", enabled = nil, value = 2, key = "mainchiwavecount" },
+	{ type = "entry", text = "Chi Wave", enabled = true, value = 85, key = "mainchiwave" },
+	{ type = "entry", text = "Revival Count", enabled = nil, value = 4, key = "mainrevivalcount" },
+	{ type = "entry", text = "Revival", enabled = true, value = 60, key = "mainrevival" },
+	{ type = "page", number = 2, text = "Party Settings" },
+	{ type = "separator" },
+	{ type = "entry", text = "Uplift Count", value = 3, key = "partyupliftcount" },
+	{ type = "entry", text = "Uplift", enabled = true, value = 90, key = "partyuplift" },
+	{ type = "entry", text = "TFT Uplift", enabled = true, value = 4, key = "partytftuplift" },
+	{ type = "entry", text = "Chi Burst Count", value = 3, key = "partychiburstcount" },
+	{ type = "entry", text = "Chi Burst", enabled = true, value = 80, key = "partychiburst" },
+	{ type = "entry", text = "Zen Sphere Count", value = 1, key = "partyzenspherecount" },
+	{ type = "entry", text = "Zen Sphere", enabled = true, value = 85, key = "partyzensphere" },
+	{ type = "entry", text = "Chi Wave Count", value = 2, key = "partychiwavecount" },
+	{ type = "entry", text = "Chi Wave", enabled = true, value = 85, key = "partychiwave" },
+	{ type = "entry", text = "Revival Count", value = 4, key = "partyrevivalcount" },
+	{ type = "entry", text = "Revival", enabled = true, value = 60, key = "partyrevival" },
+	{ type = "page", number = 3, text = "Raid 10 Settings" },
+	{ type = "separator" },
+	{ type = "entry", text = "Uplift Count", value = 3, key = "raidupliftcount" },
+	{ type = "entry", text = "Uplift", enabled = true, value = 85, key = "raiduplift" },
+	{ type = "entry", text = "TFT Uplift", enabled = true, value = 4, key = "raidtftuplift" },
+	{ type = "entry", text = "Chi Burst Count", value = 4, key = "raidchiburstcount" },
+	{ type = "entry", text = "Chi Burst", enabled = true, value = 85, key = "raidchiburst" },
+	{ type = "entry", text = "Zen Sphere Count", value = 2, key = "raidzenspherecount" },
+	{ type = "entry", text = "Zen Sphere", enabled = true, value = 85, key = "raidzensphere" },
+	{ type = "entry", text = "Chi Wave Count", value = 3, key = "raidchiwavecount" },
+	{ type = "entry", text = "Chi Wave", enabled = true, value = 85, key = "raidchiwave" },
+	{ type = "entry", text = "Revival Count", value = 8, key = "raidrevivalcount" },
+	{ type = "entry", text = "Revival", enabled = true, value = 60, key = "raidrevival" },
+	{ type = "page", number = 4, text = "Raid 25 Settings" },
+	{ type = "separator" },
+	{ type = "entry", text = "Uplift Count", value = 3, key = "raid25upliftcount" },
+	{ type = "entry", text = "Uplift", enabled = true, value = 90, key = "raid25uplift" },
+	{ type = "entry", text = "TFT Uplift", enabled = true, value = 4, key = "raid25tftuplift" },
+	{ type = "entry", text = "Chi Burst Count", value = 5, key = "raid25chiburstcount" },
+	{ type = "entry", text = "Chi Burst", enabled = true, value = 85, key = "raid25chiburst" },
+	{ type = "entry", text = "Zen Sphere Count", value = 2, key = "raid25zenspherecount" },
+	{ type = "entry", text = "Zen Sphere", enabled = true, value = 85, key = "raid25zensphere" },
+	{ type = "entry", text = "Chi Wave Count", value = 3, key = "raid25chiwavecount" },
+	{ type = "entry", text = "Chi Wave", enabled = true, value = 85, key = "raid25chiwave" },
+	{ type = "entry", text = "Revival Count", value = 16, key = "raid25revivalcount" },
+	{ type = "entry", text = "Revival", enabled = true, value = 60, key = "raid25revival" },
+};
+local function GetSetting(name)
+	for k, v in ipairs(items) do
+		if v.type == "entry"
+		 and v.key ~= nil
+		 and v.key == name then
+			return v.value, v.enabled
+		end
+	end
+end
 local settings = {
-	main = {
-		emist = 60,
-		manatealimit = 2,
-		manatea = 90,
-		rmist = 95,
-		rmisttank = 99,
-		smist = 71,
-		smist4chi = 95,
-		surmistinst = 70,
-		surmist = 40,
-		tftsurmist = 20,
-		tftrmist = 6,
-		lifecocoon = 20,
-		sck = 70,
-		scklimit = 3,
-		lowmana = 20,
-		detox = 60
-	},
-	master = {
-		upliftcount = 3,
-		uplift = 90,
-		tfteauplift = 4,
-		chiburstlimit = 3,
-		chiburst = 80,
-		zenspherelimit = 1,
-		zensphere = 85,
-		chiwavelimit = 2,
-		chiwave = 85,
-		revivallimit = 4,
-		revival = 60
-	},
-	party = {
-		upliftcount = 3,
-		uplift = 90,
-		tfteauplift = 4,
-		chiburstlimit = 3,
-		chiburst = 80,
-		zenspherelimit = 1,
-		zensphere = 85,
-		chiwavelimit = 2,
-		chiwave = 85,
-		revivallimit = 4,
-		revival = 60
-	},
-	raid10 = {
-		upliftcount = 3,
-		uplift = 85,
-		tfteauplift = 4,
-		chiburstlimit = 4,
-		chiburst = 85,
-		zenspherelimit = 2,
-		zensphere = 85,
-		chiwavelimit = 3,
-		chiwave = 85,
-		revivallimit = 8,
-		revival = 60
-	},
-	raid25 = {
-		upliftcount = 3,
-		uplift = 90,
-		tfteauplift = 4,
-		chiburstlimit = 5,
-		chiburst = 85,
-		zenspherelimit = 2,
-		zensphere = 85,
-		chiwavelimit = 3,
-		chiwave = 85,
-		revivallimit = 16,
-		revival = 60
-	},
-	current = nil,
+	group_type = "main",
+	emist = GetSetting("emist"),
+	manatealimit = GetSetting("manateacount"),
+	manatea = GetSetting("manatea"),
+	rmist = GetSetting("rmist"),
+	rmisttank = GetSetting("rmisttank"),
+	smist = GetSetting("soothmist"),
+	smist4chi = GetSetting("soothmist4chi"),
+	surmistinst = GetSetting("surgmistinst"),
+	surmist = GetSetting("surgmist"),
+	tftsurmist = GetSetting("tftsurgmist"),
+	tftrmist = GetSetting("tftrmist"),
+	lifecocoon = GetSetting("lifecocoon"),
+	sck = GetSetting("sck"),
+	scklimit = GetSetting("sckcount"),
+	lowmana = GetSetting("lowmana"),
+	detox = GetSetting("detox"),
+	--Group Dependant settings here
+	upliftcount = GetSetting("mainupliftcount"),
+	uplift = GetSetting("mainuplift"),
+	tfteauplift = GetSetting("maintftuplift"),
+	chiburstlimit = GetSetting("mainchiburstcount"),
+	chiburst = GetSetting("mainchiburst"),
+	zenspherelimit = GetSetting("mainzenspherecount"),
+	zensphere = GetSetting("mainzensphere"),
+	chiwavelimit = GetSetting("mainchiwavecount"),
+	chiwave = GetSetting("mainchiwave"),
+	revivallimit = GetSetting("mainrevivalcount"),
+	revival = GetSetting("mainrevival"),
 };
 local mainqueue = {
+	"settings",
 	"add to members",
 	"pause",
 	"stopcasting",
@@ -100,6 +143,7 @@ local mainqueue = {
 	"DPS: Jab",
 };
 local raidqueue = {
+	"settings",
 	"add to members",
 	"pause",
 	"stopcasting",
@@ -231,10 +275,76 @@ local detox = GetSpellInfo(115450);
 local renewingmist = GetSpellInfo(115151);
 local chiwave = GetSpellInfo(115098);
 local uplift = GetSpellInfo(116670);
-
 local cast = ni.spell.delaycast
 
 local abilities = {
+	["settings"] = function()
+		settings.emist = GetSetting("emist");
+		settings.manatealimit = GetSetting("manateacount");
+		settings.manatea = GetSetting("manatea");
+		settings.rmist = GetSetting("rmist");
+		settings.rmisttank = GetSetting("rmisttank");
+		settings.smist = GetSetting("soothmist");
+		settings.smist4chi = GetSetting("soothmist4chi");
+		settings.surmistinst = GetSetting("surgmistinst");
+		settings.surmist = GetSetting("surgmist");
+		settings.tftsurmist = GetSetting("tftsurgmist");
+		settings.tftrmist = GetSetting("tftrmist");
+		settings.lifecocoon = GetSetting("lifecocoon");
+		settings.sck = GetSetting("sck");
+		settings.scklimit = GetSetting("sckcount");
+		settings.lowmana = GetSetting("lowmana");
+		settings.detox = GetSetting("detox");
+		if settings.group_type == "main" then
+			settings.upliftcount = GetSetting("mainupliftcount");
+			settings.uplift = GetSetting("mainuplift");
+			settings.tfteauplift = GetSetting("maintftuplift");
+			settings.chiburstlimit = GetSetting("mainchiburstcount");
+			settings.chiburst = GetSetting("mainchiburst");
+			settings.zenspherelimit = GetSetting("mainzenspherecount");
+			settings.zensphere = GetSetting("mainzensphere");
+			settings.chiwavelimit = GetSetting("mainchiwavecount");
+			settings.chiwave = GetSetting("mainchiwave");
+			settings.revivallimit = GetSetting("mainrevivalcount");
+			settings.revival = GetSetting("mainrevival");
+		elseif settings.group_type == "party" then
+			settings.upliftcount = GetSetting("partyupliftcount");
+			settings.uplift = GetSetting("partyuplift");
+			settings.tfteauplift = GetSetting("partytftuplift");
+			settings.chiburstlimit = GetSetting("partychiburstcount");
+			settings.chiburst = GetSetting("partychiburst");
+			settings.zenspherelimit = GetSetting("partyzenspherecount");
+			settings.zensphere = GetSetting("partyzensphere");
+			settings.chiwavelimit = GetSetting("partychiwavecount");
+			settings.chiwave = GetSetting("partychiwave");
+			settings.revivallimit = GetSetting("partyrevivalcount");
+			settings.revival = GetSetting("partyrevival");	
+		elseif settings.group_type == "raid10" then
+			settings.upliftcount = GetSetting("raidupliftcount");
+			settings.uplift = GetSetting("raiduplift");
+			settings.tfteauplift = GetSetting("raidtftuplift");
+			settings.chiburstlimit = GetSetting("raidchiburstcount");
+			settings.chiburst = GetSetting("raidchiburst");
+			settings.zenspherelimit = GetSetting("raidzenspherecount");
+			settings.zensphere = GetSetting("raidzensphere");
+			settings.chiwavelimit = GetSetting("raidchiwavecount");
+			settings.chiwave = GetSetting("raidchiwave");
+			settings.revivallimit = GetSetting("raidrevivalcount");
+			settings.revival = GetSetting("raidrevival");
+		elseif settings.group_type == "raid25" then
+			settings.upliftcount = GetSetting("raid25upliftcount");
+			settings.uplift = GetSetting("raid25uplift");
+			settings.tfteauplift = GetSetting("raid25tftuplift");
+			settings.chiburstlimit = GetSetting("raid25chiburstcount");
+			settings.chiburst = GetSetting("raid25chiburst");
+			settings.zenspherelimit = GetSetting("raid25zenspherecount");
+			settings.zensphere = GetSetting("raid25zensphere");
+			settings.chiwavelimit = GetSetting("raid25chiwavecount");
+			settings.chiwave = GetSetting("raid25chiwave");
+			settings.revivallimit = GetSetting("raid25revivalcount");
+			settings.revival = GetSetting("raid25revival");
+		end
+	end,
 	["add to members"] = function()
 		if GetCurrentKeyBoardFocus() then
 			return;
@@ -266,7 +376,7 @@ local abilities = {
 			for i = 1, #ni.members do
 				if ni.unit.buff(ni.members[i].unit, 115175, "player")
 				 and (IsSpellInRange(soothingmist, ni.members[i].unit) ~= 1
-				 or CalculateStopHealing(ni.members[i].unit) > settings.main.smist4chi) then
+				 or CalculateStopHealing(ni.members[i].unit) > settings.smist4chi) then
 					ni.spell.stopcasting();
 					return true;
 				end
@@ -344,7 +454,7 @@ local abilities = {
 		if available(lifecocoon)
 		 and UnitChannelInfo("player") ~= zenmeditation
 		 and UnitAffectingCombat("player")
-		 and ni.members[1].hp < settings.main.lifecocoon
+		 and ni.members[1].hp < settings.lifecocoon
 		 and ni.members[1].threat == 3
 		 and ni.spell.valid(ni.members[1].unit, lifecocoon, false, true, true) then
 			if UnitCastingInfo("player") then
@@ -358,11 +468,11 @@ local abilities = {
 		if available(revival)
 		 and UnitChannelInfo("player") ~= zenmeditation
 		 and UnitAffectingCombat("player") then
-			local count = settings.current.revivallimit;
-			if settings.current.revivallimit > #ni.members then
+			local count = settings.revivallimit;
+			if settings.revivallimit > #ni.members then
 				count = #ni.members
 			end
-			if #ni.members.inrangebelow("player", 100, settings.current.revival) >= count then
+			if #ni.members.inrangebelow("player", 100, settings.revival) >= count then
 				if UnitCastingInfo("player") then
 					ni.spell.stopcasting();
 				end
@@ -381,10 +491,10 @@ local abilities = {
 		 and not UnitCastingInfo("player") then
 			local manatea, _, _, count = ni.player.buff(115867);
 			if manatea
-			 and ((count >= settings.main.manatealimit
-			 and ni.player.power("mana") <= settings.main.manatea)
+			 and ((count >= settings.manatealimit
+			 and ni.player.power("mana") <= settings.manatea)
 			 or ni.player.buff(64904)
-			 or ni.player.power("mana") <= settings.main.lowmana) then
+			 or ni.player.power("mana") <= settings.lowmana) then
 				ni.spell.cast(manatea, "player");
 				return true;
 			end
@@ -490,12 +600,12 @@ local abilities = {
 		 	if not ni.player.buff(101546)
 			 and curchannel ~= zenmeditation
 			 and curchannel ~= cracklingjadelightning then
-				GetTableForBestUnit(settings.main.rmisttank, 40, 2, renewingmist);
+				GetTableForBestUnit(settings.rmisttank, 40, 2, renewingmist);
 				if #customtable > 0 then
 					if customtable[1].unitsclose >= 2
 					 and ni.spell.valid(customtable[1].unit, renewingmist, false, true, true) then
 						if UnitThreatSituation(customtable[1].unit) == 3
-						 or customtable[1].hp <= settings.main.rmist then
+						 or customtable[1].hp <= settings.rmist then
 							ni.spell.cast(renewingmist, customtable[1].unit);
 							return true;
 						end
@@ -517,7 +627,7 @@ local abilities = {
 			 and curchannel ~= zenmeditation
 			 and curchannel ~= cracklingjadelightning
 			 and UnitAffectingCombat("player")
-			 and ni.members.averageof(settings.current.chiwavelimit) <= settings.current.chiwave then
+			 and ni.members.averageof(settings.chiwavelimit) <= settings.chiwave then
 				for i = 1, 4 do
 					local boss = "boss"..i;
 					if UnitExists(boss) and ni.unit.shortguid(boss) == 60708 then
@@ -528,7 +638,7 @@ local abilities = {
 						end
 					end
 				end
-				GetTableForBestUnit(settings.current.chiwave, 20, settings.current.chiwavelimit);
+				GetTableForBestUnit(settings.chiwave, 20, settings.chiwavelimit);
 				if #customtable > 0 then
 					if ni.spell.valid(customtable[1].unit, chiwave, false, true, true) then
 						ni.spell.cast(chiwave, customtable[1].unit);
@@ -550,22 +660,22 @@ local abilities = {
 			for i = 1, #ni.members do
 				if ni.unit.buff(ni.members[i].unit, 115151, "player") then
 					rmcount = rmcount + 1;
-					if ni.members[i].hp <= settings.current.uplift then
+					if ni.members[i].hp <= settings.uplift then
 						upliftcount = upliftcount + 1;
 					end
 				end
 			end
 			local chi = ni.player.powerraw("chi");
 			if chi >= 2 then
-				if (upliftcount >= settings.current.upliftcount
-				 and (chi >= 2 and ni.player.power("mana") < settings.main.lowmana))
+				if (upliftcount >= settings.upliftcount
+				 and (chi >= 2 and ni.player.power("mana") < settings.lowmana))
 				 or (chi >= 4
-				 and (upliftcount >= (settings.current.upliftcount -1))) then
+				 and (upliftcount >= (settings.upliftcount -1))) then
 					if available(116680)
 					 and not ni.player.buff(116680)
 					 and chi >= 3
-					 and ((upliftcount >= settings.current.tfteauplift)
-					 or (rmcount >= settings.main.tftrmist)) then
+					 and ((upliftcount >= settings.tfteauplift)
+					 or (rmcount >= settings.tftrmist)) then
 						ni.spell.cast(116680);
 					end
 					ni.spell.cast(uplift);
@@ -580,7 +690,7 @@ local abilities = {
 			 and ni.player.power("mana") >= 20
 			 and ni.player.powerraw("chi") <= 3
 			 and not UnitCastingInfo("player")
-			 and #ni.members.inrangebelow("player", 8, settings.main.sck) >= settings.main.scklimit then
+			 and #ni.members.inrangebelow("player", 8, settings.sck) >= settings.scklimit then
 				ni.spell.cast(spinningcranekick);
 				return true;
 			end
@@ -595,25 +705,25 @@ local abilities = {
 		 and curchannel ~= cracklingjadelightning
 		 and ni.spell.valid(ni.members[1].unit, 116694, false, true, true) then
 			local vm, _, _, count = ni.player.buff(118674);
-			if ni.members[1].hp < settings.main.surmistinst
+			if ni.members[1].hp < settings.surmistinst
 			 and vm and count == 5 then
 				if available(116680)
 				 and not ni.player.buff(116680)
 				 and ni.player.powerraw("chi") >= 1
-				 and ni.members[1].hp <= settings.main.tftsurmist then
+				 and ni.members[1].hp <= settings.tftsurmist then
 					ni.spell.cast(116680);
 				end
 				ni.spell.cast(116694, ni.members[1].unit);
 				return true;
 			end
-			if ni.members[1].hp < settings.main.surmist
-			 and ni.player.power("mana") > settings.main.lowmana - 5 then
+			if ni.members[1].hp < settings.surmist
+			 and ni.player.power("mana") > settings.lowmana - 5 then
 				if curchannel == soothingmist
 				 and ni.unit.buff(ni.members[1].unit, 115175) then
 					if available(116680)
 					 and not ni.player.buff(116680)
 					 and ni.player.powerraw("chi") >= 1
-					 and ni.members[1].hp <= settings.main.tftsurmist then
+					 and ni.members[1].hp <= settings.tftsurmist then
 					  ni.spell.cast(116680);
 				  end
 				  ni.spell.cast(116694, ni.members[1].unit);
@@ -625,7 +735,7 @@ local abilities = {
 	["Enveloping Mist"] = function()
 		local curchannel = UnitChannelInfo("player");
 		if available(124682)
-		 and ni.members[1].hp < settings.main.emist
+		 and ni.members[1].hp < settings.emist
 		 and not ni.player.buff(101546)
 		 and not UnitCastingInfo("player")
 		 and curchannel ~= zenmeditation
@@ -662,11 +772,11 @@ local abilities = {
 		 and not ni.members[1]:buff(115175, "player")
 		 and ni.spell.valid(ni.members[1].unit, 115175, false, true, true) then
 			local chi = ni.player.powerraw("chi");
-			if ni.members[1].hp <= settings.main.smist 
+			if ni.members[1].hp <= settings.smist 
 			 and chi >= 4 then
 				ni.spell.cast(soothingmist, ni.members[1].unit);
 				return true;
-			elseif ni.members[1].hp <= settings.main.smist4chi
+			elseif ni.members[1].hp <= settings.smist4chi
 			 and ni.player.power("mana") >= 15
 			 and chi < 4 then
 				ni.spell.cast(soothingmist, ni.members[1].unit);
@@ -786,17 +896,17 @@ local function queue()
 	local info1, info2, info3 = GetInstanceInfo();
 	if IsInInstance() then
 		if info2 == "party" then
-			settings.current = settings.party;
+			settings.group_type = "party";
 			return mainqueue;
 		elseif info2 == "raid" and (info3 == 3 or info3 == 5) then
-			settings.current = settings.raid10;
+			settings.group_type = "raid10";
 			return raidqueue;
 		elseif info2 == "raid" and (info3 == 4 or info3 == 6 or info3 == 7) then
-			settings.current = settings.raid25;
+			settings.group_type = "raid25";
 			return raidqueue;
 		end
 	end
-	settings.current = settings.master;
+	settings.group_type = "main";
 	return mainqueue;
 end
-ni.bootstrap.rotation("Mistweaver", queue, abilities);
+ni.bootstrap.rotation("Mistweaver", queue, abilities, nil, { [1] = "Mistweaver", [2] = items });

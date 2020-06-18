@@ -23,6 +23,7 @@ local files = {
 	"Core\\Engines\\Members.lua",
 	"Core\\Engines\\ObjectManager.lua",
 	"Core\\Engines\\StopCastingTracker.lua",
+	"Core\\Frames\\GUI.lua",
 	"Core\\Frames\\UI.lua",
 	"Core\\Frames\\CombatLog.lua",
 	"Core\\Frames\\Delay.lua",

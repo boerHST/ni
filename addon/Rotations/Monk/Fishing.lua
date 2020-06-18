@@ -39,6 +39,7 @@ local abilities = {
 			end
 		else
 			ni.spell.delaycast("Fishing", nil, 1.5);
+			ni.utils.resetlasthardwareaction();
 		end
 	end,
 }
