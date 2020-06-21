@@ -33,6 +33,7 @@ ni.vars = {
 	combat = {
 		started = false,
 		time = 0,
+		ended = 0,
 		melee = false,
 		cd = false,
 		aoe = false,

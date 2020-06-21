@@ -29,10 +29,12 @@ ni.frames.combatlog_OnEvent = function(self, event, ...)
 	if event == "PLAYER_REGEN_DISABLED" then
 		ni.vars.combat.started = true
 		ni.vars.combat.time = GetTime()
+		ni.vars.combat.ended = 0
 	end
 	if event == "PLAYER_REGEN_ENABLED" then
 		ni.vars.combat.started = false
 		ni.vars.combat.time = 0
+		ni.vars.combat.ended = GetTime()
 	end
 	if (event == "UNIT_SPELLCAST_SENT" or event == "UNIT_SPELLCAST_CHANNEL_START") and ni.vars.combat.casting == false then
 		local unit, spell = ...
