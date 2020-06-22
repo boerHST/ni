@@ -61,4 +61,5 @@ ni.functions = {
 	savesetting = %%SaveSetting%%,
 	fileexists = %%FileExists%%,
 	resetlasthardwareaction = %%ResetLastHardwareAction%%,
+	auras = %%Auras%%,
 }

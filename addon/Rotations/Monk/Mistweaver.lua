@@ -19,6 +19,7 @@ local items = {
 	{ type = "entry", text = "Spinning Crane Kick Count", enabled = nil, value = 3, key = "sckcount" },
 	{ type = "entry", text = "Low Mana", enabled = true, value = 20, key = "lowmana" },
 	{ type = "entry", text = "Detox", enabled = true, value = 60, key = "detox" },
+	{ type = "entry", text = "DPS", enabled = true, key = "DPS" },
 	{ type = "separator" },
 	{ type = "page", number = 1, text = "Non Instance Settings" },
 	{ type = "separator" },
@@ -112,6 +113,7 @@ local settings = {
 	chiwave = GetSetting("mainchiwave"),
 	revivallimit = GetSetting("mainrevivalcount"),
 	revival = GetSetting("mainrevival"),
+	dps = GetSetting("DPS"),
 };
 local mainqueue = {
 	"settings",
@@ -799,6 +801,10 @@ local abilities = {
 		end
 	end,
 	["DPS: SM"] = function()
+		settings.dps = select(2, GetSetting("DPS"));
+		if not settings.dps then
+			return true;
+		end
 		if ni.spell.available(116694) then
 			local curchannel = UnitChannelInfo("player");
 			if not ni.player.buff(101546)
