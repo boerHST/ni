@@ -60,7 +60,7 @@ local enemiestable = { };
 local friendstable = { };
 local creationstable = { };
 local targetingtable = { };
-local auras = { };
+local unitauras = { };
 
 ni.unit = {
 	exists = function(t)
@@ -370,12 +370,15 @@ ni.unit = {
 		end
 	end,
 	auras = function(t)
-		table.wipe(auras);
-		auras = ni.functions.auras(t);
-		for k, v in pairs(auras) do
-			rawset(v, "name", GetSpellInfo(v.ID));
+		table.wipe(unitauras);
+		unitauras = ni.functions.auras(t) or { };
+		for k, v in pairs(unitauras) do
+			local name = GetSpellInfo(v.ID)
+			if name then
+				rawset(v, "name", name);
+			end
 		end
-		return auras;
+		return unitauras;
 	end,
 	bufftype = function(t, str)
 		if not ni.unit.exists(t) then
