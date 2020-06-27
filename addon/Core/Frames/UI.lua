@@ -94,10 +94,28 @@ function ni.frames.floatingtext:message(message)
 end
 
 ni.showstatus = function(str)
+	local unload = false;
 	if ni.vars.profiles.enabled then
+		if ni.rotation.lastprofile ~= str then
+			unload = true;
+		end
 		ni.frames.floatingtext:message("\124cff00ff00" .. str)
 	else
+		unload = true;
 		ni.frames.floatingtext:message("\124cffff0000" .. str)
+	end
+	if unload then
+		if ni.rotation.profile[ni.rotation.lastprofile] and ni.rotation.profile[ni.rotation.lastprofile].destroyGUI then
+			ni.rotation.profile[ni.rotation.lastprofile]:destroyGUI();
+		end
+	end
+	if ni.vars.profiles.enabled then
+		if ni.rotation.profile[str] and ni.rotation.profile[str].createGUI then
+			ni.rotation.profile[str]:createGUI();
+		end
+	end
+	if ni.rotation.lastprofile ~= str then
+		ni.rotation.lastprofile = str;
 	end
 end
 

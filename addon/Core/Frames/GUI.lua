@@ -551,7 +551,7 @@ local function CreatedFramesByName()
 end
 local function GetStoredTable(name)
 	for k, v in pairs(storedframes) do
-		if v == name then
+		if v.name == name then
 			return k;
 		end
 	end
@@ -571,15 +571,17 @@ if not ni.GUI then
 		return frames[name];
 	end
 	ni.GUI.AddFrame = function(name, t)
-		local f = table.remove(storedframes, GetStoredTable(name));
-		if not f then
+		local k = GetStoredTable(name);
+		if k == nil then
 			NewFrame(name);
 			ApplySettings(name, t);
 			if frames[name].pages and #frames[name].pages > 0 then
 				frames[name].currentpage = 1;
 			end
 			Resize(name, true);
+			frames[name]:Show();
 		else
+			local f = table.remove(storedframes, k);
 			rawset(frames, name, f);
 			f:Show();
 			Resize(name, true);
