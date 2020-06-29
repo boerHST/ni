@@ -356,6 +356,7 @@ local function CreateMenuFrame(frame, t, settings)
 		item:SetWidth(width);
 		Frame.items[id] = item;
 		if v.selected then
+			print(text);
 			frame.text:SetText(text);
 		end
 		if id > 1 then
@@ -653,17 +654,19 @@ local function UpdateSettings(t)
 					end
 				elseif v.type == "dropdown" and v.key ~= nil then
 					local value = ni.utils.getsetting(t.settingsfile, "settings/"..v.key, "string");
-					for _, v2 in ipairs(v.menu) do
-						local text;
-						if v2.text ~= nil then
-							text = v2.text;
-						else
-							text = v2.value;
-						end
-						if tostring(text) == value then
-							v2.selected = true;
-						else
-							v2.selected = false;
+					if value ~= nil then
+						for _, v2 in ipairs(v.menu) do
+							local text;
+							if v2.text ~= nil then
+								text = v2.text;
+							else
+								text = v2.value;
+							end
+							if tostring(text) == value then
+								v2.selected = true;
+							else
+								v2.selected = false;
+							end
 						end
 					end
 				end
