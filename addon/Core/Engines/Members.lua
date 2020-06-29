@@ -77,7 +77,7 @@ function memberssetup:create(unit)
 	function o:calculateistank()
 		if select(2, UnitClass(o.unit)) == "WARRIOR" and ni.unit.aura(o.guid, 71) then
 			return true;
-		elseif select(2, UnitClass(o.unit)) == "DRUID" and ni.unit.buff(o.unit, 9634, "EXACT") then
+		elseif select(2, UnitClass(o.unit)) == "DRUID" and (ni.unit.buff(o.unit, 9634, "EXACT") or ni.unit.buff(o.unit, 5487, "EXACT"))	then
 			return true;
 		elseif ni.unit.aura(o.guid, 57340) then
 			return true;

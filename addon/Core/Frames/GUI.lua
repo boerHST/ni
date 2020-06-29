@@ -4,6 +4,7 @@
 local frames = { };
 local storedframes = { };
 local framenames = { };
+local generated_names = { };
 -----------------------------------------------
 ------- Local variables for the GUI -----------
 -----------------------------------------------
@@ -59,16 +60,24 @@ local function Popper(self, ...)
 		end
 	end
 end
+local function GUI_OnLeave(self, ...)
+	PopBack(ni.GUI, ...);
+end;
+local function GUI_OnEnter(self, ...)
+	PopOut(ni.GUI, ...);
+end;
 local function ResizeEntries(frame)
 	local width = ni.GUI:GetWidth() - 16;
 	for k, v in ipairs(frames[frame].items) do
 		if v.isentry then
-			local button = v.checkbutton;
-			local text = v.text;
-			local editbox = v.editbox;
-			local _, _, _, _, yOfs = text:GetPoint();
-			local newpoint = (width/2) - (text:GetWidth()/2) - (editbox:GetWidth()/2) + button:GetWidth()/2;
-			text:SetPoint("LEFT", newpoint, yOfs); 
+			if v.text then
+				local button = v.checkbutton;
+				local text = v.text;
+				local editbox = v.editbox;
+				local _, _, _, _, yOfs = text:GetPoint();
+				local newpoint = (width/2) - (text:GetWidth()/2) - (editbox:GetWidth()/2) + button:GetWidth()/2;
+				text:SetPoint("LEFT", newpoint, yOfs); 
+			end
 		end
 	end
 	if frames[frame].pages ~= nil and #frames[frame].pages > 0 then
@@ -98,6 +107,11 @@ local function Resize(frame, reset)
 				if temp > width then
 					width = temp;
 				end
+			elseif v.ismenu then
+				local temp = v.menu:GetWidth() + 16;
+				if temp > width then
+					width = temp;
+				end
 			elseif v.istext then
 				local temp = v:GetStringWidth() + 16;
 				if temp > width then
@@ -118,6 +132,11 @@ local function Resize(frame, reset)
 					page_height = page_height + v:GetHeight() + 4;
 					if v.isentry then
 						local temp = v.checkbutton:GetWidth() + v.text:GetStringWidth() + v.editbox:GetWidth() + 16;
+						if temp > width then
+							width = temp;
+						end
+					elseif v.ismenu then
+						local temp = v.menu:GetWidth() + 16;
 						if temp > width then
 							width = temp;
 						end
@@ -189,6 +208,21 @@ end
 -----------------------------------------------
 ----- Local functions to create the frames ----
 -----------------------------------------------
+local function RandomVariable(length)
+	local res = ""
+	for i = 1, length do
+		res = res .. string.char(math.random(97, 122))
+	end
+	return res
+end
+local function GenerateRandomName()
+	local name = RandomVariable(20);
+	while tContains(generated_names, name) do
+		name = RandomVariable(20);
+	end
+	table.insert(generated_names, name);
+	return name;
+end
 local function CreateText(frame, text)
 	local TextFrame = frame:CreateFontString(nil, "OVERLAY", "GameFontHighlight");
 	TextFrame:SetPoint("CENTER", 0, 0);
@@ -256,6 +290,132 @@ local function CreateEditBox(frame, t, settings)
 	end)
 	return EditBox;
 end
+local function CreateRadial(frame, t, k, settings)
+	local CheckButton = CreateFrame("CheckButton", nil, frame, "OptionsBaseCheckButtonTemplate");
+	CheckButton:SetSize(0.1, 16);
+	CheckButton:SetChecked(t.menu[k].selected);
+	CheckButton:SetScript("OnEnter", GUI_OnEnter);
+	CheckButton:SetScript("OnLeave", GUI_OnLeave);
+	CheckButton:Show();
+	function CheckButton.Check(bool)
+		t.menu[k].selected = bool;
+		CheckButton:SetChecked(bool);
+	end;
+	CheckButton:SetScript("OnClick", function(self)
+		for k, v in pairs(frame:GetParent().items) do
+			v.selected.Check(false);
+		end
+		self.Check(true);
+		local text;
+		if t.menu[k].text ~= nil then
+			text = t.menu[k].text;
+		else
+			text = tostring(t.menu[k].value);
+		end
+		if settings ~= nil and t.key ~= nil then
+			ni.utils.savesetting(settings, "settings/"..t.key, text);
+		end
+		frame:GetParent():GetParent().text:SetText(text);
+		frame:GetParent().isshown = false;
+		frame:GetParent():Hide();
+	end);
+	return CheckButton;
+end
+local function CreateMenuFrame(frame, t, settings)
+	local Frame = CreateFrame("frame", nil, frame);
+	Frame:SetBackdrop({
+		bgFile = "Interface/Buttons/WHITE8X8",
+		edgeFile = "Interface/Buttons/WHITE8X8",
+		edgeSize = 1,
+	});
+	Frame:SetPoint("TOP", frame, "BOTTOM");
+    Frame:SetBackdropColor(0,0,0,1);
+    Frame:SetBackdropBorderColor(.8,.8,.8,1);
+	Frame.items = { };
+	Frame.isshown = false;
+	local height = 0;
+	for k, v in ipairs(t.menu) do
+		local id = #Frame.items + 1;
+		local item = CreateFrame("frame", nil, Frame);
+		item:SetHeight(16);
+		local text;
+		if v.text == nil then
+			text = v.value;
+		else
+			text = v.text;
+		end
+		item.text = CreateText(item, text);
+		item.text:SetPoint("CENTER");
+		item.text:SetJustifyH("CENTER");
+		item.text:SetJustifyV("CENTER");
+		item.selected = CreateRadial(item, t, k, settings);
+		item.selected:SetPoint("LEFT", 0, 0);
+		item.selected:SetCheckedTexture(nil)
+		item.selected:SetDisabledCheckedTexture(nil);
+		local width = item.text:GetStringWidth() + 8;
+		item:SetWidth(width);
+		Frame.items[id] = item;
+		if v.selected then
+			frame.text:SetText(text);
+		end
+		if id > 1 then
+			item:SetPoint("TOP", Frame.items[id-1], "BOTTOM", 0, -2);
+			height = height + 2;
+		else
+			item:SetPoint("TOP", 0, -4);
+			height = height + 4
+		end
+		height = height + item:GetHeight();
+	end
+	local width = 0;
+	for k, v in pairs(Frame.items) do
+		local temp = v:GetWidth() + 16;
+		if temp > width then
+			width = temp;
+		end
+	end
+	for k, v in pairs(Frame.items) do
+		v:SetWidth(width);
+	end
+	Frame:SetSize(width, height + 4);
+	Frame:SetScript("OnEnter", GUI_OnEnter);
+	Frame:SetScript("OnLeave", GUI_OnLeave);
+	Frame:Hide();
+	return Frame;
+end
+local function CreateMenu(frame, t, settings)
+	local DropDownMenu = CreateFrame("Button", nil, frame);
+	DropDownMenu:SetBackdrop({
+		bgFile = "Interface/Buttons/WHITE8X8",
+		edgeFile = "Interface/Buttons/WHITE8X8",
+		edgeSize = 1,
+	});
+    DropDownMenu:SetBackdropColor(0,0,0,0.5);
+    DropDownMenu:SetBackdropBorderColor(.8,.8,.8,.5);	
+	DropDownMenu:Show();
+	DropDownMenu.text = CreateText(DropDownMenu, "");
+	local submenu = CreateMenuFrame(DropDownMenu, t, settings);
+	DropDownMenu:SetScript("OnEnter", GUI_OnEnter);
+	DropDownMenu:SetScript("OnLeave", GUI_OnLeave);
+	DropDownMenu:SetScript("OnClick", function(self, ...)
+		if submenu.isshown then
+			submenu.isshown = false;
+			submenu:Hide();
+		else
+			submenu.isshown = true;
+			submenu:Show();
+		end
+	end);
+	local width = 0;
+	for k, v in pairs(submenu.items) do
+		local temp = v:GetWidth();
+		if temp > width then
+			width = temp;
+		end
+	end
+	DropDownMenu:SetSize(width, 16);
+	return DropDownMenu;
+end
 local function CreateEntry(frame, i, t)
 	local f;
 	local distance = -16;
@@ -274,47 +434,52 @@ local function CreateEntry(frame, i, t)
 	TempFrame:SetPoint("LEFT", 4, 0);
 	TempFrame:SetPoint("RIGHT", -4, 0);
 	TempFrame:Show();
-	local CheckButton;
-	if t.enabled ~= nil then
-		CheckButton = CreateCheckBox(TempFrame, t, frames[frame].settingsfile)
-		TempFrame.hascheck = true;
+	local combwidth;
+	if t.menu == nil then
+		local EditBox;
+		local CheckButton;
+		if t.enabled ~= nil then
+			CheckButton = CreateCheckBox(TempFrame, t, frames[frame].settingsfile)
+			TempFrame.hascheck = true;
+		else
+			CheckButton = CreateBlankSquare(TempFrame);
+			TempFrame.hascheck = false;
+		end
+		local cbwidth = CheckButton:GetWidth();
+		local cbheight = CheckButton:GetHeight();
+		CheckButton:SetPoint("LEFT", 0, -(12-(cbheight/2)));
+		CheckButton:SetScript("OnEnter", GUI_OnEnter);
+		CheckButton:SetScript("OnLeave", GUI_OnLeave);
+		TempFrame.checkbutton = CheckButton;
+		local Text = CreateText(TempFrame, t.text);
+		TempFrame.text = Text;
+		if t.value ~= nil then
+			EditBox = CreateEditBox(TempFrame, t, frames[frame].settingsfile);
+		else
+			EditBox = CreateBlankSquare(TempFrame);
+			EditBox:SetPoint("RIGHT", -4, 0);
+		end
+		EditBox:SetScript("OnEnter", function(self, ...)
+			PopOut(ni.GUI, ...);
+		end);
+		EditBox:SetScript("OnLeave", function(self, ...) 
+			PopBack(ni.GUI, ...);
+		end);
+		TempFrame.editbox = EditBox;
+		local twidth = Text:GetWidth();
+		local ebwidth = EditBox:GetWidth();
+		local theight = Text:GetStringHeight();
+		combwidth = cbwidth + twidth + ebwidth + 48;
+		Text:SetPoint("LEFT", cbwidth, 0.5);
+		TempFrame.isentry = true;
 	else
-		CheckButton = CreateBlankSquare(TempFrame);
-		TempFrame.hascheck = false;
+		local Menu = CreateMenu(TempFrame, t, frames[frame].settingsfile);
+		Menu:SetPoint("CENTER");
+		combwidth = Menu:GetWidth() + 48;
+		TempFrame.menu = Menu;
+		TempFrame.ismenu = true;
 	end
-	local cbwidth = CheckButton:GetWidth();
-	local cbheight = CheckButton:GetHeight();
-	local Text = CreateText(TempFrame, t.text);
-	TempFrame.checkbutton = CheckButton;
-	TempFrame.text = Text;
-	local EditBox;
-	if t.value ~= nil then
-		EditBox = CreateEditBox(TempFrame, t, frames[frame].settingsfile);
-	else
-		EditBox = CreateBlankSquare(TempFrame);
-		EditBox:SetPoint("RIGHT", -4, 0);
-	end
-	EditBox:SetScript("OnEnter", function(self, ...)
-		PopOut(ni.GUI, ...);
-	end);
-	EditBox:SetScript("OnLeave", function(self, ...) 
-		PopBack(ni.GUI, ...);
-	end);
-	TempFrame.editbox = EditBox;
-	CheckButton:SetScript("OnEnter", function(self, ...)
-		PopOut(ni.GUI, ...);
-	end);
-	CheckButton:SetScript("OnLeave", function(self, ...) 
-		PopBack(ni.GUI, ...);
-	end);
-	local twidth = Text:GetWidth();
-	local ebwidth = EditBox:GetWidth();
-	local theight = Text:GetStringHeight();
-	CheckButton:SetPoint("LEFT", 0, -(12-(cbheight/2)));
-	local combwidth = cbwidth + twidth + ebwidth + 48;
-	Text:SetPoint("LEFT", cbwidth, 0.5);
 	TempFrame:SetWidth(combwidth);
-	TempFrame.isentry = true;
 	f.items[id] = TempFrame;
 	if id > 1 then
 		TempFrame:SetPoint("TOP", f.items[id-1], "BOTTOM", 0, -4);
@@ -486,6 +651,21 @@ local function UpdateSettings(t)
 							v.value = value;
 						end
 					end
+				elseif v.type == "dropdown" and v.key ~= nil then
+					local value = ni.utils.getsetting(t.settingsfile, "settings/"..v.key, "string");
+					for _, v2 in ipairs(v.menu) do
+						local text;
+						if v2.text ~= nil then
+							text = v2.text;
+						else
+							text = v2.value;
+						end
+						if tostring(text) == value then
+							v2.selected = true;
+						else
+							v2.selected = false;
+						end
+					end
 				end
 			end
 		end
@@ -502,6 +682,8 @@ local function ApplySettings(name, t)
 		elseif v.type == "separator" then
 			CreateSeparator(name);
 		elseif v.type == "entry" then
+			CreateEntry(name, k, v);
+		elseif v.type == "dropdown" then
 			CreateEntry(name, k, v);
 		elseif v.type == "page" then
 			if frames[name].pages == nil then

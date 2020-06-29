@@ -2,7 +2,7 @@ local items = {
 	settingsfile = "Nrdr_Mistweaver.xml",
 	{ type = "title", text = "Mistweaver" },
 	{ type = "separator" },
-	{ type = "title", value = "Main Settings" },
+	{ type = "title", text = "Main Settings" },
 	{ type = "entry", text = "Enveloping Mist", enabled = true, value = 60, key = "emist" },
 	{ type = "entry", text = "Mana Tea Count", value = 2, key = "manateacount" },
 	{ type = "entry", text = "Mana Tea", enabled = true, value = 90, key = "manatea" },
@@ -80,6 +80,15 @@ local function GetSetting(name)
 		 and v.key ~= nil
 		 and v.key == name then
 			return v.value, v.enabled
+		end
+		if v.type == "dropdown"
+		 and v.key ~= nil
+		 and v.key == name then
+			for k2, v2 in pairs(v.menu) do
+				if v2.selected then
+					return v2.value
+				end
+			end
 		end
 	end
 end
@@ -760,7 +769,8 @@ local abilities = {
 		end
 	end,
 	["Soothing Mist"] = function()
-		if ni.spell.valid("target", jab, true, true) or ni.player.ismoving() then
+		settings.dps = select(2, GetSetting("DPS"));
+		if settings.dps and ni.spell.valid("target", jab, true, true) or ni.player.ismoving() then
 			return false;
 		end
 		local curchannel = UnitChannelInfo("player");
@@ -801,7 +811,6 @@ local abilities = {
 		end
 	end,
 	["DPS: SM"] = function()
-		settings.dps = select(2, GetSetting("DPS"));
 		if not settings.dps then
 			return true;
 		end
