@@ -73,22 +73,19 @@ ni.unit = {
 		return ni.unit.exists(t) and ni.functions.unitcreator(t) or nil
 	end,
 	creations = function(unit)
+		table.wipe(creationstable);
 		if unit then
-			table.wipe(creationstable);
 			local guid = UnitGUID(unit)
 			for k, v in pairs(ni.objects) do
 				if type(k) ~= "function" and (type(k) == "string" and type(v) == "table") then
 					local creator = v:creator()
-					if creator == guid then
+					if tonumber(creator) == tonumber(guid) then
 						table.insert(creationstable, {name = v.name, guid = v.guid})
 					end
 				end
 			end
-			if (#creationstable > 0) then
-				return creationstable
-			end
 		end
-		return nil
+		return creationstable
 	end,
 	creaturetype = function(t)
 		return ni.unit.exists(t) and ni.functions.creaturetype(t) or 0
