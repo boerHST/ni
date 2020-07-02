@@ -84,7 +84,7 @@ function ni.objects:get(objguid, objtype, objname)
 end
 function ni.objects:create(objguid, objtype, objname)
 	local o = {}
-	setmetatable(o, objectsetup)
+	setmetatable(o, objectsetup);
 	if objguid then
 		o.guid = objguid
 		o.name = objname
@@ -102,14 +102,14 @@ function ni.objects:create(objguid, objtype, objname)
 	function o:power(t)
 		return ni.unit.power(o.guid, t)
 	end
+	function o:powermax(t)
+		return ni.power.max(o.guid, t)
+	end
 	function o:unit()
 		return o.type == 3
 	end
 	function o:player()
 		return o.type == 4
-	end
-	function o:powermax(t)
-		return ni.power.max(o.guid, t)
 	end
 	function o:canattack(tar)
 		local t = true and tar or "player"
