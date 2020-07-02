@@ -1,5 +1,6 @@
 local queue = {
 	"Pause",
+	"Selfless Healer",
 	"Seal",
 	"Auto Attack",
 	"Inquisition",
@@ -26,6 +27,32 @@ local queue = {
 	"Templars Verdict (5)",
 	"Holy Prism",
 }
+local items = {
+	settingsfile = "Nrdr_PreRaidRet_MoP.xml",
+	{ type = "title", text = "PreRaid/Leveling Ret" },
+	{ type = "separator" },
+	{ type = "title", text = "Main Settings" },
+	{ type = "entry", text = "Auto AoE", enabled = true, key = "AoE" },
+	{ type = "entry", text = "Selfless Healer", enabled = true, value = 75, key = "Selfless" },
+};
+local function GetSetting(name)
+	for k, v in ipairs(items) do
+		if v.type == "entry"
+		 and v.key ~= nil
+		 and v.key == name then
+			return v.value, v.enabled
+		end
+		if v.type == "dropdown"
+		 and v.key ~= nil
+		 and v.key == name then
+			for k2, v2 in pairs(v.menu) do
+				if v2.selected then
+					return v2.value
+				end
+			end
+		end
+	end
+end;
 local spells = {
 	sealoftruth = { id = 31801, name = GetSpellInfo(31801) },
 	sealofrighteousness = { id = 20154, name = GetSpellInfo(20154) },
@@ -39,6 +66,7 @@ local spells = {
 	crusaderstrike = { id = 35395, name = GetSpellInfo(35395) },
 	exorcism = { id = 879, name = GetSpellInfo(879) },
 	judgement = { id = 20271, name = GetSpellInfo(20271) },
+	flashoflight = { id = 19750, name = GetSpellInfo(19750) },
 }
 local maxholy = UnitPowerMax("player", 9);
 local enemies = { };
@@ -82,18 +110,32 @@ local abilities = {
 		end
 	end,
 	["Seal"] = function()
-		if ni.vars.combat.aoe
+		local value, enabled = GetSetting("AoE");
+		if (ni.vars.combat.aoe
+		 or (enabled and ActiveEnemies() >= 4))
 		 and HaveAbility(spells.sealofrighteousness.id) then
-			if not ni.player.buff(spells.sealofrighteousness.name) then
+			if not ni.player.aura(spells.sealofrighteousness.id) then
 				ni.spell.cast(spells.sealofrighteousness.name);
 				return true;
 			end
 		else
 			if HaveAbility(spells.sealoftruth.id)
-			 and not ni.player.buff(spells.sealoftruth.name) then
+			 and not ni.player.aura(spells.sealoftruth.id) then
 				ni.spell.cast(spells.sealoftruth.name);
 				return true;
 			end
+		end
+	end,
+	["Selfless Healer"] = function()
+		local value, enabled = GetSetting("Selfless");
+		if enabled
+		 and select(2, GetTalentRowSelectionInfo(3)) == 7
+		 and nxr.player.buffstacks(114250) == 3
+		 and ni.members[1].hp <= value
+		 and ni.player.los(ni.members[1].unit)
+		 and IsSpellInRange(spells.flashoflight.name, ni.members[1].unit) == 1 then
+			ni.spell.cast(spells.flashoflight.name, ni.members[1].unit);
+			return true;
 		end
 	end,
 	["Auto Attack"] = function()
@@ -322,4 +364,4 @@ local abilities = {
 
 	end
 }
-ni.bootstrap.rotation("PreRaid Ret - MoP", queue, abilities);
+ni.bootstrap.rotation("PreRaid Ret - MoP", queue, abilities, nil, { [1] = "PreRaid Ret", [2] = items });

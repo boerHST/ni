@@ -21,7 +21,7 @@ local function start(queue, abilities, data, GUI)
 		end
 		for i = 1, #temp_queue do
 			local abilityinqueue = temp_queue[i]
-			if abilities[abilityinqueue]() then
+			if abilities[abilityinqueue] ~= nil and abilities[abilityinqueue]() then
 				break
 			end
 		end
