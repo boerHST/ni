@@ -369,12 +369,6 @@ ni.unit = {
 	auras = function(t)
 		table.wipe(unitauras);
 		unitauras = ni.functions.auras(t) or { };
-		for k, v in pairs(unitauras) do
-			local name = GetSpellInfo(v.ID)
-			if name then
-				rawset(v, "name", name);
-			end
-		end
 		return unitauras;
 	end,
 	bufftype = function(t, str)

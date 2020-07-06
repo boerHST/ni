@@ -114,13 +114,23 @@ ni.toggleprofile = function(str)
 		ni.vars.profiles.active = str;
 	end
 	if unload then
-		if ni.rotation.profile[ni.rotation.lastprofile] and ni.rotation.profile[ni.rotation.lastprofile].destroyGUI then
-			ni.rotation.profile[ni.rotation.lastprofile]:destroyGUI();
+		if ni.rotation.profile[ni.rotation.lastprofile] then
+			if ni.rotation.profile[ni.rotation.lastprofile].unload then
+				ni.rotation.profile[ni.rotation.lastprofile]:unload();
+			end
+			if ni.rotation.profile[ni.rotation.lastprofile].destroyGUI then
+				ni.rotation.profile[ni.rotation.lastprofile]:destroyGUI();
+			end
 		end
 	end
 	if ni.vars.profiles.enabled then
-		if ni.rotation.profile[str] and ni.rotation.profile[str].createGUI then
-			ni.rotation.profile[str]:createGUI();
+		if ni.rotation.profile[str] then
+			if ni.rotation.profile[str].load then
+				ni.rotation.profile[str]:load();
+			end
+			if ni.rotation.profile[str].createGUI then
+				ni.rotation.profile[str]:createGUI();
+			end
 		end
 	end
 	if ni.rotation.lastprofile ~= str then

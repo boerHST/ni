@@ -13,19 +13,30 @@ local function isspelltoignore(spellname)
 	return false;
 end
 
+local events = { };
+
+ni.combatlog = {
+	registerhandler = function(name, callback)
+		if not events[name] then
+			events[name] = callback;
+			return true;
+		end
+		return false;
+	end,
+	unregisterhandler = function(name)
+		if events[name] then
+			events[name] = nil;
+			return true;
+		end
+		return false;
+	end,
+};
 ni.frames.combatlog = CreateFrame("Frame")
-ni.frames.combatlog:RegisterEvent("COMBAT_LOG_EVENT_UNFILTERED")
-ni.frames.combatlog:RegisterEvent("UNIT_SPELLCAST_SUCCEEDED")
-ni.frames.combatlog:RegisterEvent("UNIT_SPELLCAST_SENT")
-ni.frames.combatlog:RegisterEvent("UNIT_SPELLCAST_STOP")
-ni.frames.combatlog:RegisterEvent("UNIT_SPELLCAST_FAILED")
-ni.frames.combatlog:RegisterEvent("UNIT_SPELLCAST_FAILED_QUIET")
-ni.frames.combatlog:RegisterEvent("UNIT_SPELLCAST_INTERRUPTED")
-ni.frames.combatlog:RegisterEvent("UNIT_SPELLCAST_CHANNEL_START")
-ni.frames.combatlog:RegisterEvent("UNIT_SPELLCAST_CHANNEL_STOP")
-ni.frames.combatlog:RegisterEvent("PLAYER_REGEN_ENABLED")
-ni.frames.combatlog:RegisterEvent("PLAYER_REGEN_DISABLED")
+ni.frames.combatlog:RegisterAllEvents();
 ni.frames.combatlog_OnEvent = function(self, event, ...)
+	for _, v in pairs(events) do
+		v(event, ...);
+	end
 	if event == "PLAYER_REGEN_DISABLED" then
 		ni.vars.combat.started = true
 		ni.vars.combat.time = GetTime()

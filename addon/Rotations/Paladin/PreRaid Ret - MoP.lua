@@ -1,4 +1,5 @@
 local queue = {
+	"Buffs",
 	"Pause",
 	"Selfless Healer",
 	"Seal",
@@ -67,7 +68,24 @@ local spells = {
 	exorcism = { id = 879, name = GetSpellInfo(879) },
 	judgement = { id = 20271, name = GetSpellInfo(20271) },
 	flashoflight = { id = 19750, name = GetSpellInfo(19750) },
+	blessingofkings = { id = 20217, name = GetSpellInfo(20217) },
 }
+local incombat = false;
+local function CombatEventCatcher(event, ...)
+	if event == "PLAYER_REGEN_DISABLED" then
+		incombat = true;
+	elseif event == "PLAYER_REGEN_ENABLED" then
+		incombat = false;
+	end
+end
+local function OnLoad()
+	ni.combatlog.registerhandler("PreRaid Ret", CombatEventCatcher);
+	ni.GUI.AddFrame("PreRaid Ret", items);
+end
+local function OnUnload()
+	ni.combatlog.unregisterhandler("PreRaid Ret");
+	ni.GUI.DestroyFrame("PreRaid Ret");
+end
 local maxholy = UnitPowerMax("player", 9);
 local enemies = { };
 local function ActiveEnemies()
@@ -99,6 +117,14 @@ local function FacingLosCast(spell, tar)
 	return false;
 end
 local abilities = {
+	["Buffs"] = function()
+		if incombat
+		 and HaveAbility(spells.blessingofkings.id)
+		 and not ni.player.buff(spells.blessingofkings.name) then
+			ni.spell.cast(spells.blessingofkings.name, "player");
+			return true;
+		end
+	end,
 	["Pause"] = function()
 		if IsMounted()
 		 or UnitIsDeadOrGhost("player")
@@ -364,4 +390,4 @@ local abilities = {
 
 	end
 }
-ni.bootstrap.rotation("PreRaid Ret - MoP", queue, abilities, nil, { [1] = "PreRaid Ret", [2] = items });
+ni.bootstrap.profile("PreRaid Ret - MoP", queue, abilities, OnLoad, OnUnload);
