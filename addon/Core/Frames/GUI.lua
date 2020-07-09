@@ -356,7 +356,6 @@ local function CreateMenuFrame(frame, t, settings)
 		item:SetWidth(width);
 		Frame.items[id] = item;
 		if v.selected then
-			print(text);
 			frame.text:SetText(text);
 		end
 		if id > 1 then
