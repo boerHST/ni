@@ -858,6 +858,9 @@ if not ni.GUI then
 		if num_frames == 0 then
 			ni.GUI:Hide();
 		else
+			main_height = main_original_height;
+			main_width = main_original_width;
+			main_y = main_orignal_y;
 			if num_frames > 1 then
 				ShowMainPages();
 				frames[name]:Hide();
@@ -883,14 +886,14 @@ if not ni.GUI then
 		if #framenames == 0 then
 			ni.GUI:Hide();
 		else
+			main_width = main_original_width;
+			main_height = main_original_height;
+			main_y = main_original_y;
 			if #framenames > 1 then
 				ShowMainPages();
 			else
 				HideMainPages();
 			end
-			main_width = main_original_width;
-			main_height = main_original_height;
-			main_y = main_original_y;
 			if current_frame == name then
 				for k, v in pairs(frames) do
 					current_frame = k;
