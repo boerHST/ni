@@ -16,6 +16,7 @@ local main_y = 55;
 local main_original_y = main_y;
 local original_offset = 45;
 local offset = original_offset;
+local current_frame;
 -----------------------------------------------
 ----- Local functions for movement/sizing -----
 -----------------------------------------------
@@ -177,6 +178,47 @@ local function Resize(frame, reset)
 		else
 			ApplyLayout();
 		end
+	end
+end
+local function NumberOfFrames()
+	local num_frames = 0;
+	for k, v in pairs(frames) do
+		num_frames = num_frames + 1;
+	end
+	return num_frames;
+end
+local function ChangeMainPageBack()
+	local num_frames = NumberOfFrames();
+	if num_frames > 1 then
+		for k, v in pairs(frames) do
+			if k ~= current_frame then
+				frames[current_frame]:Hide();
+				current_frame = k;
+				v:Show();
+				main_height = main_original_height;
+				main_width = main_original_width;
+				main_y = main_orignal_y;
+				Resize(current_frame);
+				return;
+			end
+		end
+	end
+end
+local function ChangeMainPageForward()
+	local num_frames = NumberOfFrames();
+	if num_frames > 1 then
+		for k, v in pairs(frames) do
+			if k ~= current_frame then
+				frames[current_frame]:Hide();
+				current_frame = k;
+				v:Show();
+				main_height = main_original_height;
+				main_width = main_original_width;
+				main_y = main_orignal_y;
+				Resize(current_frame);
+				return;
+			end
+		end	
 	end
 end
 local function ChangePageBack(frame, page)
@@ -696,6 +738,14 @@ local function ApplySettings(name, t)
 		end
 	end
 end
+local function HideMainPages()
+	ni.GUI.leftbutton:Hide();
+	ni.GUI.rightbutton:Hide();
+end
+local function ShowMainPages()
+	ni.GUI.leftbutton:Show();
+	ni.GUI.rightbutton:Show();
+end
 local function MainFrame()
 	if not created then
 		ni.GUI = CreateFrame("frame", nil, UIParent);
@@ -720,6 +770,44 @@ local function MainFrame()
 		GUI:SetScript("OnUpdate", function(self, ...)
 			Popper(self, ...);
 		end);
+		local LeftButton = CreateFrame("Button", nil, GUI);
+		LeftButton:RegisterForClicks("LeftButtonUp");
+		LeftButton:SetSize(24, 24);
+		LeftButton:SetPoint("TOPLEFT", 4, -9);
+		LeftButton:SetNormalTexture("Interface/Buttons/UI-SpellbookIcon-PrevPage-Up");	
+		LeftButton:SetPushedTexture("Interface/Buttons/UI-SpellbookIcon-PrevPage-Down");
+		LeftButton:SetDisabledTexture("Interface/Buttons/UI-SpellbookIcon-PrevPage-Disabled");
+		LeftButton:SetHighlightTexture("Interface/Buttons/UI-Common-MouseHilight", "ADD");
+		LeftButton:SetScript("OnClick", function(...)
+			ChangeMainPageBack();
+		end);
+		LeftButton:SetScript("OnEnter", function(self, ...)
+			PopOut(ni.GUI, ...);
+		end);
+		LeftButton:SetScript("OnLeave", function(self, ...)
+			PopBack(ni.GUI, ...);
+		end);
+		LeftButton:Hide();
+		GUI.leftbutton = LeftButton;
+		local RightButton = CreateFrame("Button", nil, GUI);
+		RightButton:RegisterForClicks("LeftButtonUp");
+		RightButton:SetSize(24, 24);
+		RightButton:SetPoint("TOPRIGHT", -4, -9);
+		RightButton:SetNormalTexture("Interface/Buttons/UI-SpellbookIcon-NextPage-Up");	
+		RightButton:SetPushedTexture("Interface/Buttons/UI-SpellbookIcon-NextPage-Down");
+		RightButton:SetDisabledTexture("Interface/Buttons/UI-SpellbookIcon-NextPage-Disabled");
+		RightButton:SetHighlightTexture("Interface/Buttons/UI-Common-MouseHilight", "ADD");
+		RightButton:SetScript("OnClick", function(...)
+			ChangeMainPageForward();
+		end);
+		RightButton:SetScript("OnEnter", function(self, ...)
+			PopOut(ni.GUI, ...);
+		end);
+		RightButton:SetScript("OnLeave", function(self, ...)
+			PopBack(ni.GUI, ...);
+		end);
+		RightButton:Hide();
+		GUI.rightbutton = RightButton;
 		GUI:Show();
 		created = true;
 	end
@@ -762,18 +850,25 @@ if not ni.GUI then
 			if frames[name].pages and #frames[name].pages > 0 then
 				frames[name].currentpage = 1;
 			end
-			Resize(name, true);
-			frames[name]:Show();
 		else
 			local f = table.remove(storedframes, k);
 			rawset(frames, name, f);
-			f:Show();
-			Resize(name, true);
 		end
-		CreatedFramesByName()
-		if #framenames == 0 then
+		local num_frames = NumberOfFrames();
+		if num_frames == 0 then
 			ni.GUI:Hide();
 		else
+			if num_frames > 1 then
+				ShowMainPages();
+				frames[name]:Hide();
+				Resize(current_frame);
+				frames[current_frame]:Show();
+			else
+				HideMainPages();
+				current_frame = name;
+				frames[name]:Show();
+				Resize(name, true);
+			end
 			ni.GUI:Show();
 		end
 	end;
@@ -783,12 +878,27 @@ if not ni.GUI then
 			temp:Hide();
 			table.insert(storedframes, temp);
 			frames[name] = nil;
-			Resize(name, true);
 		end
 		CreatedFramesByName()
 		if #framenames == 0 then
 			ni.GUI:Hide();
 		else
+			if #framenames > 1 then
+				ShowMainPages();
+			else
+				HideMainPages();
+			end
+			main_width = main_original_width;
+			main_height = main_original_height;
+			main_y = main_original_y;
+			if current_frame == name then
+				for k, v in pairs(frames) do
+					current_frame = k;
+					break;
+				end
+			end
+			frames[current_frame]:Show();
+			Resize(current_frame);
 			ni.GUI:Show();
 		end
 	end

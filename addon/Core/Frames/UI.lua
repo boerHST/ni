@@ -93,8 +93,8 @@ function ni.frames.floatingtext:message(message)
 	UIFrameFadeOut(self, 2.5, 1, 0)
 end
 
-ni.showstatus = function(str)
-	if ni.vars.profiles.enabled then
+ni.showstatus = function(str, enabled)
+	if enabled then
 		ni.frames.floatingtext:message("\124cff00ff00" .. str)
 	else
 		ni.frames.floatingtext:message("\124cffff0000" .. str)
@@ -136,7 +136,45 @@ ni.toggleprofile = function(str)
 	if ni.rotation.lastprofile ~= str then
 		ni.rotation.lastprofile = str;
 	end
-	ni.showstatus(str);
+	ni.showstatus(str, ni.vars.profiles.enabled);
+end
+
+ni.togglegeneric = function(str)
+	local unload = false;
+	if ni.vars.profiles.generic == str then
+		ni.vars.profiles.genericenabled = not ni.vars.profiles.genericenabled;
+		if ni.vars.profiles.genericenabled == false then
+			unload = true;
+		end
+	else
+		unload = true;
+		ni.vars.profiles.genericenabled = true;
+		ni.vars.profiles.generic = str;
+	end
+	if unload then
+		if ni.rotation.profile[ni.rotation.lastgeneric] then
+			if ni.rotation.profile[ni.rotation.lastgeneric].unload then
+				ni.rotation.profile[ni.rotation.lastgeneric]:unload();
+			end
+			if ni.rotation.profile[ni.rotation.lastgeneric].destroyGUI then
+				ni.rotation.profile[ni.rotation.lastgeneric]:destroyGUI();
+			end
+		end
+	end
+	if ni.vars.profiles.genericenabled then
+		if ni.rotation.profile[str] then
+			if ni.rotation.profile[str].load then
+				ni.rotation.profile[str]:load();
+			end
+			if ni.rotation.profile[str].createGUI then
+				ni.rotation.profile[str]:createGUI();
+			end
+		end
+	end
+	if ni.rotation.lastgeneric ~= str then
+		ni.rotation.lastgeneric = str;
+	end
+	ni.showstatus(str, ni.vars.profiles.genericenabled);
 end
 
 ni.showintstatus = function()

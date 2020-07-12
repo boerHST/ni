@@ -21,6 +21,7 @@ ni.rotation = {
 	started = false,
 	profile = {},
 	lastprofile = "",
+	lastgeneric = "",
 	custommod = function()
 		local mod = ni.vars.hotkeys.custom
 		if mod == "Left Shift" then
