@@ -808,6 +808,7 @@ local function MainFrame()
 		end);
 		RightButton:Hide();
 		GUI.rightbutton = RightButton;
+		GUI:SetFrameLevel(100);
 		GUI:Show();
 		created = true;
 	end

@@ -134,17 +134,17 @@ ni.frames.global_OnUpdate = function(self, elapsed)
 			if #ni.spell.queue == 0 then
 				ni.frames.spellqueue.update()
 			end
-			if ni.vars.profiles.enabled then
-				if ni.vars.profiles.active ~= "none" and ni.vars.profiles.active ~= "None" then
-					if ni.rotation.profile[ni.vars.profiles.active] then
-						ni.rotation.profile[ni.vars.profiles.active]:execute()
-					end
-				end
-			end
 			if ni.vars.profiles.genericenabled then
 				if ni.vars.profiles.generic ~= "none" and ni.vars.profiles.generic ~= "None" then
 					if ni.rotation.profile[ni.vars.profiles.generic] then
 						ni.rotation.profile[ni.vars.profiles.generic]:execute()
+					end
+				end
+			end
+			if ni.vars.profiles.enabled then
+				if ni.vars.profiles.active ~= "none" and ni.vars.profiles.active ~= "None" then
+					if ni.rotation.profile[ni.vars.profiles.active] then
+						ni.rotation.profile[ni.vars.profiles.active]:execute()
 					end
 				end
 			end
