@@ -130,6 +130,7 @@ local abilities = {
 		 or UnitIsDeadOrGhost("player")
 		 or not UnitExists("target")
 		 or UnitIsDeadOrGhost("target")
+		 or not UnitAffectingCombat("player")
 		 or (UnitExists("target")
 		 and not UnitCanAttack("player", "target")) then
 			return true;
@@ -247,7 +248,7 @@ local abilities = {
 				end
 				local dp = ni.player.buffremaining("Divine Purpose");
 				if dp > 0 and dp < 4 then
-					ni.player.cast(spells.templarsverdict.name);
+					ni.spell.cast(spells.templarsverdict.name);
 					return true;
 				end
 			end

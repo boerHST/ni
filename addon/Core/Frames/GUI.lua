@@ -332,6 +332,65 @@ local function CreateEditBox(frame, t, settings)
 	end)
 	return EditBox;
 end
+local function CreateInput(frame, t)
+	local f;
+	local distance = -16;
+	if frames[frame].currentpage then
+		f = frames[frame].page[frames[frame].currentpage];
+		distance = -22;
+	else
+		f = frames[frame];
+	end
+	if not f.items then
+		f.items = { };
+	end
+	local id = #f.items + 1;
+	local TempFrame = CreateFrame("frame", nil, f);
+	TempFrame:SetHeight(16);
+	TempFrame:SetPoint("LEFT", 4, 0);
+	TempFrame:SetPoint("RIGHT", -4, 0);
+	TempFrame:Show();
+	local Box = CreateFrame("EditBox", nil, TempFrame);
+	Box:SetSize(70, 14);
+	Box:SetAutoFocus(false);
+	Box:SetFontObject("GameFontHighlight");
+	Box:SetPoint("CENTER");
+	Box:SetJustifyH("CENTER");
+	Box:SetJustifyV("CENTER");
+	Box:EnableMouse(true);
+	Box:SetBackdrop({
+		bgFile = "Interface/Buttons/WHITE8X8",
+		edgeFile = "Interface/Buttons/WHITE8X8",
+		edgeSize = 1,
+	});
+	Box:SetBackdropColor(0,0,0,0.5);
+	Box:SetBackdropBorderColor(.8,.8,.8,.5);
+	Box:SetText(t.value);
+	Box:SetScript("OnEnterPressed", function(self)
+		t.value = self:GetText();
+		if f.settingsfile ~= nil and t.key ~= nil then
+			ni.utils.savesetting(f.settingsfile, "settings/"..t.key, t.value);
+		end
+		self:ClearFocus();
+	end)
+	Box:SetScript("OnEscapePressed", function(self)
+		self:SetText(t.value);
+		self:ClearFocus();
+	end)
+	Box:SetScript("OnEnter", function(self, ...)
+		PopOut(ni.GUI, ...);
+	end);
+	Box:SetScript("OnLeave", function(self, ...) 
+		PopBack(ni.GUI, ...);
+	end);
+	TempFrame:SetWidth(86);
+	f.items[id] = TempFrame;
+	if id > 1 then
+		TempFrame:SetPoint("TOP", f.items[id-1], "BOTTOM", 0, -4);
+	else
+		TempFrame:SetPoint("TOP", 0, distance);
+	end
+end
 local function CreateRadial(frame, t, k, settings)
 	local CheckButton = CreateFrame("CheckButton", nil, frame, "OptionsBaseCheckButtonTemplate");
 	CheckButton:SetSize(0.1, 16);
@@ -710,6 +769,11 @@ local function UpdateSettings(t)
 							end
 						end
 					end
+				elseif v.type == "input" and v.key ~= nil then
+					local value = ni.utils.getsetting(t.settingsfile, "settings/"..v.key, "string");
+					if value ~= nil then
+						v.value = value;
+					end
 				end
 			end
 		end
@@ -729,6 +793,8 @@ local function ApplySettings(name, t)
 			CreateEntry(name, k, v);
 		elseif v.type == "dropdown" then
 			CreateEntry(name, k, v);
+		elseif v.type == "input" then
+			CreateInput(name, v);
 		elseif v.type == "page" then
 			if frames[name].pages == nil then
 				frames[name].pages = { };
