@@ -126,17 +126,15 @@ function memberssetup:create(unit)
 		return hp, hpraw
 	end
 	function o:inrange()
-		local range = false
-
 		if ni.unit.exists(o.guid) and ni.player.los(o.guid) then
 			local dist = ni.player.distance(o.guid)
 			if (dist ~= nil and dist < 40) then
-				range = true
+				return true;
 			else
-				range = false
+				return false;
 			end
 		end
-		return range
+		return false;
 	end
 	function o:updatemember()
 		o.name = UnitName(o.unit)

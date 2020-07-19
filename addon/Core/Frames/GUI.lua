@@ -336,7 +336,7 @@ local function CreateInput(frame, t)
 	local f;
 	local distance = -16;
 	if frames[frame].currentpage then
-		f = frames[frame].page[frames[frame].currentpage];
+		f = frames[frame].pages[frames[frame].currentpage];
 		distance = -22;
 	else
 		f = frames[frame];
