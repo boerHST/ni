@@ -765,6 +765,7 @@ local function CreateEntry(frame, t, settingsfile, callback)
 		TempFrame.text = Text;
 		TempFrame.text.istext = true;
 		if t.tooltip ~= nil then
+			TempFrame:EnableMouse(true);
 			TempFrame:SetScript("OnEnter", function(self, ...)
 				PopOut(ni.GUI, ...);
 				local tooltip = GameTooltip;
