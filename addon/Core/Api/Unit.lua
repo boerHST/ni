@@ -151,9 +151,9 @@ ni.unit = {
 				if ni.vars.build == 40300 then
 					bitfrom = -9
 					bitto = -12
-				elseif ni.vars.build == 50300 then
-					bitfrom = -6
-					bitto = -9
+				elseif ni.vars.build == 50400 then
+					bitfrom = 10
+					bitto = 6
 				end
 
 				if tonumber(t) then
