@@ -67,6 +67,15 @@ ni.unit = {
 		return ni.functions.objectexists(t)
 	end,
 	los = function(...) --target, target/x1,y1,z1,x2,y2,z2 [optional, hitflags]
+		local _, t = ...;
+		if tonumber(t) == nil then
+			local unitid = ni.unit.id(t)
+			if unitid then
+				if (ni.tables.whitelistedlosunits[unitid]) then
+					return true
+				end
+			end
+		end
 		return ni.functions.los(...)
 	end,
 	creator = function(t)

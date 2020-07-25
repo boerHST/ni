@@ -20,6 +20,7 @@ ni.vars = {
 		active = "None",
 		generic = "None",
 		genericenabled = false,
+		delay = 0,
 		interrupt = false,
 		enabled = false,
 		useEngine = true

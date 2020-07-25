@@ -114,7 +114,10 @@ local function Resize(frame, reset)
 					width = temp;
 				end
 			elseif v.istext then
-				local temp = v:GetStringWidth() + 16;
+				local temp = 0;
+				if v.text then
+					temp = v.text:GetStringWidth() + 64;
+				end
 				if temp > width then
 					width = temp;
 				end
@@ -142,7 +145,10 @@ local function Resize(frame, reset)
 							width = temp;
 						end
 					elseif v.istext then
-						local temp = v:GetStringWidth() + 16;
+						local temp = 0;
+						if v.text then
+							temp = v.text:GetStringWidth() + 64;
+						end
 						if temp > width then
 							width = temp;
 						end
@@ -272,10 +278,9 @@ local function CreateText(frame, text)
 	TextFrame:SetTextHeight(12);
 	TextFrame:SetJustifyH("CENTER");
 	TextFrame:SetJustifyV("CENTER");
-	TextFrame.istext = true;
 	return TextFrame;
 end
-local function CreateCheckBox(frame, t, settings)
+local function CreateCheckBox(frame, t, settings, callback)
 	local CheckButton = CreateFrame("CheckButton", nil, frame, "OptionsBaseCheckButtonTemplate");
 	CheckButton:SetPoint("LEFT", 0, 0);
 	CheckButton:SetSize(26, 26);
@@ -290,6 +295,9 @@ local function CreateCheckBox(frame, t, settings)
 			if settings ~= nil and t.key ~= nil then
 				ni.utils.savesetting(settings, "settings/"..t.key.."_enabled", t.enabled);
 			end
+			if callback ~= nil and t.key ~= nil then
+				callback(t.key, "enabled", t.enabled);
+			end
 		end);
 	return CheckButton;
 end
@@ -299,10 +307,15 @@ local function CreateBlankSquare(frame)
 	Frame:Show();
 	return Frame;
 end
-local function CreateEditBox(frame, t, settings)
+local function CreateEditBox(frame, t, settings, callback)
 	local EditBox = CreateFrame("EditBox", nil, frame);
-	EditBox:SetSize(30, 14);
+	if t.width then
+		EditBox:SetSize(t.width, 14);
+	else
+		EditBox:SetSize(30, 14);
+	end
 	EditBox:SetAutoFocus(false);
+	EditBox:EnableMouseWheel(1);
 	EditBox:SetFontObject("GameFontHighlight");
 	EditBox:SetPoint("RIGHT", -4, 0);
 	EditBox:SetJustifyH("CENTER");
@@ -315,24 +328,85 @@ local function CreateEditBox(frame, t, settings)
 	});
     EditBox:SetBackdropColor(0,0,0,0.5)
     EditBox:SetBackdropBorderColor(.8,.8,.8,.5)
-	EditBox:SetMaxLetters(3);
 	EditBox:SetMultiLine(false);
-	EditBox:SetNumeric();
-	EditBox:SetNumber(t.value);
+	EditBox:SetText(t.value);
+	EditBox:SetScript("OnMouseWheel", function(self, arg)
+		if t.max and t.min then
+			local step = t.step or 1;
+			local temp = tonumber(self:GetText()) or t.min or 0;
+			if arg == 1 then
+				if temp == t.max then
+					return;
+				end
+				temp = temp + step;
+			elseif arg == -1 then
+				if temp == t.min then
+					return;
+				end
+				temp = temp - step;
+			end
+			if temp > t.max then
+				temp = t.max;
+			elseif temp < t.min then
+				temp = t.min;
+			end
+			t.value = temp;
+			self:SetText(t.value);
+			self:ClearFocus();
+			if settings ~= nil and t.key ~= nil then
+				ni.utils.savesetting(settings, "settings/"..t.key.."_value", t.value);
+			end
+			if callback ~= nil and t.key ~= nil then
+				callback(t.key, "value", t.value);
+			end
+		end
+	end)
 	EditBox:SetScript("OnEnterPressed", function(self)
-		t.value = self:GetNumber();
+		local temp = tonumber(self:GetText()) or t.min or 0;
+		if t.max then
+			if temp > t.max then
+				t.value = t.max;
+				self:SetText(t.value);
+				self:ClearFocus();
+				if settings ~= nil and t.key ~= nil then
+					ni.utils.savesetting(settings, "settings/"..t.key.."_value", t.value);
+				end			
+				if callback ~= nil and t.key ~= nil then
+					callback(t.key, "value", t.value);
+				end
+				return;
+			end
+		end
+		if t.min then
+			if temp < t.min then
+				t.value = t.min;
+				self:SetText(t.value);
+				self:ClearFocus();
+				if settings ~= nil and t.key ~= nil then
+					ni.utils.savesetting(settings, "settings/"..t.key.."_value", t.value);
+				end
+				if callback ~= nil and t.key ~= nil then
+					callback(t.key, "value", t.value);
+				end
+				return;
+			end
+		end
+		t.value = temp;
 		if settings ~= nil and t.key ~= nil then
 			ni.utils.savesetting(settings, "settings/"..t.key.."_value", t.value);
+		end
+		if callback ~= nil and t.key ~= nil then
+			callback(t.key, "value", t.value);
 		end
 		self:ClearFocus();
 	end)
 	EditBox:SetScript("OnEscapePressed", function(self)
-		self:SetNumber(t.value);
+		self:SetText(t.value);
 		self:ClearFocus();
 	end)
 	return EditBox;
 end
-local function CreateInput(frame, t)
+local function CreateInput(frame, t, settingsfile, callback)
 	local f;
 	local distance = -16;
 	if frames[frame].currentpage then
@@ -341,37 +415,170 @@ local function CreateInput(frame, t)
 	else
 		f = frames[frame];
 	end
+	if t.height then
+		distance = distance + 18 - t.height;
+	end
 	if not f.items then
 		f.items = { };
 	end
 	local id = #f.items + 1;
 	local TempFrame = CreateFrame("frame", nil, f);
-	TempFrame:SetHeight(16);
-	TempFrame:SetPoint("LEFT", 4, 0);
-	TempFrame:SetPoint("RIGHT", -4, 0);
+	TempFrame:SetPoint("CENTER");
+	if t.height then
+		TempFrame:SetHeight(t.height + 2);
+	else
+		TempFrame:SetHeight(16);
+	end
+	local width = 70;
+	if t.width then
+		width = t.width;
+	end
+	TempFrame:SetWidth(width + 16);
 	TempFrame:Show();
-	local Box = CreateFrame("EditBox", nil, TempFrame);
-	Box:SetSize(70, 14);
+	local Box;
+	local scroll_frame;
+	local scroll_frame_name;
+	local up;
+	local down;
+	if t.wordwrap then
+		scroll_frame_name = GenerateRandomName();
+		scroll_frame = CreateFrame("ScrollFrame", scroll_frame_name, TempFrame, "UIPanelScrollFrameTemplate");
+		scroll_frame:SetHeight(TempFrame:GetHeight());
+		scroll_frame:SetWidth(width);
+		local bar = _G[scroll_frame_name.."ScrollBar"];
+		up = _G[scroll_frame_name.."ScrollBarScrollUpButton"];
+		down = _G[scroll_frame_name.."ScrollBarScrollDownButton"];
+		bar:UnregisterAllEvents();
+		bar:SetScript("OnShow", bar.Hide);
+		Box = CreateFrame("EditBox", nil, TempFrame);
+	else
+		Box = CreateFrame("EditBox", nil, TempFrame);
+	end
+	if t.height then
+		Box:SetHeight(t.height);
+	else
+		Box:SetHeight(14);
+	end
 	Box:SetAutoFocus(false);
 	Box:SetFontObject("GameFontHighlight");
-	Box:SetPoint("CENTER");
-	Box:SetJustifyH("CENTER");
-	Box:SetJustifyV("CENTER");
 	Box:EnableMouse(true);
-	Box:SetBackdrop({
-		bgFile = "Interface/Buttons/WHITE8X8",
-		edgeFile = "Interface/Buttons/WHITE8X8",
-		edgeSize = 1,
-	});
-	Box:SetBackdropColor(0,0,0,0.5);
-	Box:SetBackdropBorderColor(.8,.8,.8,.5);
+	Box:EnableMouseWheel(1);
+	if t.wordwrap then
+		Box:SetMultiLine(true);
+		Box:SetWidth(width + 14);
+		scroll_frame:SetAllPoints(TempFrame);
+		scroll_frame:SetScrollChild(Box);
+		scroll_frame:SetBackdrop({
+			bgFile = "Interface/Buttons/WHITE8X8",
+			edgeFile = "Interface/Buttons/WHITE8X8",
+			edgeSize = 1,
+		});
+		scroll_frame:SetBackdropColor(0,0,0,0.5);
+		scroll_frame:SetBackdropBorderColor(.8,.8,.8,.5);
+		Box:ClearAllPoints();
+		Box:SetPoint("TOP", TempFrame, "TOP", 0, 0);
+		Box:SetPoint("BOTTOM", TempFrame, "BOTTOM", 0, 0);
+		Box:SetTextInsets(5, 5, 3, 3);
+	else
+		Box:SetWidth(width);
+		Box:SetPoint("CENTER");
+		Box:SetJustifyH("CENTER");
+		Box:SetJustifyV("CENTER");
+		Box:SetBackdrop({
+			bgFile = "Interface/Buttons/WHITE8X8",
+			edgeFile = "Interface/Buttons/WHITE8X8",
+			edgeSize = 1,
+		});
+		Box:SetBackdropColor(0,0,0,0.5);
+		Box:SetBackdropBorderColor(.8,.8,.8,.5);
+	end
 	Box:SetText(t.value);
-	Box:SetScript("OnEnterPressed", function(self)
-		t.value = self:GetText();
-		if f.settingsfile ~= nil and t.key ~= nil then
-			ni.utils.savesetting(f.settingsfile, "settings/"..t.key, t.value);
+	Box:SetScript("OnMouseWheel", function(self, arg)
+		if t.wordwrap then
+			if arg == 1 then
+				up:Click();
+			else
+				down:Click();
+			end
+		elseif t.max and t.min then
+			local step = t.step or 1;
+			local temp = tonumber(self:GetText()) or t.min or 0;
+			if arg == 1 then
+				if temp == t.max then
+					return;
+				end
+				temp = temp + step;
+			elseif arg == -1 then
+				if temp == t.min then
+					return;
+				end
+				temp = temp - step;
+			end
+			if temp > t.max then
+				temp = t.max;
+			elseif temp < t.min then
+				temp = t.min;
+			end
+			t.value = temp;
+			self:SetText(t.value);
+			self:ClearFocus();
+			if settingsfile ~= nil and t.key ~= nil then
+				ni.utils.savesetting(settingsfile, "settings/"..t.key, t.value);
+			end
+			if callback ~= nil and t.key ~= nil then
+				callback(t.key, "input", t.value)
+			end
 		end
-		self:ClearFocus();
+	end)
+	Box:SetScript("OnEnterPressed", function(self)
+		if t.min and t.max then
+			local temp = tonumber(self:GetText()) or t.min or 0;
+			if t.max then
+				if temp > t.max then
+					t.value = t.max;
+					self:SetText(t.value);
+					self:ClearFocus();
+					if settingsfile ~= nil and t.key ~= nil then
+						ni.utils.savesetting(settingsfile, "settings/"..t.key, t.value);
+					end					
+					if callback ~= nil and t.key ~= nil then
+						callback(t.key, "input", t.value)
+					end
+					return;
+				end
+			end
+			if t.min then
+				if temp < t.min then
+					t.value = t.min;
+					self:SetText(t.value);
+					self:ClearFocus();
+					if settingsfile ~= nil and t.key ~= nil then
+						ni.utils.savesetting(settingsfile, "settings/"..t.key, t.value);
+					end					
+					if callback ~= nil and t.key ~= nil then
+						callback(t.key, "input", t.value)
+					end
+					return;
+				end
+			end
+			t.value = temp;
+			if settingsfile ~= nil and t.key ~= nil then
+				ni.utils.savesetting(settingsfile, "settings/"..t.key, t.value);
+			end
+			if callback ~= nil and t.key ~= nil then
+				callback(t.key, "input", t.value)
+			end
+			self:ClearFocus();
+		else
+			t.value = self:GetText();
+			if settingsfile ~= nil and t.key ~= nil then
+				ni.utils.savesetting(settingsfile, "settings/"..t.key, t.value);
+			end
+			if callback ~= nil and t.key ~= nil then
+				callback(t.key, "input", t.value)
+			end
+			self:ClearFocus();
+		end
 	end)
 	Box:SetScript("OnEscapePressed", function(self)
 		self:SetText(t.value);
@@ -383,7 +590,6 @@ local function CreateInput(frame, t)
 	Box:SetScript("OnLeave", function(self, ...) 
 		PopBack(ni.GUI, ...);
 	end);
-	TempFrame:SetWidth(86);
 	f.items[id] = TempFrame;
 	if id > 1 then
 		TempFrame:SetPoint("TOP", f.items[id-1], "BOTTOM", 0, -4);
@@ -391,7 +597,7 @@ local function CreateInput(frame, t)
 		TempFrame:SetPoint("TOP", 0, distance);
 	end
 end
-local function CreateRadial(frame, t, k, settings)
+local function CreateRadial(frame, t, k, settings, callback)
 	local CheckButton = CreateFrame("CheckButton", nil, frame, "OptionsBaseCheckButtonTemplate");
 	CheckButton:SetSize(0.1, 16);
 	CheckButton:SetChecked(t.menu[k].selected);
@@ -416,13 +622,16 @@ local function CreateRadial(frame, t, k, settings)
 		if settings ~= nil and t.key ~= nil then
 			ni.utils.savesetting(settings, "settings/"..t.key, text);
 		end
+		if callback ~= nil and t.key ~= nil then
+			callback(t.key, "menu", t.menu[k].value);
+		end
 		frame:GetParent():GetParent().text:SetText(text);
 		frame:GetParent().isshown = false;
 		frame:GetParent():Hide();
 	end);
 	return CheckButton;
 end
-local function CreateMenuFrame(frame, t, settings)
+local function CreateMenuFrame(frame, t, settings, callback)
 	local Frame = CreateFrame("frame", nil, frame);
 	Frame:SetBackdrop({
 		bgFile = "Interface/Buttons/WHITE8X8",
@@ -449,7 +658,7 @@ local function CreateMenuFrame(frame, t, settings)
 		item.text:SetPoint("CENTER");
 		item.text:SetJustifyH("CENTER");
 		item.text:SetJustifyV("CENTER");
-		item.selected = CreateRadial(item, t, k, settings);
+		item.selected = CreateRadial(item, t, k, settings, callback);
 		item.selected:SetPoint("LEFT", 0, 0);
 		item.selected:SetCheckedTexture(nil)
 		item.selected:SetDisabledCheckedTexture(nil);
@@ -484,7 +693,7 @@ local function CreateMenuFrame(frame, t, settings)
 	Frame:Hide();
 	return Frame;
 end
-local function CreateMenu(frame, t, settings)
+local function CreateMenu(frame, t, settings, callback)
 	local DropDownMenu = CreateFrame("Button", nil, frame);
 	DropDownMenu:SetBackdrop({
 		bgFile = "Interface/Buttons/WHITE8X8",
@@ -495,7 +704,7 @@ local function CreateMenu(frame, t, settings)
     DropDownMenu:SetBackdropBorderColor(.8,.8,.8,.5);	
 	DropDownMenu:Show();
 	DropDownMenu.text = CreateText(DropDownMenu, "");
-	local submenu = CreateMenuFrame(DropDownMenu, t, settings);
+	local submenu = CreateMenuFrame(DropDownMenu, t, settings, callback);
 	DropDownMenu:SetScript("OnEnter", GUI_OnEnter);
 	DropDownMenu:SetScript("OnLeave", GUI_OnLeave);
 	DropDownMenu:SetScript("OnClick", function(self, ...)
@@ -517,7 +726,7 @@ local function CreateMenu(frame, t, settings)
 	DropDownMenu:SetSize(width, 16);
 	return DropDownMenu;
 end
-local function CreateEntry(frame, i, t)
+local function CreateEntry(frame, t, settingsfile, callback)
 	local f;
 	local distance = -16;
 	if frames[frame].currentpage then
@@ -540,7 +749,7 @@ local function CreateEntry(frame, i, t)
 		local EditBox;
 		local CheckButton;
 		if t.enabled ~= nil then
-			CheckButton = CreateCheckBox(TempFrame, t, frames[frame].settingsfile)
+			CheckButton = CreateCheckBox(TempFrame, t, settingsfile, callback)
 			TempFrame.hascheck = true;
 		else
 			CheckButton = CreateBlankSquare(TempFrame);
@@ -554,8 +763,26 @@ local function CreateEntry(frame, i, t)
 		TempFrame.checkbutton = CheckButton;
 		local Text = CreateText(TempFrame, t.text);
 		TempFrame.text = Text;
+		TempFrame.text.istext = true;
+		if t.tooltip ~= nil then
+			TempFrame:SetScript("OnEnter", function(self, ...)
+				PopOut(ni.GUI, ...);
+				local tooltip = GameTooltip;
+				tooltip:Hide();
+				tooltip:SetOwner(self, "ANCHOR_CURSOR_RIGHT");
+				tooltip:ClearLines();
+				tooltip:AddLine(t.tooltip);
+				tooltip:Show();
+			end);
+			TempFrame:SetScript("OnLeave", function(self, ...)
+				PopBack(ni.GUI, ...);
+				local tooltip = GameTooltip;
+				tooltip:ClearLines();
+				tooltip:Hide();
+			end);
+		end
 		if t.value ~= nil then
-			EditBox = CreateEditBox(TempFrame, t, frames[frame].settingsfile);
+			EditBox = CreateEditBox(TempFrame, t, settingsfile, callback);
 		else
 			EditBox = CreateBlankSquare(TempFrame);
 			EditBox:SetPoint("RIGHT", -4, 0);
@@ -574,7 +801,7 @@ local function CreateEntry(frame, i, t)
 		Text:SetPoint("LEFT", cbwidth, 0.5);
 		TempFrame.isentry = true;
 	else
-		local Menu = CreateMenu(TempFrame, t, frames[frame].settingsfile);
+		local Menu = CreateMenu(TempFrame, t, settingsfile, callback);
 		Menu:SetPoint("CENTER");
 		combwidth = Menu:GetWidth() + 48;
 		TempFrame.menu = Menu;
@@ -588,7 +815,7 @@ local function CreateEntry(frame, i, t)
 		TempFrame:SetPoint("TOP", 0, distance);
 	end
 end
-local function CreateCenteredText(frame, text)
+local function CreateCenteredText(frame, t)
 	local f;
 	local distance = -16;
 	if frames[frame].currentpage then
@@ -601,14 +828,39 @@ local function CreateCenteredText(frame, text)
 		f.items = { };
 	end
 	local id = #f.items + 1;
-	local TextFrame = CreateText(f, text)
-	TextFrame:SetPoint("LEFT", 0, 0);
-	TextFrame:SetPoint("RIGHT", 0, 0);
-	f.items[id] = TextFrame;
+	local TempFrame = CreateFrame("frame", nil, f);
+	TempFrame:SetPoint("LEFT", 4, 0);
+	TempFrame:SetPoint("RIGHT", -4, 0);
+	local text = CreateText(TempFrame, t.text)
+	TempFrame.text = text;
+	TempFrame.istext = true;
+	text:SetPoint("LEFT", 0, 0);
+	text:SetPoint("RIGHT", 0, 0);
+	if t.tooltip ~= nil then
+		TempFrame:SetScript("OnEnter", function(self, ...)
+			PopOut(ni.GUI, ...);
+			local tooltip = GameTooltip;
+			tooltip:Hide();
+			tooltip:SetOwner(self, "ANCHOR_CURSOR_RIGHT");
+			tooltip:ClearLines();
+			tooltip:AddLine(t.tooltip);
+			tooltip:Show();
+		end);
+		TempFrame:SetScript("OnLeave", function(self, ...)
+			PopBack(ni.GUI, ...);
+			local tooltip = GameTooltip;
+			tooltip:ClearLines();
+			tooltip:Hide();
+		end);
+	end
+	TempFrame:SetHeight(16);
+	TempFrame:SetWidth(text:GetWidth() + 16);
+	TempFrame:Show();
+	f.items[id] = TempFrame;
 	if id > 1 then
-		TextFrame:SetPoint("TOP", f.items[id-1], "BOTTOM", 0, -4);
+		TempFrame:SetPoint("TOP", f.items[id-1], "BOTTOM", 0, -4);
 	else
-		TextFrame:SetPoint("TOP", 0, distance);
+		TempFrame:SetPoint("TOP", 0, distance);
 	end
 end
 local function NewFrame(frame)
@@ -744,17 +996,24 @@ local function UpdateSettings(t)
 						local bool = ni.utils.getsetting(t.settingsfile, "settings/"..v.key.."_enabled", "bool");
 						if bool ~= nil then
 							v.enabled = bool;
+							if t.callback then
+								t.callback(v.key, "enabled", v.enabled)
+							end
 						end
 					end
 					if v.value ~= nil then
 						local value = ni.utils.getsetting(t.settingsfile, "settings/"..v.key.."_value", "int");
 						if value ~= nil then
 							v.value = value;
+							if t.callback then
+								t.callback(v.key, "value", v.value)
+							end
 						end
 					end
 				elseif v.type == "dropdown" and v.key ~= nil then
 					local value = ni.utils.getsetting(t.settingsfile, "settings/"..v.key, "string");
 					if value ~= nil then
+						local selected;
 						for _, v2 in ipairs(v.menu) do
 							local text;
 							if v2.text ~= nil then
@@ -764,15 +1023,22 @@ local function UpdateSettings(t)
 							end
 							if tostring(text) == value then
 								v2.selected = true;
+								selected = v2.value;
 							else
 								v2.selected = false;
 							end
+						end
+						if t.callback then
+							t.callback(v.key, "menu", selected)
 						end
 					end
 				elseif v.type == "input" and v.key ~= nil then
 					local value = ni.utils.getsetting(t.settingsfile, "settings/"..v.key, "string");
 					if value ~= nil then
 						v.value = value;
+						if t.callback then
+							t.callback(v.key, "input", v.value)
+						end
 					end
 				end
 			end
@@ -782,19 +1048,18 @@ end
 local function ApplySettings(name, t)
 	if t.settingsfile then
 		UpdateSettings(t);
-		frames[name].settingsfile = t.settingsfile;
 	end
 	for k, v in ipairs(t) do
 		if v.type == "title" then
-			CreateCenteredText(name, v.text);
+			CreateCenteredText(name, v);
 		elseif v.type == "separator" then
 			CreateSeparator(name);
 		elseif v.type == "entry" then
-			CreateEntry(name, k, v);
+			CreateEntry(name, v, t.settingsfile, t.callback);
 		elseif v.type == "dropdown" then
-			CreateEntry(name, k, v);
+			CreateEntry(name, v, t.settingsfile, t.callback);
 		elseif v.type == "input" then
-			CreateInput(name, v);
+			CreateInput(name, v, t.settingsfile, t.callback);
 		elseif v.type == "page" then
 			if frames[name].pages == nil then
 				frames[name].pages = { };

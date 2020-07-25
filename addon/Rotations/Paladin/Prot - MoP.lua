@@ -188,6 +188,7 @@ local function CanHeal(unit)
 	end
 	if UnitIsCharmed(unit) ~= 1
 	 and UnitInRange(unit) == true
+	 and ni.unit.exists(unit)
 	 and UnitCanCooperate("player", unit) ~= nil
 	 and UnitIsDeadOrGhost(unit) ~= 1
 	 and ni.player.los(unit)

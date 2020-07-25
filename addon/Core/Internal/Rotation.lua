@@ -22,6 +22,11 @@ ni.rotation = {
 	profile = {},
 	lastprofile = "",
 	lastgeneric = "",
+	delay = function(sec)
+		local sec = sec or 1;
+		local delaytill = GetTime() + sec;
+		ni.functions.safeexec("ni.vars.profiles.delay = "..delaytill);
+	end,
 	custommod = function()
 		local mod = ni.vars.hotkeys.custom
 		if mod == "Left Shift" then

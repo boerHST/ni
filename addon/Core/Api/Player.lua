@@ -17,6 +17,8 @@ local GetGlyphSocketInfo,
 	GetTime,
 	IsFalling
 
+local CurrentMovingTime, CurrentStationaryTime, ResetMovementTime = 0, 0, 0.5;
+
 ni.player = {
 	moveto = function(...) --target/x,y,z
 		ni.functions.moveto(...)
@@ -101,6 +103,29 @@ ni.player = {
 		else
 			return 0
 		end
+	end,
+	registermovement = function(elapsed)
+		local speed = GetUnitSpeed("player");
+		if speed ~= 0 then
+			CurrentMovingTime = CurrentMovingTime + elapsed;
+			CurrentStationaryTime = 0;
+		else
+			if CurrentStationaryTime < ResetMovementTime then
+				CurrentStationaryTime = CurrentStationaryTime + elapsed;
+			elseif CurrentStationaryTime > ResetMovementTime then
+				CurrentMovingTime = 0;
+			end
+		end
+	end,
+	movingfor = function(duration)
+		local duration = duration or 1;
+		if CurrentMovingTime >= duration and not ni.unit.buff("player", 98767) then
+			return true;
+		end
+		return false;
+	end,
+	getmovingtime = function()
+		return CurrentMovingTime;
 	end,
 	ismoving = function()
 		if ni.unit.ismoving("player") or IsFalling() then

@@ -25,10 +25,12 @@ local CreateFrame,
 	tinsert,
 	unpack
 
-local lastclick = 0
+local lastclick = 0;
+local totalelapsed = 0;
 ni.frames.global = CreateFrame("Frame")
 ni.frames.global_OnUpdate = function(self, elapsed)
 	if UnitExists == nil or ni.functions.cast == nil or not GetZoneText() then
+		totalelapsed = 0;
 		return true
 	end
 
@@ -48,9 +50,11 @@ ni.frames.global_OnUpdate = function(self, elapsed)
 	end
 
 	local throttle = ni.vars.latency / 1000
+	totalelapsed = totalelapsed + elapsed;
 	self.st = elapsed + (self.st or 0)
 
 	if self.st > throttle then
+		totalelapsed = totalelapsed - throttle;
 		self.st = 0
 
 		if ni.vars.units.followEnabled then
@@ -102,6 +106,10 @@ ni.frames.global_OnUpdate = function(self, elapsed)
 		end
 
 		if ni.vars.profiles.enabled or ni.vars.profiles.genericenabled then
+			ni.player.registermovement(totalelapsed);
+			if ni.vars.profiles.delay > GetTime() then
+				return true;
+			end
 			if not ni.rotation.started then
 				ni.rotation.started = true
 			end

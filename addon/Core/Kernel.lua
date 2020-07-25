@@ -62,4 +62,6 @@ ni.functions = {
 	fileexists = %%FileExists%%,
 	resetlasthardwareaction = %%ResetLastHardwareAction%%,
 	auras = %%Auras%%,
+	safeexec = %%SafeExec%%,
+	safeget = %%SafeGet%%,
 }

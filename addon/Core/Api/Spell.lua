@@ -293,7 +293,7 @@ ni.spell = {
 	shouldinterrupt = function(t)
 		local InterruptPercent = ni.spell.getpercent()
 		local castName, _, _, _, castStartTime, castEndTime, _, _, castinterruptable = UnitCastingInfo(t)
-		local channelName, _, _, _, channelStartTime, channelEndTime, _, _, channelInterruptable = UnitChannelInfo(t)
+		local channelName, _, _, _, channelStartTime, channelEndTime, _,  channelInterruptable = UnitChannelInfo(t)
 
 		if channelName ~= nil then
 			castName = channelName
