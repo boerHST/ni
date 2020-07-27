@@ -9,6 +9,7 @@
   - [Wrath of the Lich King](profiles/wotlk.md)
   - [Cataclysm](profiles/cataclysm.md)
   - [Mists of Pandaria](profiles/mop.md)
+  - [Generic](profiles/generic.md)
 
 - Api
 
@@ -22,3 +23,4 @@
   - [Members](api/members.md)
   - [Debug](api/debug.md)
   - [Generic](api/generic.md)
+  - [Memory](api/memory.md)

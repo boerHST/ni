@@ -24,6 +24,8 @@
 
 #### Beast Mastery
 
+[Scotts Hunter - Beast Mastery](https://raw.githubusercontent.com/scizzydo/ni/master/addon/Rotations/Hunter/BM%20-%20MoP.lua)
+
 #### Marksmanship
 
 #### Survival
@@ -54,7 +56,11 @@
 
 #### Retribution
 
+[Scotts Retribution](https://raw.githubusercontent.com/scizzydo/ni/master/addon/Rotations/Paladin/PreRaid%20Ret%20-%20MoP.lua)
+
 #### Protection
+
+[Scotts Protection](https://raw.githubusercontent.com/scizzydo/ni/master/addon/Rotations/Paladin/Prot%20-%20MoP.lua)
 
 ## Priest
 
