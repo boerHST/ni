@@ -89,12 +89,13 @@ ni.rotation = {
 		if ni.vars.profiles.enabled then
 			if ni.rotation.cdmod() and GetTime() - cdtogglemod > 0.5 then
 				cdtogglemod = GetTime()
-				if ni.vars.combat.cd then
-					ni.vars.combat.cd = false
-					ni.frames.floatingtext:message("Cooldown toggle: \124cffff0000Disabled")
-				else
-					ni.vars.combat.cd = true
-					ni.frames.floatingtext:message("Cooldown toggle: \124cff00ff00Enabled")
+				ni.vars.combat.cd = not ni.vars.combat.cd;
+				if ni.vars.combat.aoe or ni.vars.combat.cd then
+					local aoe_str = ni.vars.combat.aoe and "\124cff00ff00Enabled" or "\124cffff0000Disabled";
+					local cd_str = ni.vars.combat.cd and "\124cff00ff00Enabled" or "\124cffff0000Disabled";
+					ni.frames.notification:message("\124cffFFC300AoE: "..aoe_str.." \124cffFFC300CD: "..cd_str);
+				elseif not ni.vars.combat.aoe and not ni.vars.combat.cd then
+					ni.frames.notification:Hide();
 				end
 			end
 		end
@@ -129,17 +130,15 @@ ni.rotation = {
 		return false
 	end,
 	aoetoggle = function()
-		if (ni.vars.profiles.enabled == false or ni.vars.combat.aoe == false) and ni.frames.notification:IsShown() then
-			ni.frames.notification:Hide()
-		end
 		if ni.rotation.aoemod() and GetTime() - togglemod > 0.5 and ni.vars.profiles.enabled then
 			togglemod = GetTime()
-			if ni.vars.combat.aoe == false then
-				ni.frames.notification:message("Area of Effect Enabled")
-				ni.vars.combat.aoe = true
-			elseif ni.vars.combat.aoe == true then
-				ni.frames.notification:Hide()
-				ni.vars.combat.aoe = false
+			ni.vars.combat.aoe = not ni.vars.combat.aoe;
+			if ni.vars.combat.aoe or ni.vars.combat.cd then
+				local aoe_str = ni.vars.combat.aoe and "\124cff00ff00Enabled" or "\124cffff0000Disabled";
+				local cd_str = ni.vars.combat.cd and "\124cff00ff00Enabled" or "\124cffff0000Disabled";
+				ni.frames.notification:message("\124cffFFC300AoE: "..aoe_str.." \124cffFFC300CD: "..cd_str);
+			elseif not ni.vars.combat.aoe and not ni.vars.combat.cd then
+				ni.frames.notification:Hide();
 			end
 		end
 	end,

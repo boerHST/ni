@@ -61,7 +61,7 @@ setmetatable(
 	ni.objects,
 	{
 		__index = function(t, k)
-			local guid = true and UnitGUID(k) or nil
+			local guid = true and UnitGUID(k) or ni.objectmanager.objectGUID(k) or nil
 			if guid ~= nil then
 				if objectsetup.cache[guid] ~= nil then
 					return objectsetup.cache[guid]
@@ -136,14 +136,14 @@ function ni.objects:create(objguid, objtype, objname)
 	end
 	function o:isbehind(tar, rev)
 		local t = true and tar or "player"
-		if rev ~= nil then
+		if rev then
 			return ni.unit.isbehind(t, o.guid)
 		end
 		return ni.unit.isbehind(o.guid, t)
 	end
 	function o:isfacing(tar, rev)
 		local t = true and tar or "player"
-		if rev ~= nil then
+		if rev then
 			return ni.unit.isfacing(t, o.guid)
 		end
 		return ni.unit.isfacing(o.guid, t)

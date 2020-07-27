@@ -39,6 +39,11 @@ ni.frames.global_OnUpdate = function(self, elapsed)
 	end
 
 	if ni.vars.profiles.enabled then
+		if ni.vars.combat.aoe or ni.vars.combat.cd and not ni.frames.notification:IsShown() then
+			local aoe_str = ni.vars.combat.aoe and "\124cff00ff00Enabled" or "\124cffff0000Disabled";
+			local cd_str = ni.vars.combat.cd and "\124cff00ff00Enabled" or "\124cffff0000Disabled";
+			ni.frames.notification:message("\124cffFFC300AoE: "..aoe_str.." \124cffFFC300CD: "..cd_str);
+		end
 		ni.rotation.aoetoggle()
 		ni.rotation.cdtoggle()
 
@@ -46,6 +51,10 @@ ni.frames.global_OnUpdate = function(self, elapsed)
 			if ni.rotation.profile[ni.rotation.lastprofile].unload then
 				ni.rotation.profile[ni.rotation.lastprofile]:unload()
 			end
+		end
+	else
+		if ni.frames.notification:IsShown() then
+			ni.frames.notification:Hide();
 		end
 	end
 

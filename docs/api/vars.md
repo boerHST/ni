@@ -26,12 +26,15 @@ ni.vars.hotkeys.custom
 ## profiles
 
 ```lua
-ni.vars.profiles.primary
-ni.vars.profiles.secondary
-ni.vars.profiles.active
-ni.vars.profiles.interrupt
-ni.vars.profiles.enabled
-ni.vars.profiles.useEngine
+ni.vars.profiles.primary --Name of the primary profile
+ni.vars.profiles.secondary --Name of the secondary profile
+ni.vars.profiles.active --Name of the active profile
+ni.vars.profiles.generic --Name of the generic profile
+ni.vars.profiles.genericenabled --Generic profile is enabled
+ni.vars.profiles.interrupt --Interrupt engine is enabled
+ni.vars.profiles.enabled --Active profile is enabled
+ni.vars.profiles.useEngine --Enables/Disables the members table
+ni.vars.profiles.delay --Time to delay the profile execution until (should not be set via the variable itself)
 ```
 
 ## units

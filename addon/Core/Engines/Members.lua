@@ -95,11 +95,11 @@ function memberssetup:create(unit)
 	function o:bufftype(str)
 		return ni.unit.bufftype(o.guid, str)
 	end
-	function o:buff(buff, caster)
-		return ni.unit.buff(o.guid, buff, caster)
+	function o:buff(buff, filter)
+		return ni.unit.buff(o.guid, buff, filter)
 	end
-	function o:debuff(debuff, caster)
-		return ni.unit.debuff(o.guid, debuff, caster)
+	function o:debuff(debuff, filter)
+		return ni.unit.debuff(o.guid, debuff, filter)
 	end
 	function o:candispel()
 		return ni.healing.candispel(o.unit)
@@ -230,41 +230,41 @@ memberssetup.set = function()
 		end
 		return membersrange;
 	end
-	function ni.members.inrangewithbuff(unit, distance, buff, caster)
+	function ni.members.inrangewithbuff(unit, distance, buff, filter)
 		table.wipe(memberswithbuff);
 		ni.members.inrange(unit, distance);
 		for _, v in ipairs(membersrange) do
-			if v:buff(buff, caster) then
+			if v:buff(buff, filter) then
 				tinsert(memberswithbuff, v);
 			end
 		end
 		return memberswithbuff;
 	end
-	function ni.members.inrangewithoutbuff(unit, distance, buff, caster)
+	function ni.members.inrangewithoutbuff(unit, distance, buff, filter)
 		table.wipe(memberswithoutbuff);
 		ni.members.inrange(unit, distance);
 		for _, v in ipairs(membersrange) do
-			if not v:buff(buff, caster) then
+			if not v:buff(buff, filter) then
 				tinsert(memberswithoutbuff, v);
 			end
 		end
 		return memberswithoutbuff
 	end
-	function ni.members.inrangewithdebuff(unit, distance, debuff, caster)
+	function ni.members.inrangewithdebuff(unit, distance, debuff, filter)
 		table.wipe(memberswithdebuff);
 		ni.members.inrange(unit, distance);
 		for _, v in ipairs(membersrange) do
-			if v:debuff(debuff, caster) then
+			if v:debuff(debuff, filter) then
 				tinsert(memberswithdebuff, v);
 			end
 		end
 		return memberswithdebuff;
 	end
-	function ni.members.inrangewithoutdebuff(unit, distance, debuff, caster)
+	function ni.members.inrangewithoutdebuff(unit, distance, debuff, filter)
 		table.wipe(memberswithoutdebuff);
 		ni.members.inrange(unit, distance);
 		for _, v in ipairs(membersrange) do
-			if not v:debuff(debuff, caster) then
+			if not v:debuff(debuff, filter) then
 				tinsert(memberswithoutdebuff, v);
 			end
 		end

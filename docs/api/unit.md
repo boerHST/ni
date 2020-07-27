@@ -9,17 +9,41 @@
 Arguments:
 
 - **unit** `guid|token`
-- **aura** `id (no name)`
+- **aura** `id|name`
 
 Returns: `boolean`
 
-Checks if specified unit has aura.
+Checks if specified unit has aura (this check is more than wow's UnitAura as it can return true for passive auras not seen by the normal client).
 
 ```lua
 if ni.unit.aura("player", 32223) then
   -- Player has Crusader Aura
 end
+if ni.unit.aura("player", "Crusader Aura") then
+	--Player has Crusader Aura
+end
 ```
+
+## auras
+
+Arguments:
+
+- **unit** `guid|token`
+
+Returns: `table`
+
+Returns a table of all the auras on the unit with their ID and name (able to see auras that are not normally seen by the client with this, this function is more for developers to get a list of all auras on a unit to use with the aura function).
+
+```lua
+local auras = ni.unit.auras("target");
+for k, v in ipairs(auras) do
+	if v.name == "Crusader Aura" then
+		--The unit has the aura Crusader Aura by name check
+	end
+	if v.ID == 32223 then
+		--The unit has the aura Crusader Aura by ID check
+	end
+end```
 
 ## buff
 
@@ -480,7 +504,7 @@ Returns: `number`
 Retrieves detailed information about the unit.
 
 ```lua
-local x, y, z, facing, unittype, target, guid, height = ni.unit.info("target")
+local x, y, z, facing, unittype, target, height = ni.unit.info("target")
 ```
 
 ## inmelee
@@ -910,16 +934,21 @@ end
 
 Arguments:
 
-- **targetfrom** `guid|token`
-- **targetto** `guid|token`
+- **targetfrom** `guid|token|x,y,z`
+- **targetto** `guid|token|x,y,z`
+- **hitflags** `number` _optional_
 
-Returns: `boolean`
+Returns: `boolean, x, y, z`
 
-Checks if units have line of sight on each other.
+Checks if units have line of sight on each other and returns the hit point of collision.
 
 ```lua
 if ni.unit.los("player", "target") then
   -- Do something
+end
+local bool, x, y, z = ni.unit.los(100, 200, -10000, 100, 200, 10000);
+if not bool then
+	--We now have the z axis of collision from those points stored in the variable z`
 end
 ```
 
@@ -1059,3 +1088,50 @@ for i = 1, #units do
   -- Do something with the units targeting the player
 end
 ```
+
+## location
+
+Arguments:
+
+- **unit** `guid|token`
+
+Returns: `x, y, z`
+
+Returns value 1 being the units x, value 2 being the units y and value 3 being the units z.
+
+```lua
+local x, y, z = ni.unit.location("target");
+--Do something with the x, y, and z'second
+```
+
+## transport
+
+Arguments:
+
+- **unit** `guid|token`
+
+Returns: `string or nil`
+
+Returns the GUID of the units transport if they have one (Like being on an elevator or vehicle, or unit on top of another unit), or nil.
+
+```lua
+local transport = ni.unit.transport("target")
+if transport then
+	--The target has a transport, maybe we need to kill that instead now?
+end
+```
+
+## facing
+
+Arguments:
+
+- **unit** `guid|token`
+
+Returns: `number`
+
+Returns the units facing in radians.
+
+```lua
+if ni.unit.facing("target") == 0 then
+	--The unit is facing true north
+end```

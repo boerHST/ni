@@ -256,3 +256,33 @@ Uses the item from inventory. If unit is specified the item will be used on it.
 ni.player.useitem(36892) -- Uses Healthstone
 ni.player.useitem(36895, "focus") -- Places a Demonic Soulstone on focus
 ```
+
+## movingfor
+
+Arguments:
+
+- **duration** `number`
+
+Returns: `boolean`
+
+Returns true or false if the player has been moving for the duration specified.
+
+```lua
+if ni.player.movingfor(2) then
+	--The player has been moving for at least 2 seconds
+end
+```
+
+## getmovingtime
+
+Arguments:
+
+Returns: `number`
+
+Returns the moving time that the player has been moving for.
+
+```lua
+if ni.player.getmovingtime() > 60 then
+	--The player has been moving for more than 60 seconds
+end
+```

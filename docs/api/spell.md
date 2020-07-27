@@ -45,6 +45,30 @@ Casts the specified spell. If the target is provided it'll cast on that target, 
 ni.spell.cast("Shadow Bolt", "target")
 ```
 
+## delaycast
+
+Arguments:
+
+- **spell** `id|string`
+- **target** `token|guid`
+- **delay** `number` _optional_
+
+Returns: `boolean`
+
+Just like cast, however you can specify delay, and if the time since it's last cast was over the delay, it'll cast the spell along with returning true. If it's under the delay, the function will return false.
+
+```lua
+if ni.spell.delaycast("Shadow Bolt", "target", 1.5) then
+	--It's been more than 1.5 seconds since we last cast 1.5, so it cast
+else
+	--Spell did not cast because it's been less than 1.5 seconds since last cast
+end
+--Other usage just like normal cast, just to ensure it doesn't cast if under the delay time
+if true then
+	ni.spell.delaycast("Shadow Bolt", "target", 1.5)
+end
+```
+
 ## castat
 
 Arguments:
