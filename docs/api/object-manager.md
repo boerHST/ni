@@ -17,7 +17,8 @@ Returns true or false if the value passed is within the object manager table (Th
 ```lua
 if ni.objectmanager.contains("The Lich King") then
 	--The Lich King is within our memory scope distance
-end```
+end
+```
 
 ## objectGUID
 
@@ -33,7 +34,8 @@ Returns the objects GUID of the value passed, as long as they're within the obje
 local lich_king = ni.objectmanager.objectGUID("The Lich King");
 if lich_king ~= nil then
 	--The Lich King is within our memory scope distance, and we now have his GUID to work with on other functions.
-end```
+end
+```
 
 > The object manager also features a set of functions and special way to provide an object oriented type programming for the lua. All of the way to access this feature is via `ni.objects`. Functions, variables and examples are as follows:
 
@@ -51,7 +53,8 @@ This is the variable that returns the GUID of the object accessed.
 local tar = ni.objects["target"];
 if tar:exists() then
 	print(tar.guid) --Would print the GUID of the target
-end```
+end
+```
 
 ## name
 
@@ -67,7 +70,8 @@ This is the variable that returns the name of the object accessed.
 local tar = ni.objects["target"];
 if tar:exists() then
 	print(tar.name) --Would print the name of the target
-end```
+end
+```
 
 ## type
 
@@ -91,7 +95,8 @@ if tar:exists() then
 	elseif tar.type == 6 then
 		--The object is a dynamic object
 	end
-end```
+end
+```
 
 ## exists
 
@@ -109,7 +114,8 @@ Returns true or false if the object is within your memory scope.
 local tar = ni.objects["focus"];
 if tar:exists() then
 	--focus object exists
-end```
+end
+```
 
 ## exists
 
@@ -127,7 +133,8 @@ Returns true or false if the object is within your memory scope.
 local tar = ni.objects["focus"];
 if tar:exists() then
 	--Target exists
-end```
+end
+```
 
 ## info
 
@@ -148,7 +155,8 @@ if tar:exists() then
 	if target ~= 0 then
 		--We have the target GUID of the object.
 	end
-end```
+end
+```
 
 ## hp
 
@@ -166,7 +174,8 @@ Returns the objects health percentage.
 local tar = ni.objects["The Lich King"];
 if tar:exists() and tar:hp() < 20 then
 	--Object has less than 20% health
-end```
+end
+```
 
 ## power
 
@@ -186,7 +195,8 @@ Returns the current percent of the objects power (e.g. mana, energy, focus, etc.
 local tar = ni.objects["target"];
 if tar:exists() and tar:power("mana") >= 80 then
 	--Target has, or has more than, 80% mana
-end```
+end
+```
 
 ## powermax
 
@@ -206,7 +216,8 @@ Returns the maximum of the objects power (e.g. mana, energy, focus, etc.).
 local tar = ni.objects["target"];
 if tar:exists() and tar:powermax("mana") >= 20000 then
 	--Target has, or has more than, 20k mana
-end```
+end
+```
 
 ## unit
 
@@ -224,7 +235,8 @@ Returns true or false if the object is a unit.
 local tar = ni.objects["target"];
 if tar:exists() and tar:unit() then
 	--Object is a unit.
-end```
+end
+```
 
 ## player
 
@@ -242,7 +254,8 @@ Returns true or false if the object is a player.
 local tar = ni.objects["target"];
 if tar:exists() and tar:player() then
 	--Object is a player.
-end```
+end
+```
 
 ## canattack
 
@@ -262,7 +275,8 @@ Returns true or false if the object can attack the token specified, or player if
 local tar = ni.objects["target"];
 if tar:exists() and tar:canattack() then
 	--Object can attack the player.
-end```
+end
+```
 
 ## canassist
 
@@ -282,7 +296,8 @@ Returns true or false if the object can assist the token specified, or player if
 local tar = ni.objects["target"];
 if tar:exists() and tar:canassist() then
 	--Object can assist the player (They're friendly).
-end```
+end
+```
 
 ## los
 
@@ -302,7 +317,8 @@ Returns true or false if the object is in line of sight to the token specified, 
 local tar = ni.objects["target"];
 if tar:exists() and tar:los() then
 	--Object is in line of sight to the player.
-end```
+end
+```
 
 ## cast
 
@@ -322,7 +338,8 @@ Function to cast a spell onto the object.
 local tar = ni.objects["The Lich King"];
 if tar:exists() and tar:los() then
 	tar:cast("Frost Bolt");
-end```
+end
+```
 
 ## castat
 
@@ -342,7 +359,8 @@ Function to cast a spell at the location of the object if they're in line of sig
 local tar = ni.objects["The Lich King"];
 if tar:exists() then
 	tar:cast("Blizzard");
-end```
+end
+```
 
 ## combat
 
@@ -360,7 +378,8 @@ Returns true or false if the object is in combat.
 local tar = ni.objects["The Lich King"];
 if tar:exists() and tar:combat() then
 	--Object is in combat.
-end```
+end
+```
 
 ## isbehind
 
@@ -386,7 +405,8 @@ if tar:exists() then
 	if tar:isbehind() then
 		--The object is behind the player
 	end
-end```
+end
+```
 
 ## isfacing
 
@@ -412,7 +432,8 @@ if tar:exists() then
 	if tar:isfacing() then
 		--The object is facing the player
 	end
-end```
+end
+```
 
 ## distance
 
@@ -432,7 +453,8 @@ Returns the distance of the object to the token specified, or player if empty.
 local tar = ni.objects["target"];
 if tar:exists() and tar:distance() < 3 then
 	--Object is within 3 yards of the player.
-end```
+end
+```
 
 ## range
 
@@ -452,7 +474,8 @@ Returns true or false if the object is within 40 yards to the token specified, o
 local tar = ni.objects["target"];
 if tar:exists() and tar:range() then
 	--Object is within 40 yards of the player.
-end```
+end
+```
 
 ## creator
 
@@ -473,7 +496,8 @@ if tar:exists() then
 	if creator then
 		--The object has a creator, and now we have their GUID
 	end
-end```
+end
+```
 
 ## target
 
@@ -494,7 +518,8 @@ if tar:exists() then
 	if UnitExists(target) then
 		--The object has a target, and now we have their GUID
 	end
-end```
+end
+```
 
 ## location
 
@@ -513,4 +538,5 @@ local tar = ni.objects["target"];
 if tar:exists() then
 	local location = tar:location();
 	--Do something with the location.x, location.y, location.z and location.r of the object
-end```
+end
+```

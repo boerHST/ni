@@ -29,7 +29,8 @@ Returns the average health of all the members in your group.
 ```lua
 if ni.members.average() < 20 then
 	--Cast some raid wide health
-end```
+end
+```
 
 ## averageof
 
@@ -44,7 +45,8 @@ Returns the average health of the lowest members, averaged by the argument passe
 ```lua
 if ni.members.averageof(4) < 20 then
 	--4 of the group members average the hp below 20%
-end```
+end
+```
 
 ## inrange
 
@@ -75,7 +77,8 @@ Returns: `table`
 Returns a table of the members that are within the distance specified of the unit and also have the buff that is specified.
 
 ```lua
-local members_with_riptide = ni.members.inrangewithbuff("player", 10, "Riptide", "PLAYER"); --Returns a table of all the members within 10 yards of the player that have the buff Riptide which was cast by the player```
+local members_with_riptide = ni.members.inrangewithbuff("player", 10, "Riptide", "PLAYER"); --Returns a table of all the members within 10 yards of the player that have the buff Riptide which was cast by the player
+```
 
 ## inrangewithoutbuff
 
@@ -91,7 +94,8 @@ Returns: `table`
 Returns a table of the members that are within the distance specified of the unit and also do not have the buff that is specified.
 
 ```lua
-local members_without_riptide = ni.members.inrangewithoutbuff("player", 10, "Riptide"); --Returns a table of all the members within 10 yards of the player that do not have the buff Riptide```
+local members_without_riptide = ni.members.inrangewithoutbuff("player", 10, "Riptide"); --Returns a table of all the members within 10 yards of the player that do not have the buff Riptide
+```
 
 ## inrangewithdebuff
 
@@ -107,7 +111,8 @@ Returns: `table`
 Returns a table of the members that are within the distance specified of the unit and also have the debuff that is specified.
 
 ```lua
-local members_with_weakend_soul = ni.members.inrangewithdebuff("player", 10, "Weakend Soul"); --Returns a table of all the members within 10 yards of the player that have the debuff Weakend Soul```
+local members_with_weakend_soul = ni.members.inrangewithdebuff("player", 10, "Weakend Soul"); --Returns a table of all the members within 10 yards of the player that have the debuff Weakend Soul
+```
 
 ## inrangewithoutdebuff
 
@@ -123,7 +128,8 @@ Returns: `table`
 Returns a table of the members that are within the distance specified of the unit and also do not have the debuff that is specified.
 
 ```lua
-local members_without_weakend_soul = ni.members.inrangewithoutdebuff("player", 10, "Weakend Soul"); --Returns a table of all the members within 10 yards of the player that do not have the debuff Weakend Soul```
+local members_without_weakend_soul = ni.members.inrangewithoutdebuff("player", 10, "Weakend Soul"); --Returns a table of all the members within 10 yards of the player that do not have the debuff Weakend Soul
+```
 
 ## inrangebelow
 
@@ -138,7 +144,8 @@ Returns: `table`
 Returns a table of the members that are within the distance specified of the unit and are below the HP threshold passed.
 
 ```lua
-local members_below = ni.members.inrangebelow("player", 10, 60); --Returns a table of all the members within 10 yards of the player that are below 60% health```
+local members_below = ni.members.inrangebelow("player", 10, 60); --Returns a table of all the members within 10 yards of the player that are below 60% health
+```
 
 ---
 
@@ -159,7 +166,8 @@ for i = 1, #ni.members do
 	if UnitIsUnit(ni.members[i].unit, "target") then
 		--This member is our target
 	end
-end```
+end
+```
 
 ## class
 
@@ -176,7 +184,8 @@ for i = 1, #ni.members do
 	if ni.members[i].class == "WARRIOR" then
 		--This member is a warrior
 	end
-end```
+end
+```
 
 ## name
 
@@ -193,7 +202,8 @@ for i = 1, #ni.members do
 	if ni.members[i].name == "ni" then
 		--This member is named ni
 	end
-end```
+end
+```
 
 ## guid
 
@@ -210,7 +220,8 @@ for i = 1, #ni.members do
 	if ni.members[i].guid == UnitGUID("target") then
 		--This members GUID is the same as our targets GUID
 	end
-end```
+end
+```
 
 ## shortguid
 
@@ -227,7 +238,8 @@ for i = 1, #ni.members do
 	if ni.members[i].shortguid == "8AB5D" then
 		--I don't know the applicability of this honestly, it's just there from old stuff
 	end
-end```
+end
+```
 
 ## range
 
@@ -244,7 +256,8 @@ for i = 1, #ni.members do
 	if ni.members[i].range then
 		--This member is in range of most spells and in line of sight
 	end
-end```
+end
+```
 
 ## dispel
 
@@ -261,7 +274,8 @@ for i = 1, #ni.members do
 	if ni.members[i].dispel then
 		--This member has a debuff that can be dispelled by you
 	end
-end```
+end
+```
 
 ## hp
 
@@ -278,7 +292,8 @@ for i = 1, #ni.members do
 	if ni.members[i].hp < 20 then
 		--This member is below 20% health
 	end
-end```
+end
+```
 
 ## threat
 
@@ -295,7 +310,8 @@ for i = 1, #ni.members do
 	if ni.members[i].threat == -1 then
 		--This member is not on any mobs threat list (99% chance just out of combat)
 	end
-end```
+end
+```
 
 ## target
 
@@ -312,7 +328,8 @@ for i = 1, #ni.members do
 	if UnitExists(ni.members[i].target) and UnitCanAttack("player", ni.members[i].target) then
 		--This member has a target we can attack
 	end
-end```
+end
+```
 
 ## istank
 
@@ -329,7 +346,8 @@ for i = 1, #ni.members do
 	if ni.members[i].istank then
 		--This member is a tank
 	end
-end```
+end
+```
 
 ## debufftype
 
@@ -350,7 +368,8 @@ for i = 1, #ni.members do
 	if ni.members[i]:debufftype("Disease") then
 		--This member has a debuff type that is Disease on them
 	end
-end```
+end
+```
 
 ## bufftype
 
@@ -371,7 +390,8 @@ for i = 1, #ni.members do
 	if ni.members[i]:debufftype("Magic") then
 		--This member has a buff type that is Magic on them
 	end
-end```
+end
+```
 
 ## buff
 
@@ -393,7 +413,8 @@ for i = 1, #ni.members do
 	if ni.members[i]:buff("Power Word: Shield", "PLAYER") then
 		--This member has Power Word: Shield on them cast by the player
 	end
-end```
+end
+```
 
 ## debuff
 
@@ -415,4 +436,5 @@ for i = 1, #ni.members do
 	if ni.members[i]:debuff("Weakend Soul") then
 		--This member has Weakend Soul on them
 	end
-end```
+end
+```
