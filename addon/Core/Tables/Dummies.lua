@@ -12,7 +12,5 @@ ni.tables.dummies = {
     [32666] = "Experts's Training Dummy",
     [31146] = "Heroic Training Dummy",
     [31143] = "Reinforced Training Dummy",
-    [24792] = "Advanced Training Dummy",
-    [67127] = "Training Dummy",
-    [46647] = "Training Dummy",
+    [24792] = "Advanced Training Dummy"
 }

@@ -973,6 +973,10 @@ ni.tables.bosses = {
 	[61634] = true, -- Commander Vo'jak
 	[61485] = true, -- General Pa'valak
 	[62205] = true, -- Wing Leader Ner'onok
+	-- Training Dummies --
+	[46647] = true, -- Level 85 Training Dummy
+	[67127] = true, -- Level 90 Training Dummy
+	[31146] = true,
 	-- Pandaria Raid Adds --
 	[63346] = true, -- Tsulong: The Dark of Night
 	[62969] = true, -- Tsulong: Embodied Terror
