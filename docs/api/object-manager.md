@@ -37,6 +37,8 @@ if lich_king ~= nil then
 end
 ```
 
+---
+
 > The object manager also features a set of functions and special way to provide an object oriented type programming for the lua. All of the way to access this feature is via `ni.objects`. Functions, variables and examples are as follows:
 
 ## guid
@@ -538,5 +540,30 @@ local tar = ni.objects["target"];
 if tar:exists() then
 	local location = tar:location();
 	--Do something with the location.x, location.y, location.z and location.r of the object
+end
+```
+
+---
+
+> Another example of iterating the objects can be like what is within the fishing script. While iterating it this way, you can access all the above listed variables and functions the same. Example as follows:
+
+```lua
+local playerguid = UnitGUID("player");
+for k, v in pairs(ni.objects) do
+	if type(k) ~= "function" and (type(k) == "string" and type(v) == "table") then
+		if v.name == "Fishing Bobber" then
+			local creator = v:creator();
+			if creator == playerguid then
+				local ptr = ni.memory.objectpointer(v.guid);
+				if ptr then
+					local result = ni.memory.read("byte", ptr, offset);
+					if result == 1 then
+						ni.player.interact(v.guid);
+						return true;
+					end
+				end
+			end 
+		end
+	end
 end
 ```
