@@ -61,6 +61,7 @@ local friendstable = { };
 local creationstable = { };
 local targetingtable = { };
 local unitauras = { };
+local BehindTime = 0;
 
 ni.unit = {
 	exists = function(t)
@@ -240,7 +241,18 @@ ni.unit = {
 	isfacing = function(t1, t2, degrees)
 		return (t1 ~= nil and t2 ~= nil) and ni.functions.isfacing(t1, t2, degrees) or false
 	end,
-	isbehind = function(t1, t2)
+	notbehindtarget = function(seconds)
+		local seconds = seconds or 2
+		if BehindTime + seconds > GetTime() then
+			return true
+		else
+			return false
+		end
+	end,
+	isbehind = function(t1, t2, seconds)
+		if ni.unit.notbehindtarget(seconds) then
+			return false;
+		end
 		return (t1 ~= nil and t2 ~= nil) and ni.functions.isbehind(t1, t2) or false
 	end,
 	distance = function(t1, t2)
@@ -727,6 +739,15 @@ ni.unit = {
 		end
 	end
 }
+local function UnitEvents(event, ...)
+	if event == "UI_ERROR_MESSAGE" then
+		local errorMessage = ...;
+		if errorMessage == SPELL_FAILED_NOT_BEHIND then
+			BehindTime = GetTime();
+		end
+	end
+end
+ni.combatlog.registerhandler("Internal Unit Handler", UnitEvents);
 --[[local function locationvalid(x, y, z)
 	if x == 0 and y == 0 and z == 0 then
 		return false;
