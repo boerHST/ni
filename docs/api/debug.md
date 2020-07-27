@@ -10,7 +10,7 @@ Arguments:
 
 - **message** `string`
 
-Returns: `table`, `boolean`
+Returns: `void`
 
 Prints the message if `ni.vars.debug` is set to true.
 
@@ -29,7 +29,7 @@ Arguments:
 
 Returns: `void`
 
-Prints the message in the console of ni's application. Erorr is optional, true for error message and empty or false or normal.
+Prints the message in the console of ni's application. Error is optional, true for error message and empty or false or normal.
 
 ```lua
 ni.debug.log("Test")
