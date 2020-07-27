@@ -1134,4 +1134,30 @@ Returns the units facing in radians.
 ```lua
 if ni.unit.facing("target") == 0 then
 	--The unit is facing true north
-end```
+end
+```
+
+## LoS Bit Values
+
+These are the following hit flags that can be passed to the los function if you don't want to use the default HitTestGroundAndStructures value.
+
+```lua
+HitTestNothing = 0x0,
+HitTestBoundingModels = 0x1,
+HitTestWMO = 0x10,
+HitTestUnknown = 0x40,
+HitTestGround = 0x100,
+HitTestLiquid = 0x10000,
+HitTestUnknown2 = 0x20000,
+HitTestMovableObjects = 0x100000,
+HitTestLOS = HitTestWMO | HitTestBoundingModels | HitTestMovableObjects,
+HitTestGroundAndStructures = HitTestLOS | HitTestGround
+```
+
+To calculate a bitwise value you'd want, you can use wow's function bit.bor or just simply add the values.
+```lua
+local hit_ground_and_liquid = 0x100 + 0x10000;
+if ni.unit.los("player", "target", hit_ground_and_liquid) then
+	--Do because we didn't hit either ground or water
+end
+```
