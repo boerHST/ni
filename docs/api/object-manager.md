@@ -119,25 +119,6 @@ if tar:exists() then
 end
 ```
 
-## exists
-
-Type:
-
-- **function**
-
-Arguments:
-
-Returns: `boolean`
-
-Returns true or false if the object is within your memory scope.
-
-```lua
-local tar = ni.objects["focus"];
-if tar:exists() then
-	--Target exists
-end
-```
-
 ## info
 
 Type:
