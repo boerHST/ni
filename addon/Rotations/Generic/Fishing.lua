@@ -84,7 +84,7 @@ local items = {
 		value = inputs["pole"],
 		widht = 100,
 		height = 15,
-		key = "rod"
+		key = "pole"
 	},
 	{ type = "title", text = "Main Hand ID" },
 	{
