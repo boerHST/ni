@@ -48,40 +48,6 @@ local GetSpellCooldown,
 local _, class = UnitClass("player")
 local casts = { };
 local los, newz = ni.functions.los, ni.unit.newz;
-local all_units = { };
-local function getAllAttackable(distance, radius)
-	table.wipe(all_units)
-	for k, v in pairs(ni.objects) do
-		if type(k) ~= "function" and type(v) == "table" then
-			if v:canattack() and not UnitIsDeadOrGhost(k) then
-				local dist = v:distance("player");
-				if dist ~= nil and dist + radius <= distance then
-					table.insert(all_units, v);
-				end
-			end
-		end
-	end
-end
-
-local function getAllAssistable(distance, radius)
-	table.wipe(all_units)
-	for k, v in pairs(ni.objects) do
-		if type(k) ~= "function" and type(v) == "table" then
-			if v:canattack() and not UnitIsDeadOrGhost(k) then
-				local dist = v:distance("player");
-				if dist ~= nil and dist + radius <= distance then
-					table.insert(all_units, v);
-				end
-			end
-		end
-	end
-end
-
-local function distanceBetween(x1, y1, x2, y2)
-	local dx = x1 - x2;
-	local dy = y1 - y2;
-	return math.sqrt(dx * dx + dy * dy);
-end
 
 setmetatable(casts,
 	{
