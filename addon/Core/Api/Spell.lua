@@ -47,6 +47,42 @@ local GetSpellCooldown,
 
 local _, class = UnitClass("player")
 local casts = { };
+local los, newz = ni.functions.los, ni.unit.newz;
+local all_units = { };
+local function getAllAttackable(distance, radius)
+	table.wipe(all_units)
+	for k, v in pairs(ni.objects) do
+		if type(k) ~= "function" and type(v) == "table" then
+			if v:canattack() and not UnitIsDeadOrGhost(k) then
+				local dist = v:distance("player");
+				if dist ~= nil and dist + radius <= distance then
+					table.insert(all_units, v);
+				end
+			end
+		end
+	end
+end
+
+local function getAllAssistable(distance, radius)
+	table.wipe(all_units)
+	for k, v in pairs(ni.objects) do
+		if type(k) ~= "function" and type(v) == "table" then
+			if v:canattack() and not UnitIsDeadOrGhost(k) then
+				local dist = v:distance("player");
+				if dist ~= nil and dist + radius <= distance then
+					table.insert(all_units, v);
+				end
+			end
+		end
+	end
+end
+
+local function distanceBetween(x1, y1, x2, y2)
+	local dx = x1 - x2;
+	local dy = y1 - y2;
+	return math.sqrt(dx * dx + dy * dy);
+end
+
 setmetatable(casts,
 	{
 		__index = function(t, k)
@@ -161,6 +197,23 @@ ni.spell = {
 				ni.spell.cast(spell)
 				ni.player.clickat(tx, ty, z)
 			end
+		end
+	end,
+	bestaoeloc = function(distance, radius, friendly, minimumcount, inc, zindex_inc)
+		return ni.functions.bestaoeloc(distance, radius, friendly, minimumcount, inc, zindex_inc);
+	end,
+	casthelpfulatbest = function(spell, distance, radius, minimumcount, inc, zindex_inc)
+		local x, y, z = ni.spell.bestaoeloc(distance, radius, true, minimumcount, inc, zindex_inc);
+		if x and y and z then
+			ni.spell.cast(spell);
+			ni.player.clickat(x, y, z);
+		end
+	end,
+	castharmfulatbest = function(spell, distance, radius, minimumcount, inc, zindex_inc)
+		local x, y, z = ni.spell.bestaoeloc(distance, radius, false, minimumcount, inc, zindex_inc);
+		if x and y and z then
+			ni.spell.cast(spell);
+			ni.player.clickat(x, y, z);
 		end
 	end,
 	castqueue = function(...)
