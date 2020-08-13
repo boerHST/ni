@@ -90,6 +90,8 @@ ni.bootstrap.rotation("Warlock_Example", dynamicqueue, abilities)
 
 !> It's possible to only use one way to set the priority queue (either static or dynamic).
 
+!> The following method for loading data files is deprecated and should be avoided. Please look at the newer function [here](api/generic.md#require)
+
 #### 5. In case we have some common functions or variables that we would like to share among multiple profiles - we can do it by creating Lua files in `Data` folder. Lets create `Data_Example.lua`.
 
 ```
