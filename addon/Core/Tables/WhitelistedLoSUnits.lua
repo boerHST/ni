@@ -10,5 +10,6 @@ ni.tables.whitelistedlosunits = {
 	[32955] = "Collapsing Star",
 	[33142] = "Leviathan Defense Turret",
 	[56754] = "Azure Serpent",
-	[71407] = "Amber"
+	[71407] = "Amber",
+	[36980] = "Ice Tomb"
 }
