@@ -13,6 +13,7 @@ local files = {
 	"Core\\Tables\\BlacklistedDispels.lua",
 	"Core\\Tables\\CantHeal.lua",
 	"Core\\Tables\\Classes.lua",
+	"Core\\Tables\\DiminishingReturns.lua",
 	"Core\\Frames\\CombatLog.lua",
 	"Core\\Frames\\Events.lua",
 	"Core\\Api\\Power.lua",
@@ -25,12 +26,16 @@ local files = {
 	"Core\\Engines\\Members.lua",
 	"Core\\Engines\\ObjectManager.lua",
 	"Core\\Engines\\StopCastingTracker.lua",
+	"Core\\Engines\\DRTracker.lua",
+	"Core\\Engines\\ICDTracker.lua",
 	"Core\\Frames\\GUI.lua",
 	"Core\\Frames\\UI.lua",
 	"Core\\Frames\\Delay.lua",
 	"Core\\Frames\\Interrupt.lua",
 	"Core\\Frames\\Members.lua",
 	"Core\\Frames\\ObjectManager.lua",
+	"Core\\Frames\\DRTracker.lua",
+	"Core\\Frames\\ICDTracker.lua",
 	"Core\\Frames\\Global.lua"
 }
 
@@ -42,6 +47,9 @@ if ni.functions.loadlua("Core\\Internal\\Utils.lua") then
 		ni.frames.members:SetScript("OnEvent", ni.frames.members_OnEvent)
 		ni.frames.objectmanager:SetScript("OnUpdate", ni.frames.objectmanager_OnUpdate)
 		ni.frames.global:SetScript("OnUpdate", ni.frames.global_OnUpdate)
+		ni.frames.drtracker:SetScript("OnEvent", ni.frames.drtracker_OnEvent)
+		ni.frames.drtracker:SetScript("OnUpdate", ni.frames.drtracker_OnUpdate)
+		ni.frames.icdtracker:SetScript("OnEvent", ni.frames.icdtracker_OnEvent)
 		ni.frames.floatingtext:message("Loaded")
 	end
 end

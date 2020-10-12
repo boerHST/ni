@@ -40,7 +40,11 @@ ni.vars = {
 		melee = false,
 		cd = false,
 		aoe = false,
-		casting = false
+		casting = false,
+		queued = false,
+		currentcastend = 0,
+		spellqueueenabled = false,
+		spellqueuems = 0.3
 	},
 	interrupts = {
 		whitelisted = {},

@@ -56,10 +56,6 @@ local creaturetypes = {
 	[13] = "GasCloud"
 }
 
-local enemiestable = { };
-local friendstable = { };
-local creationstable = { };
-local targetingtable = { };
 local unitauras = { };
 local BehindTime = 0;
 local los = ni.functions.los;
@@ -84,7 +80,7 @@ ni.unit = {
 		return ni.unit.exists(t) and ni.functions.unitcreator(t) or nil
 	end,
 	creations = function(unit)
-		table.wipe(creationstable);
+		local creationstable = {}
 		if unit then
 			local guid = UnitGUID(unit)
 			for k, v in pairs(ni.objects) do
@@ -321,12 +317,12 @@ ni.unit = {
 		return false
 	end,
 	enemiesinrange = function(t, n)
-		table.wipe(enemiestable);
+		local enemiestable = {}
 		local unit = true and UnitGUID(t) or t
 		if unit then
 			for k, v in pairs(ni.objects) do
 				if type(k) ~= "function" and (type(k) == "string" and type(v) == "table") then
-					if k ~= unit and v:canattack() and not UnitIsDeadOrGhost(k) then
+					if k ~= unit and v:canattack() and not UnitIsDeadOrGhost(k) and ni.unit.readablecreaturetype(k) ~= "Critter" then
 						local distance = v:distance(unit)
 						if (distance ~= nil and distance <= n) then
 							tinsert(enemiestable, {guid = k, name = v.name, distance = distance})
@@ -338,7 +334,7 @@ ni.unit = {
 		return enemiestable
 	end,
 	friendsinrange = function(t, n)
-		table.wipe(friendstable);
+		local friendstable = {}
 		local unit = true and UnitGUID(t) or t
 		if unit then
 			for k, v in pairs(ni.objects) do
@@ -357,7 +353,7 @@ ni.unit = {
 	unitstargeting = function(t, friendlies)
 		local unit = true and UnitGUID(t) or t
 		local f = true and friendlies or false
-		table.wipe(targetingtable);
+		local targetingtable = {}
 
 		if unit then
 			if not f then
@@ -664,7 +660,7 @@ ni.unit = {
 	debuffremaining = function(target, spell, filter)
 		local expires = select(7, ni.unit.debuff(target, spell, filter))
 		if expires ~= nil then
-			return expires - GetTime()
+			return expires - GetTime() - ni.vars.combat.currentcastend
 		else
 			return 0
 		end
@@ -672,7 +668,7 @@ ni.unit = {
 	buffremaining = function(target, spell, filter)
 		local expires = select(7, ni.unit.buff(target, spell, filter))
 		if expires ~= nil then
-			return expires - GetTime()
+			return expires - GetTime() - ni.vars.combat.currentcastend
 		else
 			return 0
 		end

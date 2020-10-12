@@ -74,4 +74,17 @@ ni.utils = {
 	resetlasthardwareaction = function()
 		ni.functions.resetlasthardwareaction();
 	end,
+	mergetables = function(firsttable, secondtable)
+		local tmp = {}
+
+		for _, v in pairs(firsttable) do
+			table.insert(tmp, v)
+		end
+
+		for _, v in pairs(secondtable) do
+			table.insert(tmp, v)
+		end
+
+		return tmp
+	end
 }

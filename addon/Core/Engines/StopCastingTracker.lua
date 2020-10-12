@@ -6,31 +6,34 @@ ni.stopcastingtracker = {
 		local bosscast, _, _, _, bosscastend = UnitCastingInfo("boss1")
 		local mycasttime, _, _, _, mycastend = UnitCastingInfo("player")
 
+		if bosscast == nil then
+			bosscast, _, _, _, bosscastend = UnitCastingInfo("focus")
+		end
+
 		if bosscast == nil or ni.spell.isinstant(spell) then
 			return false
 		end
 
-		if mycasttime ~= nil then
-			mycastend = spellcasttime
+		if mycasttime == nil then
+			mycasttime, _, _, _, mycastend = UnitChannelInfo("player")
 		end
 
-		for i = 1, #ni.tables.stopcasting.continue do
-			local buff = ni.tables.stopcasting.continue[i]
+		if mycasttime == nil then
+			mycastend = (GetTime() + spellcasttime) * 1000
+		end
 
-			if ni.player.buff(buff) and ni.player.buffremaining(buff) + 0.1 > bosscastend then
+		for k, v in pairs(ni.tables.stopcasting.continue) do
+			local buff = k
+
+			if ni.player.buff(buff) and ni.player.buffremaining(buff) + 0.1 >= bosscastend then
 				return false
 			end
 		end
 
-		if not ni.player.iscasting() and not ni.player.ischanneling() and spellcasttime and spellcasttime > bosscastend then
-			return true
-		end
-
-		for i = 1, #ni.tables.stopcasting.stop do
-			local casting = ni.tables.stopcasting.stop[i]
-
+		for k, v in pairs(ni.tables.stopcasting.stop) do
+			local casting = k
 			if bosscast == select(1, GetSpellInfo(casting)) then
-				if mycastend ~= nil and mycastend > bosscastend then
+				if mycastend ~= nil and mycastend >= bosscastend then
 					return true
 				end
 			end

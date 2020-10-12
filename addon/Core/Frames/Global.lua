@@ -131,7 +131,7 @@ ni.frames.global_OnUpdate = function(self, elapsed)
 				local id, tar = unpack(args)
 				ni.frames.spellqueue.update(id, true)
 
-				if ni.spell.available(id) and ((not ni.spell.isinstant(id) and not ni.player.ismoving()) or ni.spell.isinstant(id)) then
+				if ni.spell.available(id) and ((not ni.spell.isinstant(id) and not ni.player.ismoving()) or ni.spell.isinstant(id)) and not ni.spell.isqueued() then
 					count = count - 1
 					func(id, tar)
 				else

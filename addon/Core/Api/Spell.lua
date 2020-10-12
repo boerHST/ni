@@ -46,16 +46,18 @@ local GetSpellCooldown,
 	IsPlayerSpell
 
 local _, class = UnitClass("player")
-local casts = { };
-local los, newz = ni.functions.los, ni.unit.newz;
+local casts = {}
+local los, newz = ni.functions.los, ni.unit.newz
 
-setmetatable(casts,
+setmetatable(
+	casts,
 	{
 		__index = function(t, k)
-			rawset(t, k, { at = 0 });
-			return t[k];
+			rawset(t, k, {at = 0})
+			return t[k]
 		end
-	})
+	}
+)
 ni.spell = {
 	queue = {},
 	id = function(s)
@@ -68,19 +70,58 @@ ni.spell = {
 	cd = function(id)
 		local start, duration = GetSpellCooldown(id)
 		local start2 = GetSpellCooldown(61304)
+
+		if start == nil then
+			return -1
+		end
+
 		if (start > 0 and duration > 0 and start ~= start2) then
 			return start + duration - GetTime()
 		else
 			return 0
 		end
 	end,
+	
 	gcd = function()
 		local _, d = GetSpellCooldown(61304)
 		return d ~= 0
 	end,
+	isqueued = function()
+		if ni.vars.combat.spellqueueenabled then
+			local name, _, _, _, startTimeMS, endTimeMS = UnitCastingInfo("player")
+
+			if name then
+				local casttime = (endTimeMS - startTimeMS) / 1000
+				local finish = endTimeMS / 1000 - GetTime()
+				local spellqueuewindow = casttime - (casttime - ni.vars.combat.spellqueuems)
+				if spellqueuewindow <= finish then
+					ni.vars.combat.currentcastend = finish
+					return true
+				else
+					ni.vars.combat.queued = false
+					ni.vars.combat.currentcastend = finish
+					return false
+				end
+			else
+				ni.vars.combat.queued = false
+				ni.vars.combat.currentcastend = 0
+				return false
+			end
+
+			if ni.vars.combat.queued and name then
+				return true
+			end
+		else
+			if UnitCastingInfo("player") or ni.vars.combat.casting then
+				return true
+			end
+		end
+
+		return false
+	end,
 	available = function(id, stutter)
 		if not stutter then
-			if ni.spell.gcd() or ni.vars.combat.casting == true then
+			if ni.spell.gcd() or ni.spell.isqueued() then
 				return false
 			end
 		end
@@ -121,6 +162,7 @@ ni.spell = {
 		else
 			ni.debug.print(string.format("Casting %s", ...))
 		end
+		ni.vars.combat.queued = true
 		ni.functions.cast(...)
 	end,
 	delaycast = function(spell, target, delay)
@@ -294,7 +336,7 @@ ni.spell = {
 		elseif class == "MONK" then
 			interruptSpell = 116705
 		elseif class == "WARLOCK" and IsSpellKnown(19647, true) then
-			interruptSpell = 19647
+				interruptSpell = 19647
 		end
 
 		return interruptSpell
@@ -314,7 +356,7 @@ ni.spell = {
 	shouldinterrupt = function(t)
 		local InterruptPercent = ni.spell.getpercent()
 		local castName, _, _, _, castStartTime, castEndTime, _, _, castinterruptable = UnitCastingInfo(t)
-		local channelName, _, _, _, channelStartTime, channelEndTime, _,  channelInterruptable = UnitChannelInfo(t)
+		local channelName, _, _, _, channelStartTime, channelEndTime, _, channelInterruptable = UnitChannelInfo(t)
 
 		if channelName ~= nil then
 			castName = channelName
