@@ -123,6 +123,12 @@ function memberssetup:create(unit)
 				hpraw = UnitHealthMax(o.unit)
 			end
 		end
+		for i = 1, #ni.tables.notneedheal do
+			if ni.unit.buff(o.unit, ni.tables.notneedheal[i]) then
+				hp = 100
+				hpraw = UnitHealthMax(o.unit)
+			end
+		end
 		return hp, hpraw
 	end
 	function o:inrange()
