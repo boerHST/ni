@@ -85,8 +85,7 @@ ni.unit = {
 			local guid = UnitGUID(unit)
 			for k, v in pairs(ni.objects) do
 				if type(k) ~= "function" and (type(k) == "string" and type(v) == "table") then
-					local creator = v:creator()
-					if tonumber(creator) == tonumber(guid) then
+					if v:creator() == guid then
 						table.insert(creationstable, {name = v.name, guid = v.guid})
 					end
 				end
@@ -95,7 +94,7 @@ ni.unit = {
 		return creationstable
 	end,
 	creaturetype = function(t)
-		return ni.unit.exists(t) and ni.functions.creaturetype(t) or 0
+		return ni.functions.creaturetype(t) or 0
 	end,
 	istotem = function(t)
 		return (ni.unit.exists(t) and ni.unit.creaturetype(t) == 11) or false
@@ -104,7 +103,7 @@ ni.unit = {
 		return creaturetypes[ni.unit.creaturetype(t)]
 	end,
 	combatreach = function(t)
-		return t ~= nil and ni.functions.combatreach(t) or 0
+		return ni.functions.combatreach(t) or 0
 	end,
 	isboss = function(t)
 		local bossId = ni.unit.id(t)
