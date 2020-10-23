@@ -14,11 +14,19 @@ ni.healing = {
 		end
 	end,
 	dontdispel = function(t)
-		for k, v in pairs(ni.tables.blacklisteddispels) do
-			if ni.unit.debuff(t, v) then
-				return true
+		for i = 1, #ni.tables.blacklisteddispels do
+			local blacklisted = ni.tables.blacklisteddispels[i]
+			local debuff = ni.unit.debuff(t, blacklisted)
+
+			if debuff then
+				local debufftype = select(5, UnitDebuff(t, debuff))
+
+				if ni.healing.debufftypedispellable(debufftype) then
+					return true
+				end
 			end
 		end
+
 		return false
 	end,
 	candispel = function(t)
@@ -32,7 +40,7 @@ ni.healing = {
 		while debuff do
 			local debufftype = select(5, UnitDebuff(t, i))
 
-			if ni.tables.classes[class].dispel and tContains(ni.tables.classes[class].dispel, debufftype) then
+			if ni.healing.debufftypedispellable(debufftype) then
 				return true
 			end
 
@@ -40,6 +48,9 @@ ni.healing = {
 			debuff = UnitDebuff(t, i)
 		end
 		return false
+	end,
+	debufftypedispellable = function(debufftype)
+		return ni.tables.classes[class].dispel and tContains(ni.tables.classes[class].dispel, debufftype)
 	end,
 	averagehp = function(n)
 		local average = 0
