@@ -50,19 +50,19 @@ ni.drtracker = {
 		end
 
 		local cat = ni.tables.dr.refs[drCat]
+		local time = GetTime()
 
 		if not ni.drtracker.units[destGUID] then
 			ni.drtracker.units[destGUID] = {}
 		end
 
 		if not ni.drtracker.units[destGUID][cat] then
-			ni.drtracker.units[destGUID][cat] = {reset = 0, diminished = 1.0}
+			ni.drtracker.units[destGUID][cat] = {reset = time + ni.drtracker.resettime, diminished = 0.5}
+		else
+			ni.drtracker.units[destGUID][cat].reset = time + ni.drtracker.resettime
+			ni.drtracker.units[destGUID][cat].diminished = ni.drtracker.nextdr(ni.drtracker.units[destGUID][cat].diminished)
 		end
 
-		local tracked = ni.drtracker.units[destGUID][cat]
-		if tracked and tracked.reset <= GetTime() then
-			ni.drtracker.units[destGUID][cat].diminished = 1.0
-		end
 	end,
 	faded = function(spellID, destName, destGUID, isEnemy, isPlayer)
 		local drCat = ni.tables.dr.spells[spellID]
@@ -74,6 +74,7 @@ ni.drtracker = {
 		end
 
 		local cat = ni.tables.dr.refs[drCat]
+		local time = GetTime()
 
 		if not ni.drtracker.units[destGUID] then
 			ni.drtracker.units[destGUID] = {}
@@ -83,10 +84,7 @@ ni.drtracker = {
 			ni.drtracker.units[destGUID][cat] = {reset = 0, diminished = 1}
 		end
 
-		local time = GetTime()
-
 		ni.drtracker.units[destGUID][cat].reset = time + ni.drtracker.resettime
-		ni.drtracker.units[destGUID][cat].diminished = ni.drtracker.nextdr(ni.drtracker.units[destGUID][cat].diminished)
 	end,
 	wipe = function(unit)
 		if ni.drtracker.units[unit] then
