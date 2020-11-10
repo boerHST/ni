@@ -415,8 +415,8 @@ ni.unit = {
 	end,
 	aura = function(t, s)
 		if tonumber(s) == nil then
-			local auras = ni.unit.auras(t);
-			for k, v in pairs(auras) do
+			ni.unit.auras(t);
+			for k, v in pairs(unitauras) do
 				if v.name == s then
 					return true;
 				end
