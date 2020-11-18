@@ -65,6 +65,8 @@ if not ni.loaded then
 	local json = require(dir.."addon\\core\\json.lua");
 	local vars = ni.functions.loadcontent(dir.."addon\\settings\\"..UnitName("player")..".json");
 	ni.vars = vars and json.decode(vars) or require(dir.."addon\\core\\vars.lua");
+	ni.vars.profiles.enabled = false;
+	ni.vars.profiles.genericenabled = false;
 	ni.functions.savecontent(dir.."addon\\settings\\"..UnitName("player")..".json", json.encode(ni.vars));
 	ni.vars.build = select(4, GetBuildInfo());
 	ni.debug = require(dir.."addon\\core\\debug.lua");
@@ -77,10 +79,14 @@ if not ni.loaded then
 	ni.utils.require = require;
 	ni.utils.json = json;
 	ni.utils.savesetting = function(filename, settings)
-		ni.functions.savecontent(dir.."addon\\settings\\"..filename, settings);
+		if type(settings) == "table" then
+			settings = json.encode(settings);
+		end
+		ni.functions.savecontent(dir.."addon\\Settings\\"..filename, settings);
 	end;
 	ni.utils.getsettings = function(filename)
-		return ni.functions.loadcontent(dir.."addon\\settings\\"..filename) or { };
+		local content = ni.functions.loadcontent(dir.."addon\\Settings\\"..filename);
+		return content and json.decode(content) or { };
 	end;
 	local generated_names = { };
 	local function RandomVariable(length)

@@ -17,6 +17,7 @@ local main_original_y = main_y;
 local original_offset = 45;
 local offset = original_offset;
 local current_frame;
+local current_frame_name;
 -----------------------------------------------
 ----- Local functions for movement/sizing -----
 -----------------------------------------------
@@ -278,7 +279,8 @@ local function CreateCheckBox(frame, t, settings, callback)
 				t.enabled = false;
 			end
 			if settings ~= nil and t.key ~= nil then
-				ni.utils.savesetting(settings, "settings/"..t.key.."_enabled", t.enabled);
+				frames[current_frame].settings[t.key.."_enabled"] = t.enabled;
+				ni.utils.savesetting(settings, frames[current_frame].settings);
 			end
 			if callback ~= nil and t.key ~= nil then
 				callback(t.key, "enabled", t.enabled);
@@ -339,7 +341,8 @@ local function CreateEditBox(frame, t, settings, callback)
 			self:SetText(t.value);
 			self:ClearFocus();
 			if settings ~= nil and t.key ~= nil then
-				ni.utils.savesetting(settings, "settings/"..t.key.."_value", t.value);
+				frames[current_frame].settings[t.key.."_value"] = t.value;
+				ni.utils.savesetting(settings, frames[current_frame].settings);
 			end
 			if callback ~= nil and t.key ~= nil then
 				callback(t.key, "value", t.value);
@@ -354,7 +357,8 @@ local function CreateEditBox(frame, t, settings, callback)
 				self:SetText(t.value);
 				self:ClearFocus();
 				if settings ~= nil and t.key ~= nil then
-					ni.utils.savesetting(settings, "settings/"..t.key.."_value", t.value);
+					frames[current_frame].settings[t.key.."_value"] = t.value;
+					ni.utils.savesetting(settings, frames[current_frame].settings);
 				end			
 				if callback ~= nil and t.key ~= nil then
 					callback(t.key, "value", t.value);
@@ -368,7 +372,8 @@ local function CreateEditBox(frame, t, settings, callback)
 				self:SetText(t.value);
 				self:ClearFocus();
 				if settings ~= nil and t.key ~= nil then
-					ni.utils.savesetting(settings, "settings/"..t.key.."_value", t.value);
+					frames[current_frame].settings[t.key.."_value"] = t.value;
+					ni.utils.savesetting(settings, frames[current_frame].settings);
 				end
 				if callback ~= nil and t.key ~= nil then
 					callback(t.key, "value", t.value);
@@ -378,7 +383,8 @@ local function CreateEditBox(frame, t, settings, callback)
 		end
 		t.value = temp;
 		if settings ~= nil and t.key ~= nil then
-			ni.utils.savesetting(settings, "settings/"..t.key.."_value", t.value);
+			frames[current_frame].settings[t.key.."_value"] = t.value;
+			ni.utils.savesetting(settings, frames[current_frame].settings);
 		end
 		if callback ~= nil and t.key ~= nil then
 			callback(t.key, "value", t.value);
@@ -508,7 +514,8 @@ local function CreateInput(frame, t, settingsfile, callback)
 			self:SetText(t.value);
 			self:ClearFocus();
 			if settingsfile ~= nil and t.key ~= nil then
-				ni.utils.savesetting(settingsfile, "settings/"..t.key, t.value);
+				frames[current_frame].settings[t.key] = t.value;
+				ni.utils.savesetting(settingsfile, frames[current_frame].settings);
 			end
 			if callback ~= nil and t.key ~= nil then
 				callback(t.key, "input", t.value)
@@ -524,7 +531,8 @@ local function CreateInput(frame, t, settingsfile, callback)
 					self:SetText(t.value);
 					self:ClearFocus();
 					if settingsfile ~= nil and t.key ~= nil then
-						ni.utils.savesetting(settingsfile, "settings/"..t.key, t.value);
+						frames[current_frame].settings[t.key] = t.value;
+						ni.utils.savesetting(settingsfile, frames[current_frame].settings);
 					end					
 					if callback ~= nil and t.key ~= nil then
 						callback(t.key, "input", t.value)
@@ -538,7 +546,8 @@ local function CreateInput(frame, t, settingsfile, callback)
 					self:SetText(t.value);
 					self:ClearFocus();
 					if settingsfile ~= nil and t.key ~= nil then
-						ni.utils.savesetting(settingsfile, "settings/"..t.key, t.value);
+						frames[current_frame].settings[t.key] = t.value;
+						ni.utils.savesetting(settingsfile, frames[current_frame].settings);
 					end					
 					if callback ~= nil and t.key ~= nil then
 						callback(t.key, "input", t.value)
@@ -548,7 +557,8 @@ local function CreateInput(frame, t, settingsfile, callback)
 			end
 			t.value = temp;
 			if settingsfile ~= nil and t.key ~= nil then
-				ni.utils.savesetting(settingsfile, "settings/"..t.key, t.value);
+				frames[current_frame].settings[t.key] = t.value;
+				ni.utils.savesetting(settingsfile, frames[current_frame].settings);
 			end
 			if callback ~= nil and t.key ~= nil then
 				callback(t.key, "input", t.value)
@@ -557,7 +567,8 @@ local function CreateInput(frame, t, settingsfile, callback)
 		else
 			t.value = self:GetText();
 			if settingsfile ~= nil and t.key ~= nil then
-				ni.utils.savesetting(settingsfile, "settings/"..t.key, t.value);
+				frames[current_frame].settings[t.key] = t.value;
+				ni.utils.savesetting(settingsfile, frames[current_frame].settings);
 			end
 			if callback ~= nil and t.key ~= nil then
 				callback(t.key, "input", t.value)
@@ -610,7 +621,8 @@ local function CreateRadial(frame, t, k, settings, callback)
 			text = tostring(t.menu[k].value);
 		end
 		if settings ~= nil and t.key ~= nil then
-			ni.utils.savesetting(settings, "settings/"..t.key, text);
+				frames[current_frame].settings[t.key] = text;
+				ni.utils.savesetting(settings, frames[current_frame].settings);
 		end
 		if callback ~= nil and t.key ~= nil then
 			callback(t.key, "menu", t.menu[k].value);
@@ -978,13 +990,16 @@ local function ToggleFrame(frame)
 		frames[frame]:Show();
 	end
 end
-local function UpdateSettings(t)
+local next = next
+local function UpdateSettings(name, t)
 	if t.settingsfile then
-		if ni.utils.fileexists("Settings\\"..t.settingsfile) then
+		local settings = ni.utils.getsettings(t.settingsfile);
+		frames[name].settings = settings;
+		if next(settings) then
 			for k, v in ipairs(t) do
 				if v.type == "entry" and v.key ~= nil then
 					if v.enabled ~= nil then
-						local bool = ni.utils.getsetting(t.settingsfile, "settings/"..v.key.."_enabled", "bool");
+						local bool = settings[v.key.."_enabled"];
 						if bool ~= nil then
 							v.enabled = bool;
 							if t.callback then
@@ -993,7 +1008,7 @@ local function UpdateSettings(t)
 						end
 					end
 					if v.value ~= nil then
-						local value = ni.utils.getsetting(t.settingsfile, "settings/"..v.key.."_value", "int");
+						local value = settings[v.key.."_value"];
 						if value ~= nil then
 							v.value = value;
 							if t.callback then
@@ -1002,7 +1017,7 @@ local function UpdateSettings(t)
 						end
 					end
 				elseif v.type == "dropdown" and v.key ~= nil then
-					local value = ni.utils.getsetting(t.settingsfile, "settings/"..v.key, "string");
+					local value = settings[v.key];
 					if value ~= nil then
 						local selected;
 						for _, v2 in ipairs(v.menu) do
@@ -1024,7 +1039,7 @@ local function UpdateSettings(t)
 						end
 					end
 				elseif v.type == "input" and v.key ~= nil then
-					local value = ni.utils.getsetting(t.settingsfile, "settings/"..v.key, "string");
+					local value = settings[v.key];
 					if value ~= nil then
 						v.value = value;
 						if t.callback then
@@ -1038,7 +1053,7 @@ local function UpdateSettings(t)
 end
 local function ApplySettings(name, t)
 	if t.settingsfile then
-		UpdateSettings(t);
+		UpdateSettings(name, t);
 	end
 	for k, v in ipairs(t) do
 		if v.type == "title" then
