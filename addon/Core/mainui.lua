@@ -505,7 +505,7 @@ mm:SetScript("OnMouseUp", function(self)
 end);
 
 local function SetClick(key, frame, button)
-	if key == "None" then
+	if key == "None" or key == nil then
 		return;
 	end
 	SetBindingClick(key, frame, button);
