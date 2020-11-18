@@ -43,15 +43,34 @@ local icdevents = {
 	["SPELL_AURA_APPLIED"] = true
 }
 
+local icdtracker = {};
+icdtracker.timers = {};
+icdtracker.set = function(item, icd)
+	icdtracker.timers[item] = {
+		icd = icd,
+		time = 0
+	}
+end
+icdtracker.get = function(item)
+	if icdtracker.timers[item] then
+		local remaining = icdtracker.timers[item].time - GetTime();
+		if remaining < 1 then
+			return 0;
+		end
+		return remaining;
+	end
+	return -1;
+end
+
 local icdtracker_events = function(self, event, ...)
 	local timestamp, eventType, sourceGUID, sourceName, sourceFlags, destGUID, destName, destFlags, spellID, spellName, spellSchool, auraType = ...;
 	if not icdevents[eventType] then
 		return
 	end
 	if sourceGUID == UnitGUID("player") and auraType == "BUFF" then
-		for k, v in pairs(ni.icdtracker.timers) do
+		for k, v in pairs(icdtracker.timers) do
 			if spellName == k then
-				ni.icdtracker.timers[k].time = GetTime() + v.icd
+				icdtracker.timers[k].time = GetTime() + v.icd
 			end
 		end
 	end
@@ -397,4 +416,4 @@ local function delayfor(delay, callback)
 	delays[GetTime() + delay] = callback;
 	return true
 end
-return frames, combatlog, delayfor;
+return frames, combatlog, delayfor, icdtracker;

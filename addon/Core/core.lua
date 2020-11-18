@@ -98,7 +98,7 @@ if not ni.loaded then
 		table.insert(generated_names, name);
 		return name;
 	end
-	ni.frames, ni.combatlog, ni.delayfor = require(dir.."addon\\core\\frames.lua");
+	ni.frames, ni.combatlog, ni.delayfor, ni.icdtracker = require(dir.."addon\\core\\frames.lua");
 	ni.spell = require(dir.."addon\\core\\spell.lua");
 	ni.power = require(dir.."addon\\core\\power.lua");
 	ni.rune = require(dir.."addon\\core\\rune.lua");
