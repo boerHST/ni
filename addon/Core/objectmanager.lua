@@ -18,9 +18,7 @@ local objects = {}
 
 local objectmanager = {}
 objectmanager.get = function()
-	if ni.functions.getobjects then
-		return ni.functions.getobjects()
-	end
+	return ni.functions.getom()
 end
 objectmanager.contains = function(o)
 	local tmp = UnitName(o)
