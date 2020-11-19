@@ -22,14 +22,14 @@ rune.deathrunes = function()
 	end
 	return dr;
 end
-cd = function(rune)
+rune.cd = function(r)
 	local runesoncd = 0
 	local runesoffcd = 0
 	local cur_time = GetTime();
 	
 	for i = 1, 6 do
 		local start, duration, ready = GetRuneCooldown(i);
-		if GetRuneType(i) == rune then
+		if GetRuneType(i) == r then
 			if start ~= 0 and cur_time - start <= duration then
 				runesoncd = runesoncd + 1
 			else
@@ -39,16 +39,16 @@ cd = function(rune)
 	end
 	return runesoncd, runesoffcd
 end
-deathrunecd = function()
+rune.deathrunecd = function()
 	return rune.cd(4)
 end
-frostrunecd = function()
+rune.frostrunecd = function()
 	return rune.cd(2)
 end
-unholyrunecd = function()
+rune.unholyrunecd = function()
 	return rune.cd(3)
 end
-bloodrunecd = function()
+rune.bloodrunecd = function()
 	return rune.cd(1)
 end
 
