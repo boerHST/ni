@@ -27,7 +27,11 @@ player.clickat = function(...) --target/x,y,z/mouse
 	ni.functions.clickat(...)
 end
 player.stopmoving = function()
-	ni.functions.stopmoving()
+	ni.functions.callprotected(StrafeLeftStop);
+	ni.functions.callprotected(StrafeRightStop);
+	ni.functions.callprotected(TurnLeftStop);
+	ni.functions.callprotected(TurnRightStop);
+	ni.functions.stopmoving();
 end
 player.lookat = function(target, inv) --inv true to look away
 	ni.functions.lookat(target, inv)

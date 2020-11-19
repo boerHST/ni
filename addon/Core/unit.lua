@@ -317,12 +317,12 @@ unit.inmelee = function(t1, t2)
 end
 unit.enemiesinrange = function(t, n)
 	local enemiestable = {}
-	local unit = true and UnitGUID(t) or t
-	if unit then
+	t = true and UnitGUID(t) or t
+	if t then
 		for k, v in pairs(ni.objects) do
 			if type(k) ~= "function" and (type(k) == "string" and type(v) == "table") then
-				if k ~= unit and v:canattack() and not UnitIsDeadOrGhost(k) and unit.readablecreaturetype(k) ~= "Critter" then
-					local distance = v:distance(unit)
+				if k ~= t and v:canattack() and not UnitIsDeadOrGhost(k) and unit.readablecreaturetype(k) ~= "Critter" then
+					local distance = v:distance(t)
 					if (distance ~= nil and distance <= n) then
 						tinsert(enemiestable, {guid = k, name = v.name, distance = distance})
 					end
@@ -334,12 +334,12 @@ unit.enemiesinrange = function(t, n)
 end
 unit.friendsinrange = function(t, n)
 	local friendstable = {}
-	local unit = true and UnitGUID(t) or t
-	if unit then
+	t = true and UnitGUID(t) or t
+	if t then
 		for k, v in pairs(ni.objects) do
 			if type(k) ~= "function" and (type(k) == "string" and type(v) == "table") then
-				if k ~= unit and v:canassist() and not UnitIsDeadOrGhost(k) then
-					local distance = v:distance(unit)
+				if k ~= t and v:canassist() and not UnitIsDeadOrGhost(k) then
+					local distance = v:distance(t)
 					if (distance ~= nil and distance <= n) then
 						tinsert(friendstable, {guid = k, name = v.name, distance = distance})
 					end
@@ -350,17 +350,17 @@ unit.friendsinrange = function(t, n)
 	return friendstable
 end
 unit.unitstargeting = function(t, friendlies)
-	local unit = true and UnitGUID(t) or t
+	t = true and UnitGUID(t) or t
 	local f = true and friendlies or false
 	local targetingtable = {}
 
-	if unit then
+	if t then
 		if not f then
 			for k, v in pairs(ni.objects) do
 				if type(k) ~= "function" and (type(k) == "string" and type(v) == "table") then
-					if k ~= unit and UnitReaction(unit, k) ~= nil and UnitReaction(unit, k) <= 4 and not UnitIsDeadOrGhost(k) then
+					if k ~= t and UnitReaction(t, k) ~= nil and UnitReaction(t, k) <= 4 and not UnitIsDeadOrGhost(k) then
 						local target = v:target()
-						if target ~= nil and target == unit then
+						if target ~= nil and target == t then
 							table.insert(targetingtable, {name = v.name, guid = k})
 						end
 					end
@@ -369,9 +369,9 @@ unit.unitstargeting = function(t, friendlies)
 		else
 			for k, v in pairs(ni.objects) do
 				if type(k) ~= "function" and (type(k) == "string" and type(v) == "table") then
-					if k ~= unit and UnitReaction(unit, k) ~= nil and UnitReaction(unit, k) > 4 then
+					if k ~= t and UnitReaction(t, k) ~= nil and UnitReaction(t, k) > 4 then
 						local target = v:target()
-						if target ~= nil and target == unit then
+						if target ~= nil and target == t then
 							table.insert(targetingtable, {name = v.name, guid = k})
 						end
 					end
