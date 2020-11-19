@@ -149,8 +149,8 @@ spell.available = function(id, stutter)
 	end
 	return result
 end
-spell.casttime = function(spell)
-	return select(7, GetSpellInfo(spell)) / 1000 + select(3, GetNetStats()) / 1000
+spell.casttime = function(s)
+	return select(7, GetSpellInfo(s)) / 1000 + select(3, GetNetStats()) / 1000
 end
 spell.cast = function(...)
 	local i = ...
@@ -165,16 +165,16 @@ spell.cast = function(...)
 	ni.vars.combat.queued = true
 	ni.functions.cast(...)
 end
-spell.delaycast = function(spell, target, delay)
+spell.delaycast = function(s, target, delay)
 	if delay then
-		if rawget(casts, spell) ~= nil then
-			if GetTime() - casts[spell].at < delay then
+		if rawget(casts, s) ~= nil then
+			if GetTime() - casts[s].at < delay then
 				return false
 			end
 		end
 	end
-	spell.cast(spell, target);
-	casts[spell].at = GetTime();
+	spell.cast(s, target);
+	casts[s].at = GetTime();
 	return true;
 end
 spell.castspells = function(spells, t)
@@ -192,10 +192,10 @@ spell.castspells = function(spells, t)
 		end
 	end
 end
-spell.castat = function(spell, t, offset)
-	if spell then
+spell.castat = function(s, t, offset)
+	if s then
 		if t == "mouse" then
-			spell.cast(spell)
+			spell.cast(s)
 			ni.player.clickat("mouse")
 		elseif ni.unit.exists(t) then
 			local offset = true and offset or random()
@@ -204,7 +204,7 @@ spell.castat = function(spell, t, offset)
 			local theta = random() * 360
 			local tx = x + r * cos(theta)
 			local ty = y + r * sin(theta)
-			spell.cast(spell)
+			spell.cast(s)
 			ni.player.clickat(tx, ty, z)
 		end
 	end
@@ -212,17 +212,17 @@ end
 spell.bestaoeloc = function(unit, distance, radius, friendly, minimumcount, inc, zindex_inc)
 	return ni.functions.bestaoeloc(unit, distance, radius, friendly, minimumcount, inc, zindex_inc);
 end
-spell.casthelpfulatbest = function(spell, unit, distance, radius, minimumcount, inc, zindex_inc)
+spell.casthelpfulatbest = function(s, unit, distance, radius, minimumcount, inc, zindex_inc)
 	local x, y, z = spell.bestaoeloc(unit, distance, radius, true, minimumcount, inc, zindex_inc);
 	if x and y and z then
-		spell.cast(spell);
+		spell.cast(s);
 		ni.player.clickat(x, y, z);
 	end
 end
-spell.castharmfulatbest = function(spell, unit, distance, radius, minimumcount, inc, zindex_inc)
+spell.castharmfulatbest = function(s, unit, distance, radius, minimumcount, inc, zindex_inc)
 	local x, y, z = spell.bestaoeloc(unit, distance, radius, false, minimumcount, inc, zindex_inc);
 	if x and y and z then
-		spell.cast(spell);
+		spell.cast(s);
 		ni.player.clickat(x, y, z);
 	end
 end
@@ -396,7 +396,7 @@ spell.shouldinterrupt = function(t)
 	end
 	return false
 end
-spell.isinstant = function(spell)
-	return select(7, GetSpellInfo(spell)) == 0
+spell.isinstant = function(s)
+	return select(7, GetSpellInfo(s)) == 0
 end
 return spell;

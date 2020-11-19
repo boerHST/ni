@@ -230,6 +230,9 @@ if not ni.loaded then
 			end
 		end
 	end
+	ni.functionsregistered = function()
+		return %%ToggleConsole%% ~= nil;
+	end
 	ni.frames.main:SetScript("OnUpdate", ni.frames.OnUpdate);
 	ni.frames.main:SetScript("OnEvent", ni.frames.OnEvent);
 	if ni.vars["global"] then

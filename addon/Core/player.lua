@@ -97,7 +97,7 @@ player.itemcd = function(item)
 	return 0
 end
 player.petcd = function(spell)
-	local start, duration, enable = GetSpellCooldown(spell, "pet")
+	local start, duration, enable = GetSpellCooldown(spell)
 	if (start > 0 and duration > 0) then
 		return start + duration - GetTime()
 	else

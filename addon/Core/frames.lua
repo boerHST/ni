@@ -174,6 +174,9 @@ end
 frames.main = CreateFrame("frame");
 frames.main:RegisterAllEvents();
 frames.OnEvent = function(self, event, ...)
+	if not ni.functionsregistered() then
+		return
+	end
 	for _, v in pairs(events) do
 		v(event, ...);
 	end
@@ -227,7 +230,7 @@ frames.OnEvent = function(self, event, ...)
 	end
 end;
 frames.OnUpdate = function(self, elapsed)
-	if UnitExists == nil or not GetZoneText() then
+	if not ni.functionsregistered() then
 		totalelapsed = 0;
 		return true
 	end
