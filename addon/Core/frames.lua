@@ -171,6 +171,32 @@ function frames.floatingtext:message(message)
 	UIFrameFadeOut(self, 2.5, 1, 0)
 end
 
+local keyevents = {};
+local keypress_events = {};
+keyevents.registerkeyevent = function(name, callback)
+	if not keypress_events[name] then
+		keypress_events[name] = callback;
+		return true;
+	end
+	return false;
+end;
+
+keyevents.unregisterkeyevent = function(name)
+	keypress_events[name] = nil;
+end;
+
+local function OnKeyHandler(self, keyType, key)
+	local result = false;
+	for k, v in pairs(keypress_events) do
+		if v(keyType, key) then
+			result = true;
+		end
+	end
+	return result;
+end;
+
+ni.functions.registercallback(keyevents, OnKeyHandler);
+
 frames.main = CreateFrame("frame");
 frames.main:RegisterAllEvents();
 frames.OnEvent = function(self, event, ...)
@@ -419,4 +445,4 @@ local function delayfor(delay, callback)
 	delays[GetTime() + delay] = callback;
 	return true
 end
-return frames, combatlog, delayfor, icdtracker;
+return frames, combatlog, delayfor, icdtracker, keyevents;
