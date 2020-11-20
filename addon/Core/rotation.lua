@@ -17,6 +17,10 @@ local IsLeftShiftKeyDown,
 
 local togglemod, cdtogglemod, customtogglemod = 0, 0, 0
 
+local function AddDelay(t)
+	ni.vars.profiles.delay = t;
+end
+
 local rotation = {
 	started = false,
 	profile = {},
@@ -25,7 +29,7 @@ local rotation = {
 	delay = function(sec)
 		local sec = sec or 1;
 		local delaytill = GetTime() + sec;
-		ni.functions.safeexec("ni.vars.profiles.delay = "..delaytill);
+		ni.functions.callprotected(AddDelay, delaytill);
 	end,
 	custommod = function()
 		local mod = ni.vars.hotkeys.custom
