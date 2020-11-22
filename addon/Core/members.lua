@@ -210,20 +210,20 @@ memberssetup.set = function()
 		return average/count;
 	end
 	function members.averageof(count)
-		local members = count;
+		local m = count;
 		local average = 0;
-		if #members < members then
-			for i = members, 0, -1 do
+		if #members < m then
+			for i = m, 0, -1 do
 				if #members >= i then
-					members = i;
+					m = i;
 					break;
 				end
 			end
 		end
-		for i = 1, members do
+		for i = 1, m do
 			average = average + members[i].hp;
 		end
-		return average/members;
+		return average/m;
 	end
 	function members.inrange(unit, distance)
 		table.wipe(membersrange);

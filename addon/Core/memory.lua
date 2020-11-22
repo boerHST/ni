@@ -6,7 +6,7 @@ local memory = {
 		return ni.functions.objectpointer(object);
 	end,
 	read = function(readtype, address, ...)
-		return ni.functions.read(readtype, addres, ...);
+		return ni.functions.read(readtype, address, ...);
 	end
 }
 return memory;

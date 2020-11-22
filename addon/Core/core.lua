@@ -41,6 +41,14 @@ ni = ni or {
 		savecontent = %%SaveContent%%,
 		getbasefolder = %%GetBaseFolder%%,
 		getprofilesfor = %%GetProfilesFor%%,
+		getpath = %%GetPath%%,
+		freemaps = %%FreeMaps%%,
+		getdescriptor = %%GetDescriptor%%,
+		setcreaturetracking = %%SetCreatureTracking%%,
+		setresourcetracking = %%SetResourceTracking%%,
+		webrequest = %%WebRequest%%,
+		open = %%Open%%,
+		read = %%Read%%,
 		toggleconsole = %%ToggleConsole%%
 	}
 }
