@@ -85,7 +85,7 @@ local secondary_text = CreateText(frame, "Select your secondary rotation:", 0, -
 local generic_text = CreateText(frame, "Select your generic rotation:", 0, -108, 0.1, 0.5, 0.8, 1);
 
 local function GetFilename(file)
-	return file:match("^.*\\(.*).lua$") or file
+	return file:match("^.*\\(.*).lua$") or file:match("^.*\\(.*).enc$") or file
 end
 
 local profiles = ni.functions.getprofilesfor(select(2, UnitClass("player"))) or { };
@@ -663,7 +663,7 @@ CreateMainButton(mainsettings, 62, 22, "Core", -31, 30, function()
 	ni.functions.webrequest("https://api.github.com/repos/scizzydo/ni/commits?sha=beta", nil, false, function(code, body)
 		if code == 200 then
 			local t = ni.utils.json.decode(body);
-			if t[2]["sha"] ~= "4bcfd41d49b0309e9ebd0ea3343cc90f2b64141a" then
+			if t[2]["sha"] ~= "993a2207a3b38c6ac213171ed0143070589de12c" then
 				ni.functions.open("https://github.com/scizzydo/ni/archive/beta.zip")
 			else
 				message("Up to date on core");
