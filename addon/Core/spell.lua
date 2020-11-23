@@ -353,8 +353,8 @@ end
 spell.getpercent = function()
 	return math.random(40, 60)
 end
-spell.shouldinterrupt = function(t)
-	local InterruptPercent = spell.getpercent()
+spell.shouldinterrupt = function(t, p)
+	local InterruptPercent = p or spell.getpercent()
 	local castName, _, _, _, castStartTime, castEndTime, _, _, castinterruptable = UnitCastingInfo(t)
 	local channelName, _, _, _, channelStartTime, channelEndTime, _, channelInterruptable = UnitChannelInfo(t)
 
@@ -373,8 +373,9 @@ spell.shouldinterrupt = function(t)
 		if UnitCanAttack("player", t) == nil then
 			return false
 		end
+		
 		local timeSinceStart = (GetTime() * 1000 - castStartTime) / 1000
-		local casttime = castEndTime - castStartTime
+		local casttime = castEndTime - castStartTime - select(3, GetNetStats())
 		local currentpercent = timeSinceStart / casttime * 100000
 
 		if (currentpercent < InterruptPercent) then
