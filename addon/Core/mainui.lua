@@ -663,7 +663,7 @@ CreateMainButton(mainsettings, 62, 22, "Core", -31, 30, function()
 	ni.functions.webrequest("https://api.github.com/repos/scizzydo/ni/commits?sha=beta", nil, false, function(code, body)
 		if code == 200 then
 			local t = ni.utils.json.decode(body);
-			if t[2]["sha"] ~= "5aa99d73635db04908753e05343d9e6cf3f4700b" then
+			if t[2]["sha"] ~= "64b72dfb5833b51f046824987231eec3227ed9b0" then
 				ni.functions.open("https://github.com/scizzydo/ni/archive/beta.zip")
 			else
 				message("Up to date on core");

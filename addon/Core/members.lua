@@ -160,11 +160,15 @@ function memberssetup:create(unit)
 	return o
 end
 local membersrange = { };
-local memberswithbuff = { };
-local memberswithoutbuff = { };
-local memberswithdebuff = { };
-local memberswithoutdebuff = { };
 local membersbelow = { };
+local memberswithbuff = { };
+local memberswithbuffbelow = { };
+local memberswithoutbuff = { };
+local memberswithoutbuffbelow = { };
+local memberswithdebuff = { };
+local memberswithdebuffbelow = { };
+local memberswithoutdebuff = { };
+local memberswithoutdebuffbelow = { };
 
 memberssetup.set = function()
 	function members:updatemembers()
@@ -237,6 +241,16 @@ memberssetup.set = function()
 		end
 		return membersrange;
 	end
+	function members.inrangebelow(unit, distance, hp)
+		table.wipe(membersbelow);
+		members.inrange(unit, distance);
+		for _, v in ipairs(membersrange) do
+			if v.hp < hp then
+				tinsert(membersbelow, v);
+			end
+		end
+		return membersbelow;
+	end
 	function members.inrangewithbuff(unit, distance, buff, filter)
 		table.wipe(memberswithbuff);
 		members.inrange(unit, distance);
@@ -246,6 +260,17 @@ memberssetup.set = function()
 			end
 		end
 		return memberswithbuff;
+	end
+	function members.inrangewithbuffbelow(unit, distance, buff, hp, filter)
+		table.wipe(memberswithbuffbelow);
+		members.inrange(unit, distance);
+		for _, v in ipairs(membersrange) do
+			if v:buff(buff, filter) 
+			 and v.hp < hp then
+				tinsert(memberswithbuffbelow, v);
+			end
+		end
+		return memberswithbuffbelow;
 	end
 	function members.inrangewithoutbuff(unit, distance, buff, filter)
 		table.wipe(memberswithoutbuff);
@@ -257,6 +282,17 @@ memberssetup.set = function()
 		end
 		return memberswithoutbuff
 	end
+	function members.inrangewithoutbuffbelow(unit, distance, buff, hp, filter)
+		table.wipe(memberswithoutbuffbelow);
+		members.inrange(unit, distance);
+		for _, v in ipairs(membersrange) do
+			if not v:buff(buff, filter) 
+			 and v.hp < hp then
+				tinsert(memberswithoutbuffbelow, v);
+			end
+		end
+		return memberswithoutbuffbelow
+	end
 	function members.inrangewithdebuff(unit, distance, debuff, filter)
 		table.wipe(memberswithdebuff);
 		members.inrange(unit, distance);
@@ -266,6 +302,17 @@ memberssetup.set = function()
 			end
 		end
 		return memberswithdebuff;
+	end
+	function members.inrangewithdebuffbelow(unit, distance, debuff, hp, filter)
+		table.wipe(memberswithdebuffbelow);
+		members.inrange(unit, distance);
+		for _, v in ipairs(membersrange) do
+			if v:debuff(debuff, filter) 
+			 and v.hp < hp then
+				tinsert(memberswithdebuffbelow, v);
+			end
+		end
+		return memberswithdebuffbelow;
 	end
 	function members.inrangewithoutdebuff(unit, distance, debuff, filter)
 		table.wipe(memberswithoutdebuff);
@@ -277,15 +324,16 @@ memberssetup.set = function()
 		end
 		return memberswithoutdebuff
 	end
-	function members.inrangebelow(unit, distance, hp)
-		table.wipe(membersbelow);
+	function members.inrangewithoutdebuffbelow(unit, distance, debuff, hp, filter)
+		table.wipe(memberswithoutdebuffbelow);
 		members.inrange(unit, distance);
 		for _, v in ipairs(membersrange) do
-			if v.hp < hp then
-				tinsert(membersbelow, v);
+			if not v:debuff(debuff, filter) 
+			 and v.hp < hp then
+				tinsert(memberswithoutdebuffbelow, v);
 			end
 		end
-		return membersbelow;
+		return memberswithoutdebuffbelow
 	end
 	function members.addcustom(unit)
 		local groupMember = memberssetup:create(unit);
