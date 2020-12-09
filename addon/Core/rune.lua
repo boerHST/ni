@@ -43,10 +43,10 @@ rune.deathrunecd = function()
 	return rune.cd(4)
 end
 rune.frostrunecd = function()
-	return rune.cd(2)
+	return rune.cd(3)
 end
 rune.unholyrunecd = function()
-	return rune.cd(3)
+	return rune.cd(2)
 end
 rune.bloodrunecd = function()
 	return rune.cd(1)

@@ -676,7 +676,7 @@ CreateMainButton(mainsettings, 62, 22, "Release", 31, 30, function()
 	ni.functions.webrequest("https://api.github.com/repos/scizzydo/ni/releases", nil, false, function(code, body)
 		if code == 200 then
 			local t = ni.utils.json.decode(body);
-			if t[2]["tag_name"] ~= "v0.0.47-beta" then
+			if t[2]["tag_name"] ~= "v0.0.46-beta" then
 				ni.functions.open(t[1]["assets"][1]["browser_download_url"])
 			else
 				message("Up to date on releases");
