@@ -663,7 +663,7 @@ CreateMainButton(mainsettings, 62, 22, "Core", -31, 30, function()
 	ni.functions.webrequest("https://api.github.com/repos/scizzydo/ni/commits?sha=beta", nil, false, function(code, body)
 		if code == 200 then
 			local t = ni.utils.json.decode(body);
-			if t[2]["sha"] ~= "60e02d60e57b54fa0554ab5fc5227f1d92b71b53" then
+			if t[2]["sha"] ~= "64b72dfb5833b51f046824987231eec3227ed9b0" then
 				ni.functions.open("https://github.com/scizzydo/ni/archive/beta.zip")
 			else
 				message("Up to date on core");
@@ -676,7 +676,7 @@ CreateMainButton(mainsettings, 62, 22, "Release", 31, 30, function()
 	ni.functions.webrequest("https://api.github.com/repos/scizzydo/ni/releases", nil, false, function(code, body)
 		if code == 200 then
 			local t = ni.utils.json.decode(body);
-			if t[2]["tag_name"] ~= "v0.0.46-beta" then
+			if t[2]["tag_name"] ~= "v0.0.47-beta" then
 				ni.functions.open(t[1]["assets"][1]["browser_download_url"])
 			else
 				message("Up to date on releases");
