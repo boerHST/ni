@@ -34,18 +34,3 @@ Prints the message in the console of ni's application. Error is optional, true f
 ```lua
 ni.debug.log("Test")
 ```
-
-## popup
-
-Arguments:
-
-- **title** `string`
-- **body** `string`
-
-Returns: `void`
-
-Creates a popup with specified title and body.
-
-```lua
-ni.debug.popup("This is the title", "This is the body.")
-```
