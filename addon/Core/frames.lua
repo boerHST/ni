@@ -80,14 +80,15 @@ end
 local lastclick = 0;
 local totalelapsed = 0;
 
-local maul, cleave, heroicstrike, runestrike, raptorstrike = GetSpellInfo(6807), GetSpellInfo(845), GetSpellInfo(78), GetSpellInfo(56815), GetSpellInfo(2973);
+local maul, cleave, heroicstrike, runestrike, raptorstrike, shadowcleave = GetSpellInfo(6807), GetSpellInfo(845), GetSpellInfo(78), GetSpellInfo(56815), GetSpellInfo(2973), GetSpellInfo(50581);
 
 local function isspelltoignore(spellname)
 	if spellname == maul
 	 or spellname == cleave
 	 or spellname == heroicstrike
 	 or spellname == raptorstrike
-	 or spellname == runestrike then
+	 or spellname == runestrike 
+	 or spellname == shadowcleave then
 		return true;
 	end
 	return false;
