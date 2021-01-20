@@ -91,6 +91,9 @@ function objects:create(objguid, objtype, objname)
 		o.name = objname
 		o.type = objtype
 	end
+	function o:id()
+		return ni.unit.id(o.guid)
+	end
 	function o:exists()
 		return ni.unit.exists(o.guid)
 	end
