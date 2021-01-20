@@ -210,7 +210,7 @@ spell.castat = function(s, t, offset)
 	end
 end
 spell.bestaoeloc = function(unit, distance, radius, friendly, minimumcount, inc, zindex_inc)
-	return ni.functions.bestaoeloc(unit, distance, radius, friendly, minimumcount, inc, zindex_inc);
+	return ni.functions.bestloc(unit, distance, radius, friendly, minimumcount, inc, zindex_inc);
 end
 spell.casthelpfulatbest = function(s, unit, distance, radius, minimumcount, inc, zindex_inc)
 	local x, y, z = spell.bestaoeloc(unit, distance, radius, true, minimumcount, inc, zindex_inc);
