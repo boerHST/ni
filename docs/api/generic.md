@@ -4,21 +4,6 @@
 
 ---
 
-## keypressed
-
-Arguments:
-- **key** `number`
-
-Returns: `bool`
-
-Returns true or false if the key specified is pressed (uses hex or decimal numbers; [Get key codes here](https://docs.microsoft.com/en-us/windows/win32/inputdev/virtual-key-codes))
-
-```lua
-if ni.functions.keypressed(0x41) and ni.functions.keypressed(0x42) then
-  print("A and B are down");
-end
-```
-
 ## delayfor
 
 Arguments:
@@ -40,6 +25,7 @@ end);
 ## require
 
 Arguments:
+
 - **filename** `string`
 
 Returns: `return from file loaded`
