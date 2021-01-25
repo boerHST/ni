@@ -29,10 +29,12 @@
 #### Marksmanship
 
 #### Survival
+[Brecherbernd - BearKills](https://raw.githubusercontent.com/Brecherbernd/Doomsday/master/Rotations/Hunter/Brecherbernd_BearKills.lua)
 
 ## Mage
 
 #### Arcane
+[Brecherbernd - Arkanist](https://raw.githubusercontent.com/Brecherbernd/Doomsday/master/Rotations/Mage/Brecherbernd_Arkanist.lua)
 
 #### Fire
 
@@ -85,6 +87,7 @@
 [NuokHB Elemental](https://raw.githubusercontent.com/NuokHB/ni/master/addon/Rotations/Shaman/Ele_MOP.lua)
 
 #### Enhancement
+[Brecherbernd - Enhancing Wisdom](https://raw.githubusercontent.com/Brecherbernd/Doomsday/master/Rotations/Shaman/Brecherbernd_EnhancingWisdom.lua)
 
 #### Restoration
 
